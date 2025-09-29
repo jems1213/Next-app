@@ -5,22 +5,52 @@ export async function getProducts() {
   }
   const products = await res.json();
 
-  // Ensure there are at least 40 products by cloning/mirroring existing ones.
+  // Ensure there are at least 40 unique products by generating deterministic variations.
   if (Array.isArray(products) && products.length < 40) {
     const originals = products.slice();
+    const existingTitles = new Set(originals.map((p: any) => String(p.title)));
+    const baseCategories = Array.from(new Set(originals.map((p: any) => p.category)));
+
+    const adjectives = [
+      'Neo', 'Eco', 'Pro', 'Smart', 'Limited', 'Classic', 'Urban', 'Vintage', 'Sport', 'Deluxe', 'Prime', 'Essential', 'Signature', 'Bold', 'Fresh'
+    ];
+    const colors = ['Coral', 'Azure', 'Olive', 'Sable', 'Ivory', 'Crimson', 'Amber', 'Teal', 'Indigo'];
+
     let nextId = originals.reduce((m, p) => Math.max(m, Number(p.id) || 0), 0) + 1;
     let idx = 0;
+
     while (products.length < 40) {
       const base = originals[idx % originals.length];
-      const clone = {
-        ...base,
+      const adj = adjectives[idx % adjectives.length];
+      const color = colors[idx % colors.length];
+      const category = baseCategories[(idx + 1) % baseCategories.length] || base.category;
+
+      const shortName = String(base.title).split(' - ').pop() || String(base.title);
+      let newTitle = `${adj} ${color} ${shortName}`;
+      // ensure uniqueness
+      while (existingTitles.has(newTitle)) {
+        idx++;
+        const adj2 = adjectives[idx % adjectives.length];
+        const color2 = colors[idx % colors.length];
+        newTitle = `${adj2} ${color2} ${shortName} ${nextId}`;
+      }
+
+      existingTitles.add(newTitle);
+
+      const priceMultiplier = 1 + ((idx % 7) * 0.045);
+      const newPrice = Math.round(Number(base.price) * priceMultiplier * 100) / 100;
+
+      const generated = {
         id: nextId,
-        title: `${base.title} — Limited Edition ${nextId}`,
-        price: Math.round((Number(base.price) * (1 + ((idx % 6) * 0.05))) * 100) / 100,
-        // slightly tweak image by appending query to avoid caching identical src (keeps same image but looks distinct)
-        image: `${base.image}?v=${nextId}`,
+        title: newTitle,
+        price: newPrice,
+        description: base.description || `${newTitle} — high quality product.`,
+        category,
+        image: `https://picsum.photos/seed/${nextId}/400/400`,
+        rating: base.rating || { rate: 4.5, count: 10 },
       };
-      products.push(clone);
+
+      products.push(generated);
       nextId++;
       idx++;
     }
