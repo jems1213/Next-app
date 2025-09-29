@@ -37,7 +37,7 @@ export default function Navbar() {
 
   return (
     <header className={styles.header}>
-      <nav className={`${styles.navbar} ${scrolled ? styles.navbarScrolled : ''}`} aria-label="Main navigation">
+      <nav className={[styles.navbar, scrolled && styles.navbarScrolled].filter(Boolean).join(' ')} aria-label="Main navigation">
         <div className={styles.brand}>
           <Link href="/" aria-label="Home">
             <img src="/next.svg" alt="Logo" className={styles.brandLogo} />
