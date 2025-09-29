@@ -11,8 +11,20 @@ export default async function Home() {
   return (
     <CartProvider>
       <div className={styles.page}>
+        <header className={styles.hero}>
+          <div className={styles.heroInner}>
+            <h1 className={styles.heroTitle}>Discover smart products, beautifully presented</h1>
+            <p className={styles.heroLead}>Modern, responsive store with subtle motion and delightful interactions.</p>
+
+            <div className={styles.heroCtas}>
+              <a href="#products" className="primary">Browse products</a>
+              <a href="/orders" className="secondary">Your orders</a>
+            </div>
+          </div>
+        </header>
+
         <main className={styles.main}>
-          <h1 className={styles.title}>Product Listing</h1>
+          <h2 className={styles.title} id="products">Product Listing</h2>
           <p className={styles.lead}>Server-side rendered with ISR (revalidates every 60s)</p>
 
           <ProductListClient products={products} />
