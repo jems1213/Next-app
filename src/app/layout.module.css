@@ -3,8 +3,8 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  border-bottom: 1px solid rgba(0,0,0,0.04);
-  background: transparent;
+  border-bottom: 1px solid var(--muted-border);
+  background: var(--surface);
 }
 
 .navbar {
@@ -14,6 +14,7 @@
   align-items: center;
   gap: 16px;
   padding: 12px 20px;
+  flex-wrap: wrap;
 }
 
 .brand {
@@ -22,6 +23,12 @@
   gap: 12px;
   font-weight: 700;
   font-size: 18px;
+}
+
+.brandName {
+  font-weight: 700;
+  font-size: 18px;
+  letter-spacing: 0.2px;
 }
 
 .brandLogo {
@@ -44,23 +51,28 @@
 .searchInput {
   padding: 8px 12px;
   border-radius: 10px;
-  border: 1px solid rgba(0,0,0,0.08);
+  border: 1px solid var(--muted-border);
   width: 240px;
+}
+
+.searchInput:focus {
+  outline: 2px solid var(--accent);
+  outline-offset: 1px;
 }
 
 .cartLink {
   margin-left: 12px;
   padding: 8px 12px;
   border-radius: 10px;
-  border: 1px solid rgba(0,0,0,0.08);
+  border: 1px solid var(--muted-border);
 }
 
 .footer {
-  border-top: 1px solid rgba(0,0,0,0.04);
+  border-top: 1px solid var(--muted-border);
   padding: 28px 20px;
   display: flex;
   justify-content: center;
-  background: transparent;
+  background: var(--surface);
 }
 
 .footerInner {
@@ -75,6 +87,21 @@
 .footerLinks {
   display: flex;
   gap: 12px;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .navLinks a:hover {
+    color: var(--accent);
+  }
+  .cartLink:hover {
+    border-color: var(--accent);
+  }
+}
+
+@media (max-width: 900px) {
+  .searchInput {
+    width: 180px;
+  }
 }
 
 @media (max-width: 600px) {

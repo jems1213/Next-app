@@ -29,15 +29,21 @@ export default function ProductListClient({ products }: { products: any[] }) {
 
   return (
     <div>
-      <div style={{ display: "flex", gap: 12, alignItems: "center", marginBottom: 16 }}>
+      <div className={styles.filtersBar}>
         <input
+          className={styles.searchField}
           placeholder="Search products..."
           value={query}
           onChange={(e) => setQuery(e.target.value)}
-          style={{ padding: "8px 12px", borderRadius: 8, border: "1px solid #ddd", width: 240 }}
+          aria-label="Search products"
         />
 
-        <select value={category} onChange={(e) => setCategory(e.target.value)} style={{ padding: 8, borderRadius: 8 }}>
+        <select
+          className={styles.categorySelect}
+          value={category}
+          onChange={(e) => setCategory(e.target.value)}
+          aria-label="Filter by category"
+        >
           {categories.map((c) => (
             <option key={c} value={c}>
               {c}
@@ -45,8 +51,8 @@ export default function ProductListClient({ products }: { products: any[] }) {
           ))}
         </select>
 
-        <div style={{ marginLeft: "auto" }}>
-          <Link href="/checkout" style={{ padding: "8px 12px", border: "1px solid #ccc", borderRadius: 8 }}>
+        <div className={styles.cartShortcut}>
+          <Link href="/checkout" className={styles.cartPill}>
             Cart{mounted ? ` (${totalQuantity})` : ''}
           </Link>
         </div>
@@ -63,10 +69,10 @@ export default function ProductListClient({ products }: { products: any[] }) {
               <p className={styles.productPrice}>${p.price.toFixed(2)}</p>
             </Link>
 
-            <div style={{ display: "flex", gap: 8 }}>
+            <div className={styles.controlsGroup}>
               <button
+                className={styles.addButton}
                 onClick={() => addItem({ id: p.id, title: p.title, price: p.price, image: p.image })}
-                style={{ padding: "8px 12px", borderRadius: 8, cursor: "pointer" }}
               >
                 Add
               </button>

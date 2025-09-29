@@ -20,7 +20,6 @@ export const metadata: Metadata = {
 import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
 import { CartProvider } from "../context/cart";
-import layoutStyles from "./layout.module.css";
 
 export default function RootLayout({
   children,
@@ -31,9 +30,7 @@ export default function RootLayout({
     <html lang="en">
       <body className={`${geistSans.variable} ${geistMono.variable}`}>
         <CartProvider>
-          <div className={layoutStyles.header}>
-            <Navbar />
-          </div>
+          <Navbar />
 
           <main>{children}</main>
 

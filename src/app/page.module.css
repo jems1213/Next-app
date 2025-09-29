@@ -230,6 +230,92 @@ a.secondary {
   color: var(--foreground);
 }
 
+/* --- Filters and controls --- */
+.filtersBar {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+  margin: 0 0 16px;
+  flex-wrap: wrap;
+  width: 100%;
+}
+
+.searchField {
+  padding: 8px 12px;
+  border-radius: 10px;
+  border: 1px solid var(--muted-border);
+  width: 240px;
+}
+
+.searchField:focus {
+  outline: 2px solid var(--accent);
+  outline-offset: 1px;
+}
+
+.categorySelect {
+  padding: 8px;
+  border-radius: 10px;
+  border: 1px solid var(--muted-border);
+  background: transparent;
+  color: inherit;
+}
+
+.cartShortcut {
+  margin-left: auto;
+}
+
+.cartPill {
+  padding: 8px 12px;
+  border-radius: 10px;
+  border: 1px solid var(--muted-border);
+  display: inline-flex;
+  align-items: center;
+}
+
+.controlsGroup {
+  display: flex;
+  gap: 8px;
+}
+
+.addButton {
+  padding: 8px 12px;
+  border-radius: 10px;
+  cursor: pointer;
+  background: var(--foreground);
+  color: var(--background);
+  border: 1px solid transparent;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .addButton:hover {
+    background: var(--button-primary-hover);
+  }
+  .cartPill:hover {
+    border-color: var(--accent);
+  }
+}
+
+@media (max-width: 900px) {
+  .searchField {
+    width: 200px;
+  }
+}
+
+@media (max-width: 600px) {
+  .filtersBar {
+    gap: 8px;
+  }
+  .searchField {
+    flex: 1 1 160px;
+    width: auto;
+  }
+  .cartShortcut {
+    width: 100%;
+    display: flex;
+    justify-content: flex-end;
+  }
+}
+
 /* --- Product detail styles --- */
 .productDetailWrap {
   display: flex;

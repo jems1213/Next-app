@@ -1,12 +1,18 @@
 :root {
   --background: #ffffff;
   --foreground: #171717;
+  --accent: #2563eb;
+  --surface: #f8fafc;
+  --muted-border: rgba(0,0,0,0.08);
 }
 
 @media (prefers-color-scheme: dark) {
   :root {
     --background: #0a0a0a;
     --foreground: #ededed;
+    --accent: #60a5fa;
+    --surface: #0f172a;
+    --muted-border: rgba(255,255,255,0.12);
   }
 }
 
