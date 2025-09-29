@@ -1,9 +1,7 @@
 import { cookies } from "next/headers";
 import Link from "next/link";
 import styles from "../page.module.css";
-import dynamic from "next/dynamic";
-
-const CheckoutShell = dynamic(() => import('./CheckoutShell'), { ssr: false });
+import CheckoutShell from './CheckoutShell';
 
 export default function CheckoutPage() {
   const cookieStore = cookies();
