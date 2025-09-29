@@ -13,7 +13,7 @@ export default async function ProductPage({ params }: { params: { id: string } }
 
         <div className={styles.productDetailWrap}>
           <div className={styles.imageWrap}>
-            <Image src={product.image} alt={product.title} width={360} height={360} className={styles.productImage} />
+            <Image src={product.image} alt={product.title} width={360} height={360} className={styles.productImage} unoptimized />
           </div>
 
           <div className={styles.detailContent}>
