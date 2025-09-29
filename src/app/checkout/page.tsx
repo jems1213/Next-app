@@ -12,7 +12,7 @@ export default async function CheckoutPage() {
   } catch {}
 
   return (
-    <div className={styles.page}>
+    <div className={`${styles.page} ${styles.checkoutPage}`}>
       <main className={styles.main}>
         <Link href="/" className={styles.backLink}>&larr; Back</Link>
 
