@@ -9,6 +9,11 @@ export default function ProductListClient({ products }: { products: any[] }) {
   const { addItem, totalQuantity } = useCart();
   const [query, setQuery] = useState("");
   const [category, setCategory] = useState("all");
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
 
   const categories = useMemo(() => {
     const set = new Set<string>();
