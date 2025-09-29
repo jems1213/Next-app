@@ -16,6 +16,12 @@
   font-family: var(--font-geist-sans);
 }
 
+/* Checkout-specific adjustments: tighter spacing and white text */
+.checkoutPage {
+  padding-top: 48px; /* reduce top padding for checkout */
+  color: #ffffff; /* white font color for clarity on dark backgrounds */
+}
+
 @media (prefers-color-scheme: dark) {
   .page {
     --gray-rgb: 255, 255, 255;
@@ -535,6 +541,15 @@ a.secondary {
   max-width: 1100px;
 }
 
+/* make order summary background more legible on dark theme */
+.orderSummary, .sumCard {
+  color: #ffffff;
+}
+
+.sumCard {
+  background: rgba(255,255,255,0.03);
+}
+
 @media (max-width: 1000px) {
   .checkoutContainer {
     grid-template-columns: 1fr 320px;
@@ -583,7 +598,11 @@ a.secondary {
   padding: 10px 12px;
   border-radius: 10px;
   border: 1px solid var(--muted-border);
+  background: rgba(255,255,255,0.03);
+  color: #ffffff;
 }
+
+.input::placeholder { color: rgba(255,255,255,0.5); }
 
 .formFooter {
   grid-column: 1 / -1;
