@@ -640,6 +640,27 @@ a.secondary {
   top: 20px;
 }
 
+/* Checkout page overrides to enforce white fonts */
+.checkoutPage .label,
+.checkoutPage .sectionTitle,
+.checkoutPage .totalSmall,
+.checkoutPage .summaryItem,
+.checkoutPage .summaryTotal,
+.checkoutPage .sumCard,
+.checkoutPage .orderItems,
+.checkoutPage .orderMeta,
+.checkoutPage .input,
+.checkoutPage .title {
+  color: #ffffff;
+}
+
+.checkoutPage .sumCard {
+  background: rgba(255,255,255,0.03);
+  border-color: rgba(255,255,255,0.06);
+}
+
+.checkoutPage .placeButton { color: #ffffff; }
+
 .sumCard {
   padding: 12px;
   border-radius: 10px;
