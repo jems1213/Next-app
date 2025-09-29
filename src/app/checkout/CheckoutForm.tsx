@@ -1,6 +1,7 @@
 "use client";
 import React, { useState } from "react";
 import { useRouter } from "next/navigation";
+import styles from "../page.module.css";
 
 export default function CheckoutForm({ items, total }: { items: any[]; total: number }) {
   const [loading, setLoading] = useState(false);
