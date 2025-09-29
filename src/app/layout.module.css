@@ -1,9 +1,5 @@
-:root {
-  --nav-height: 72px;
-}
-
 .header {
-  height: var(--nav-height);
+  height: 72px;
   display: flex;
   align-items: center;
   justify-content: center;
