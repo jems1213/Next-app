@@ -1,7 +1,9 @@
 import { cookies } from "next/headers";
 import Link from "next/link";
 import styles from "../page.module.css";
-import CheckoutForm from "./CheckoutForm";
+import dynamic from "next/dynamic";
+
+const CheckoutShell = dynamic(() => import('./CheckoutShell'), { ssr: false });
 
 export default function CheckoutPage() {
   const cookieStore = cookies();
@@ -11,8 +13,6 @@ export default function CheckoutPage() {
     items = JSON.parse(decodeURIComponent(cartCookie));
   } catch {}
 
-  const total = items.reduce((s, i) => s + i.price * i.quantity, 0);
-
   return (
     <div className={styles.page}>
       <main className={styles.main}>
@@ -20,22 +20,7 @@ export default function CheckoutPage() {
 
         <h1 className={styles.title}>Checkout</h1>
 
-        {items.length === 0 ? (
-          <p>Your cart is empty.</p>
-        ) : (
-          <div>
-            <ul>
-              {items.map((it: any) => (
-                <li key={it.id} style={{ marginBottom: 8 }}>
-                  {it.title} x {it.quantity} — ${ (it.price * it.quantity).toFixed(2) }
-                </li>
-              ))}
-            </ul>
-            <p style={{ fontWeight: 700 }}>Total: ${total.toFixed(2)}</p>
-
-            <CheckoutForm items={items} total={total} />
-          </div>
-        )}
+        <CheckoutShell initialItems={items} />
       </main>
 
       <footer className={styles.footer}>
