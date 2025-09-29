@@ -57,7 +57,7 @@ export default function ProductListClient({ products }: { products: any[] }) {
           <article key={p.id} className={styles.card}>
             <Link href={`/products/${p.id}`} className={styles.cardLink}>
               <div className={styles.imageWrap}>
-                <Image src={p.image} alt={p.title} width={240} height={240} className={styles.productImage} />
+                <Image src={p.image} alt={p.title} width={240} height={240} className={styles.productImage} unoptimized />
               </div>
               <h3 className={styles.productTitle}>{p.title}</h3>
               <p className={styles.productPrice}>${p.price.toFixed(2)}</p>
