@@ -1,0 +1,97 @@
+.header {
+  height: 72px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-bottom: 1px solid rgba(0,0,0,0.04);
+  background: transparent;
+}
+
+.navbar {
+  width: 100%;
+  max-width: 1100px;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 12px 20px;
+}
+
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font-weight: 700;
+  font-size: 18px;
+}
+
+.brandLogo {
+  width: 38px;
+  height: 38px;
+  display: inline-block;
+}
+
+.navLinks {
+  margin-left: 24px;
+  display: flex;
+  gap: 12px;
+  align-items: center;
+}
+
+.searchForm {
+  margin-left: auto;
+}
+
+.searchInput {
+  padding: 8px 12px;
+  border-radius: 10px;
+  border: 1px solid rgba(0,0,0,0.08);
+  width: 240px;
+}
+
+.cartLink {
+  margin-left: 12px;
+  padding: 8px 12px;
+  border-radius: 10px;
+  border: 1px solid rgba(0,0,0,0.08);
+}
+
+.footer {
+  border-top: 1px solid rgba(0,0,0,0.04);
+  padding: 28px 20px;
+  display: flex;
+  justify-content: center;
+  background: transparent;
+}
+
+.footerInner {
+  width: 100%;
+  max-width: 1100px;
+  display: flex;
+  justify-content: space-between;
+  gap: 16px;
+  align-items: center;
+}
+
+.footerLinks {
+  display: flex;
+  gap: 12px;
+}
+
+@media (max-width: 600px) {
+  .navbar {
+    padding: 8px 16px;
+  }
+
+  .searchInput {
+    width: 140px;
+  }
+
+  .brand {
+    font-size: 16px;
+  }
+
+  .footerInner {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+}
