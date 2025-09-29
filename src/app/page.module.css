@@ -324,6 +324,115 @@ a.secondary {
   flex-wrap: wrap;
 }
 
+/* --- Hero styles --- */
+.hero {
+  width: 100%;
+  background: linear-gradient(180deg, rgba(var(--gray-rgb), 0.03), transparent);
+  padding: 48px 20px;
+  display: flex;
+  justify-content: center;
+}
+
+.heroInner {
+  width: 100%;
+  max-width: 1100px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  align-items: flex-start;
+}
+
+.heroTitle {
+  font-size: 36px;
+  line-height: 1.05;
+  font-weight: 800;
+}
+
+.heroLead {
+  color: var(--gray-alpha-200);
+  font-size: 16px;
+}
+
+.heroCtas {
+  display: flex;
+  gap: 12px;
+}
+
+/* subtle entrance animation for sections and cards */
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(8px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.reveal {
+  opacity: 0;
+  transform: translateY(8px);
+  transition: opacity 420ms cubic-bezier(.2,.9,.2,1), transform 420ms cubic-bezier(.2,.9,.2,1);
+}
+
+.reveal.in-view {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* product card hover lift and image subtle scale */
+.card {
+  background: linear-gradient(180deg, rgba(var(--gray-rgb), 0.02), transparent);
+  border: 1px solid var(--gray-alpha-100);
+  border-radius: 12px;
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+  transition: transform 280ms ease, box-shadow 280ms ease;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .card:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 8px 24px rgba(0,0,0,0.08);
+  }
+
+  .productImage {
+    transition: transform 360ms ease;
+  }
+
+  .card:hover .productImage {
+    transform: scale(1.02);
+  }
+}
+
+/* pulse animation for add button */
+@keyframes pulse {
+  0% { transform: scale(1); }
+  50% { transform: scale(1.06); }
+  100% { transform: scale(1); }
+}
+
+.pulse {
+  animation: pulse 360ms ease;
+}
+
+@media (max-width: 900px) {
+  .heroTitle {
+    font-size: 28px;
+  }
+}
+
+@media (max-width: 600px) {
+  .hero {
+    padding: 28px 16px;
+  }
+  .heroInner {
+    align-items: center;
+    text-align: center;
+  }
+  .heroTitle {
+    font-size: 22px;
+  }
+}
+
 .detailContent {
   max-width: 640px;
 }
