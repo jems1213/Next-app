@@ -3,8 +3,8 @@ import Link from "next/link";
 import styles from "../page.module.css";
 import CheckoutShell from './CheckoutShell';
 
-export default function CheckoutPage() {
-  const cookieStore = cookies();
+export default async function CheckoutPage() {
+  const cookieStore = await cookies();
   const cartCookie = cookieStore.get("cart")?.value ?? "[]";
   let items = [] as any[];
   try {
