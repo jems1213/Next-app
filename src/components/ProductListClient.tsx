@@ -47,7 +47,7 @@ export default function ProductListClient({ products }: { products: any[] }) {
 
         <div style={{ marginLeft: "auto" }}>
           <Link href="/checkout" style={{ padding: "8px 12px", border: "1px solid #ccc", borderRadius: 8 }}>
-            Cart ({totalQuantity})
+            Cart{mounted ? ` (${totalQuantity})` : ''}
           </Link>
         </div>
       </div>
