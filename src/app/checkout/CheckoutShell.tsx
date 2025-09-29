@@ -2,6 +2,7 @@
 import React, { useEffect, useState } from "react";
 import CheckoutForm from "./CheckoutForm";
 import styles from "../page.module.css";
+import DebugCart from './DebugCart';
 
 export default function CheckoutShell({ initialItems }: { initialItems: any[] }) {
   const [items, setItems] = useState<any[]>(initialItems ?? []);
@@ -26,7 +27,10 @@ export default function CheckoutShell({ initialItems }: { initialItems: any[] })
   return (
     <div>
       {items.length === 0 ? (
-        <p>Your cart is empty.</p>
+        <div>
+          <p>Your cart is empty.</p>
+          <DebugCart />
+        </div>
       ) : (
         <div>
           <ul>
@@ -39,6 +43,7 @@ export default function CheckoutShell({ initialItems }: { initialItems: any[] })
           <p style={{ fontWeight: 700 }}>Total: ${total.toFixed(2)}</p>
 
           <CheckoutForm items={items} total={total} />
+          <DebugCart />
         </div>
       )}
     </div>
