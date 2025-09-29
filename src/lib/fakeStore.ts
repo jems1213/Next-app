@@ -5,18 +5,20 @@ export async function getProducts() {
   }
   const products = await res.json();
 
-  // Ensure there are at least 20 products by cloning/mirroring existing ones.
-  if (Array.isArray(products) && products.length < 20) {
+  // Ensure there are at least 40 products by cloning/mirroring existing ones.
+  if (Array.isArray(products) && products.length < 40) {
     const originals = products.slice();
     let nextId = originals.reduce((m, p) => Math.max(m, Number(p.id) || 0), 0) + 1;
     let idx = 0;
-    while (products.length < 20) {
+    while (products.length < 40) {
       const base = originals[idx % originals.length];
       const clone = {
         ...base,
         id: nextId,
-        title: `${base.title} — Special Edition ${nextId}`,
-        price: Math.round((Number(base.price) * (1 + ((idx % 5) * 0.06))) * 100) / 100,
+        title: `${base.title} — Limited Edition ${nextId}`,
+        price: Math.round((Number(base.price) * (1 + ((idx % 6) * 0.05))) * 100) / 100,
+        // slightly tweak image by appending query to avoid caching identical src (keeps same image but looks distinct)
+        image: `${base.image}?v=${nextId}`,
       };
       products.push(clone);
       nextId++;
