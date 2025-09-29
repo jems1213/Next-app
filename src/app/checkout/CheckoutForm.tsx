@@ -1,13 +1,11 @@
 "use client";
 import React, { useState } from "react";
 import { useRouter } from "next/navigation";
-import { useCart } from "../../context/cart";
 
 export default function CheckoutForm({ items, total }: { items: any[]; total: number }) {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const router = useRouter();
-  const { clear } = useCart();
 
   async function placeOrder() {
     setLoading(true);
@@ -20,8 +18,10 @@ export default function CheckoutForm({ items, total }: { items: any[]; total: nu
       });
       if (!res.ok) throw new Error('Failed to place order');
       const data = await res.json();
-      // clear cart storage and cookie
-      clear();
+      // clear cart storage and cookie (client-side)
+      try {
+        localStorage.removeItem('cart');
+      } catch {}
       document.cookie = 'cart=; path=/; max-age=0';
       router.push(`/order/${data.id}`);
     } catch (err: any) {
