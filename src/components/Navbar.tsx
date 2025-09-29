@@ -10,6 +10,11 @@ export default function Navbar() {
   const pathname = usePathname();
   const { totalQuantity } = useCart();
   const [q, setQ] = useState("");
+  const [mounted, setMounted] = useState(false);
+
+  React.useEffect(() => {
+    setMounted(true);
+  }, []);
 
   function onSubmit(e: React.FormEvent) {
     e.preventDefault();
