@@ -15,6 +15,13 @@
   gap: 16px;
   padding: 12px 20px;
   flex-wrap: wrap;
+  transition: box-shadow 280ms ease, background 280ms ease, transform 280ms ease;
+}
+
+.navbarScrolled {
+  box-shadow: 0 6px 22px rgba(0,0,0,0.08);
+  background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.0));
+  transform: translateZ(0);
 }
 
 .brand {
