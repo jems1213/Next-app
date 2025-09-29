@@ -31,7 +31,7 @@ export default function RootLayout({
     <html lang="en">
       <body className={`${geistSans.variable} ${geistMono.variable}`}>
         <CartProvider>
-          <div className={layoutStyles.headerWrapper}>
+          <div className={layoutStyles.header}>
             <Navbar />
           </div>
 
