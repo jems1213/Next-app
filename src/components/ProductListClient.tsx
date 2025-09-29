@@ -10,10 +10,17 @@ export default function ProductListClient({ products }: { products: any[] }) {
   const [query, setQuery] = useState("");
   const [category, setCategory] = useState("all");
   const [mounted, setMounted] = useState(false);
+  const [qDebounced, setQDebounced] = useState("");
 
   useEffect(() => {
     setMounted(true);
   }, []);
+
+  // debounce query input
+  useEffect(() => {
+    const t = setTimeout(() => setQDebounced(query), 220);
+    return () => clearTimeout(t);
+  }, [query]);
 
   const categories = useMemo(() => {
     const set = new Set<string>();
@@ -22,10 +29,34 @@ export default function ProductListClient({ products }: { products: any[] }) {
   }, [products]);
 
   const filtered = products.filter((p) => {
-    const matchesQ = p.title.toLowerCase().includes(query.toLowerCase());
+    const matchesQ = p.title.toLowerCase().includes(qDebounced.toLowerCase());
     const matchesC = category === "all" ? true : p.category === category;
     return matchesQ && matchesC;
   });
+
+  // reveal on scroll for cards
+  useEffect(() => {
+    const els = Array.from(document.querySelectorAll(`.${styles.card}`)) as HTMLElement[];
+    if (!els.length) return;
+    const obs = new IntersectionObserver((entries) => {
+      entries.forEach((e) => {
+        if (e.isIntersecting) e.target.classList.add('in-view');
+      });
+    }, { threshold: 0.08 });
+    els.forEach((el) => {
+      el.classList.add('reveal');
+      obs.observe(el);
+    });
+    return () => obs.disconnect();
+  }, [filtered]);
+
+  function handleAdd(p: any, btnRef: HTMLButtonElement | null) {
+    addItem({ id: p.id, title: p.title, price: p.price, image: p.image });
+    if (btnRef) {
+      btnRef.classList.add('pulse');
+      setTimeout(() => btnRef.classList.remove('pulse'), 360);
+    }
+  }
 
   return (
     <div>
@@ -71,8 +102,9 @@ export default function ProductListClient({ products }: { products: any[] }) {
 
             <div className={styles.controlsGroup}>
               <button
+                ref={(el) => { /* ref placeholder for per-button animation */ }}
                 className={styles.addButton}
-                onClick={() => addItem({ id: p.id, title: p.title, price: p.price, image: p.image })}
+                onClick={(e) => handleAdd(p, e.currentTarget)}
               >
                 Add
               </button>
