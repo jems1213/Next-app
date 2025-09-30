@@ -365,24 +365,7 @@ a.secondary {
   font-size: 16px;
 }
 
-.heroCtas {
-  display: flex;
-  gap: 12px;
-}
 
-/* CTA overrides on hero to match new palette */
-.heroCtas .primary {
-  background: var(--accent);
-  color: #ffffff;
-  border: 1px solid rgba(255,255,255,0.06);
-  box-shadow: 0 6px 18px rgba(37,99,235,0.12);
-}
-
-.heroCtas .secondary {
-  background: transparent;
-  color: #ffffff;
-  border: 1px solid rgba(255,255,255,0.12);
-}
 
 @media (max-width: 900px) {
   .heroTitle { font-size: 32px; }
