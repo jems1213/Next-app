@@ -18,9 +18,9 @@
 
 /* Checkout-specific adjustments: tighter spacing and white text */
 .checkoutPage {
-  /* reduce overall padding for checkout pages and remove extra top space */
-  padding: 24px 20px;
-  padding-top: 12px;
+  /* remove top padding entirely to sit directly under the navbar */
+  padding: 12px 20px 20px 20px;
+  padding-top: 0;
   color: #ffffff; /* white font color for clarity on dark backgrounds */
   justify-items: start; /* align content to the left for wide forms */
 }
