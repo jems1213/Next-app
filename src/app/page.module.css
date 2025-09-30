@@ -38,6 +38,8 @@
   flex-direction: column;
   gap: 32px;
   grid-row-start: 2;
+  margin-top: 0; /* ensure main sits directly below navbar */
+  padding-top: 0;
 }
 
 .main ol {
