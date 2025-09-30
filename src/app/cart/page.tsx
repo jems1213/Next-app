@@ -1,6 +1,7 @@
 import CartClient from './CartClient';
 import styles from '../page.module.css';
 import { cookies } from 'next/headers';
+import Link from 'next/link';
 
 export default function CartPage() {
   const cookieStore = cookies();
