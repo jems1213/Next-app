@@ -33,7 +33,7 @@ export default function CartClient({ initialItems }: { initialItems?: any[] }) {
       </div>
 
       <ul className={styles.orderItems}>
-        {items.map((it) => (
+        {displayItems.map((it) => (
           <li key={it.id} className={styles.summaryItem} style={{ alignItems: 'center' }}>
             <div style={{ display: 'flex', gap: 12, alignItems: 'center' }}>
               {it.image && (
