@@ -83,7 +83,7 @@ export default function ProductListClient({ products }: { products: any[] }) {
         </select>
 
         <div className={styles.cartShortcut}>
-          <Link href="/checkout" className={styles.cartPill}>
+          <Link href="/cart" className={styles.cartPill}>
             Cart{mounted ? ` (${totalQuantity})` : ''}
           </Link>
         </div>
