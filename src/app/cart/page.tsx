@@ -14,6 +14,7 @@ export default function CartPage() {
   return (
     <div className={styles.page}>
       <main className={styles.main}>
+        <Link href="/" className={styles.backLink}>&larr; Back</Link>
         <h1 className={styles.title}>Your Cart</h1>
         <p className={styles.lead}>Review items in your cart and proceed to checkout.</p>
 
