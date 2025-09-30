@@ -42,7 +42,7 @@ export default function Navbar() {
           <Link href="/" aria-label="Home">
             <img src="/next.svg" alt="Logo" className={styles.brandLogo} />
           </Link>
-          <span className={styles.brandName}>Shop</span>
+          <span className={styles.brandName}>kharido</span>
         </div>
 
         <div className={styles.navLinks} role="navigation" aria-hidden={false}>
