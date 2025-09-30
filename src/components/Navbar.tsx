@@ -4,6 +4,7 @@ import Link from "next/link";
 import { useRouter, usePathname } from "next/navigation";
 import { useCart } from "../context/cart";
 import styles from "../app/layout.module.css";
+import { BRAND } from '../lib/site';
 
 export default function Navbar() {
   const router = useRouter();
