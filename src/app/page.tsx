@@ -8,7 +8,6 @@ export default async function Home() {
   const products = await getProducts();
 
   return (
-    <CartProvider>
       <div className={styles.page}>
         <header className={styles.hero}>
           <div className={styles.heroInner}>
@@ -29,6 +28,5 @@ export default async function Home() {
           <p>Products provided by FakeStore API — revalidated with ISR.</p>
         </footer>
       </div>
-    </CartProvider>
   );
 }
