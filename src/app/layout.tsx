@@ -19,8 +19,7 @@ export const metadata: Metadata = {
 
 import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
-import dynamic from 'next/dynamic';
-const FetchGuard = dynamic(() => import('../components/FetchGuard'), { ssr: false });
+import FetchGuard from "../components/FetchGuard";
 import { CartProvider } from "../context/cart";
 
 export default function RootLayout({
