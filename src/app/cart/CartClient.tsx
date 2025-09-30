@@ -4,12 +4,14 @@ import { useCart } from '../../context/cart';
 import Link from 'next/link';
 import styles from '../page.module.css';
 
-export default function CartClient() {
+export default function CartClient({ initialItems }: { initialItems?: any[] }) {
   const { items, removeItem, clear, totalQuantity } = useCart();
 
-  const total = items.reduce((s, i) => s + i.price * i.quantity, 0);
+  // Use initialItems on first render to avoid hydration mismatch
+  const displayItems = (items && items.length) ? items : (initialItems ?? []);
+  const total = displayItems.reduce((s, i) => s + i.price * i.quantity, 0);
 
-  if (!items || items.length === 0) {
+  if (!displayItems || displayItems.length === 0) {
     return (
       <div className={styles.card}>
         <p>Your cart is empty.</p>
