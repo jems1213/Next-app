@@ -18,8 +18,18 @@
 
 /* Checkout-specific adjustments: tighter spacing and white text */
 .checkoutPage {
-  padding-top: 48px; /* reduce top padding for checkout */
+  /* reduce overall padding for checkout pages and remove extra top space */
+  padding: 24px 20px;
+  padding-top: 12px;
   color: #ffffff; /* white font color for clarity on dark backgrounds */
+  justify-items: start; /* align content to the left for wide forms */
+}
+
+.checkoutPage .main {
+  width: 100%;
+  max-width: 1100px;
+  margin: 0 auto; /* center the main content but keep internal spacing tight */
+  padding-top: 0; /* ensure main sits directly under navbar */
 }
 
 @media (prefers-color-scheme: dark) {
