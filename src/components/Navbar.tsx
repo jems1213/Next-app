@@ -63,7 +63,7 @@ export default function Navbar() {
           />
         </form>
 
-        <Link href="/cart" className={styles.cartLink} aria-label="Cart">
+        <Link href="/checkout" className={styles.cartLink} aria-label="Cart">
           Cart{mounted ? (typeof totalQuantity === 'number' ? ` (${totalQuantity})` : '') : ''}
         </Link>
       </nav>
