@@ -1,5 +1,6 @@
 import Image from "next/image";
 import Link from "next/link";
+import ProductDetailClient from '../../../components/ProductDetailClient';
 import styles from "../../page.module.css";
 import { getProduct } from "../../../lib/fakeStore";
 
@@ -21,6 +22,10 @@ export default async function ProductPage({ params }: { params: { id: string } }
             <p className={styles.productPrice}>${product.price.toFixed(2)}</p>
             <p className={styles.detailDescription}>{product.description}</p>
             <p className={styles.detailMeta}><strong>Category:</strong> {product.category}</p>
+
+            {/* client-side controls: add to cart, quantity, etc. */}
+            {/* @ts-ignore Server -> Client prop */}
+            <ProductDetailClient product={product} />
           </div>
         </div>
       </main>
