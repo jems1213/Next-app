@@ -579,11 +579,17 @@ a.secondary {
 
 /* tighten product detail layout to reduce gap between back link and image */
 .productDetailWrap {
-  gap: 12px; /* reduce from 24px to bring image and content closer */
+  gap: 36px; /* increased gap to give more space from product photo */
 }
 
 .productDetailWrap .imageWrap {
   margin-top: 0; /* ensure image sits close to the back link */
+  margin-right: 24px; /* extra spacing to separate image from content */
+}
+
+@media (max-width: 820px) {
+  .productDetailWrap { gap: 12px; }
+  .productDetailWrap .imageWrap { margin-right: 0; }
 }
 
 @media (max-width: 900px) {
