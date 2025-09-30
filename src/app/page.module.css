@@ -566,7 +566,7 @@ a.secondary {
   text-decoration: none;
   font-size: 14px;
   display: inline-block;
-  margin-bottom: 12px;
+  margin-bottom: 6px; /* reduced spacing */
   position: relative;
   z-index: 12;
 }
@@ -575,6 +575,15 @@ a.secondary {
 .page .backLink {
   color: #ffffff;
   font-weight: 600;
+}
+
+/* tighten product detail layout to reduce gap between back link and image */
+.productDetailWrap {
+  gap: 12px; /* reduce from 24px to bring image and content closer */
+}
+
+.productDetailWrap .imageWrap {
+  margin-top: 0; /* ensure image sits close to the back link */
 }
 
 @media (max-width: 900px) {
