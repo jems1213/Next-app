@@ -39,6 +39,7 @@ export default function Navbar() {
 
   return (
     <header className={styles.header}>
+      <FetchGuard />
       <nav className={[styles.navbar, scrolled && styles.navbarScrolled].filter(Boolean).join(' ')} aria-label="Main navigation">
         <div className={styles.brand}>
           <Link href="/" aria-label="Home">
