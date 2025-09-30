@@ -19,7 +19,6 @@ export const metadata: Metadata = {
 
 import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
-import FetchGuard from "../components/FetchGuard";
 import { CartProvider } from "../context/cart";
 
 export default function RootLayout({
