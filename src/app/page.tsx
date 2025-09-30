@@ -2,7 +2,6 @@ import Image from "next/image";
 import Link from "next/link";
 import styles from "./page.module.css";
 import { getProducts } from "../lib/fakeStore";
-import { CartProvider } from "../context/cart";
 import ProductListClient from "../components/ProductListClient";
 
 export default async function Home() {
