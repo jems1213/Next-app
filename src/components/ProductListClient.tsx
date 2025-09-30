@@ -105,8 +105,9 @@ export default function ProductListClient({ products }: { products: any[] }) {
                 ref={(el) => { /* ref placeholder for per-button animation */ }}
                 className={styles.addButton}
                 onClick={(e) => handleAdd(p, e.currentTarget)}
+                aria-label={`Add ${p.title} to cart`}
               >
-                Add
+                Add to cart
               </button>
             </div>
           </article>
