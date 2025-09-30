@@ -344,6 +344,13 @@ a.secondary {
   }
 }
 
+.productCategory {
+  color: var(--gray-alpha-200);
+  font-size: 13px;
+  margin-top: 6px;
+  text-align: center;
+}
+
 @media (max-width: 600px) {
   .filtersBar {
     gap: 8px;
