@@ -562,11 +562,12 @@ a.secondary {
 }
 
 .backLink {
-  color: #ffffff; /* ensure visible on dark backgrounds */
+  color: #ffffff;
+  /* margin-bottom: 10%; */
   text-decoration: none;
   font-size: 14px;
   display: inline-block;
-  margin-bottom: 6px; /* reduced spacing */
+  margin-bottom: 60px;
   position: relative;
   z-index: 12;
 }
