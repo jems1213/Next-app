@@ -19,6 +19,7 @@ export const metadata: Metadata = {
 
 import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
+import UnhandledRejectionGuard from "../components/UnhandledRejectionGuard";
 import { CartProvider } from "../context/cart";
 
 export default function RootLayout({
