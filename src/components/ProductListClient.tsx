@@ -96,7 +96,8 @@ export default function ProductListClient({ products }: { products: any[] }) {
               <div className={styles.imageWrap}>
                 <Image src={p.image} alt={p.title} width={240} height={240} className={styles.productImage} unoptimized />
               </div>
-              <h3 className={styles.productTitle}>{p.title}</h3>
+              <h3 title={p.title} className={styles.productTitle}>{p.title}</h3>
+              <p className={styles.productCategory}>{p.category}</p>
               <p className={styles.productPrice}>${p.price.toFixed(2)}</p>
             </Link>
 
