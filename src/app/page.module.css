@@ -239,8 +239,14 @@ a.secondary {
 .productTitle {
   font-size: 16px;
   text-align: center;
-  height: 48px;
+  /* allow up to 2 lines, then ellipsis */
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
   overflow: hidden;
+  text-overflow: ellipsis;
+  line-height: 1.2;
+  max-height: 2.4em;
 }
 
 .productPrice {
