@@ -361,6 +361,60 @@ a.secondary {
   flex-wrap: wrap;
 }
 
+.detailContent {
+  max-width: 640px;
+}
+
+.priceRow {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+}
+
+.productPriceLarge {
+  font-size: 28px;
+  font-weight: 800;
+}
+
+.ratingBadge {
+  background: rgba(255,255,255,0.02);
+  color: #fff;
+  padding: 6px 8px;
+  border-radius: 8px;
+  font-size: 13px;
+}
+
+.productActions {
+  margin-top: 18px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.qtyInput {
+  width: 72px;
+  padding: 8px;
+  border-radius: 8px;
+  border: 1px solid var(--muted-border);
+  background: rgba(255,255,255,0.02);
+  color: #fff;
+}
+
+.successBadge {
+  display: inline-block;
+  background: linear-gradient(90deg, rgba(34,197,94,0.12), rgba(34,197,94,0.04));
+  color: #8ef0a4;
+  padding: 6px 10px;
+  border-radius: 8px;
+  font-weight: 700;
+}
+
+@media (max-width: 820px) {
+  .productDetailWrap { flex-direction: column; align-items: center; }
+  .imageWrap { width: 320px; height: 320px; }
+  .detailContent { width: 100%; }
+}
+
 /* --- Hero styles (redesigned) --- */
 .hero {
   width: 130%;
