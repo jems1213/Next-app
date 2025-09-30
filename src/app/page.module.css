@@ -334,7 +334,7 @@ a.secondary {
 .hero {
   width: 130%;
   box-sizing: border-box;
-  padding: 48px 20px; /* slightly reduced padding to improve spacing */
+  padding: 20px 20px; /* slightly reduced padding to improve spacing */
   display: flex;
   justify-content: center;
   margin: 0 auto;
