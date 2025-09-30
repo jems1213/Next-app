@@ -562,9 +562,19 @@ a.secondary {
 }
 
 .backLink {
-  color: var(--foreground);
+  color: #ffffff; /* ensure visible on dark backgrounds */
   text-decoration: none;
   font-size: 14px;
+  display: inline-block;
+  margin-bottom: 12px;
+  position: relative;
+  z-index: 12;
+}
+
+/* stronger backLink styling for product pages */
+.page .backLink {
+  color: #ffffff;
+  font-weight: 600;
 }
 
 @media (max-width: 900px) {
