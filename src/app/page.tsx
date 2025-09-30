@@ -16,10 +16,6 @@ export default async function Home() {
             <h1 className={styles.heroTitle}>Discover smart products, beautifully presented</h1>
             <p className={styles.heroLead}>Modern, responsive store with subtle motion and delightful interactions.</p>
 
-            <div className={styles.heroCtas}>
-              <a href="#products" className="primary">Browse products</a>
-              <a href="/orders" className="secondary">Your orders</a>
-            </div>
           </div>
         </header>
 
