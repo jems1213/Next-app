@@ -9,46 +9,71 @@
 
 .navbar {
   width: 100%;
-  max-width: 1100px;
+  max-width: 1200px;
   display: flex;
   align-items: center;
   gap: 16px;
-  padding: 12px 20px;
+  padding: 14px 24px;
   flex-wrap: wrap;
   transition: box-shadow 280ms ease, background 280ms ease, transform 280ms ease;
 }
 
 .navbarScrolled {
-  box-shadow: 0 6px 22px rgba(0,0,0,0.08);
-  background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.0));
+  box-shadow: 0 8px 30px rgba(11,17,32,0.09);
+  background: linear-gradient(180deg, rgba(191,164,106,0.02), rgba(191,164,106,0.00));
   transform: translateZ(0);
 }
 
 .brand {
   display: flex;
   align-items: center;
-  gap: 12px;
+  gap: 14px;
   font-weight: 700;
   font-size: 18px;
+}
+
+.brandMark {
+  width: 48px;
+  height: 48px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 10px;
+  background: linear-gradient(135deg, rgba(191,164,106,0.12), rgba(191,164,106,0.04));
+  border: 1px solid rgba(191,164,106,0.18);
+  color: var(--accent);
+  font-weight: 700;
+  font-family: 'Playfair Display', serif;
+  font-size: 20px;
+  box-shadow: 0 6px 18px rgba(11,17,32,0.06);
+}
+
+/* kept for compatibility with older class name */
+.brandLogo {
+  width: 48px;
+  height: 48px;
+  display: inline-block;
 }
 
 .brandName {
   font-weight: 700;
   font-size: 18px;
-  letter-spacing: 0.2px;
-}
-
-.brandLogo {
-  width: 38px;
-  height: 38px;
-  display: inline-block;
+  letter-spacing: 0.6px;
+  color: var(--foreground);
 }
 
 .navLinks {
   margin-left: 24px;
   display: flex;
-  gap: 12px;
+  gap: 16px;
   align-items: center;
+}
+
+.navLinks a {
+  padding: 6px 8px;
+  border-radius: 8px;
+  color: var(--foreground);
+  font-weight: 600;
 }
 
 .searchForm {
@@ -56,27 +81,31 @@
 }
 
 .searchInput {
-  padding: 8px 12px;
-  border-radius: 10px;
+  padding: 10px 14px;
+  border-radius: 12px;
   border: 1px solid var(--muted-border);
-  width: 240px;
+  width: 260px;
+  background: linear-gradient(180deg, transparent, rgba(0,0,0,0.01));
 }
 
 .searchInput:focus {
-  outline: 2px solid var(--accent);
+  outline: 2px solid rgba(191,164,106,0.22);
   outline-offset: 1px;
 }
 
 .cartLink {
   margin-left: 12px;
-  padding: 8px 12px;
-  border-radius: 10px;
+  padding: 10px 14px;
+  border-radius: 12px;
   border: 1px solid var(--muted-border);
+  background: linear-gradient(180deg, rgba(191,164,106,0.03), transparent);
+  color: var(--foreground);
+  font-weight: 700;
 }
 
 .footer {
   border-top: 1px solid var(--muted-border);
-  padding: 28px 20px;
+  padding: 36px 20px;
   display: flex;
   justify-content: center;
   background: var(--surface);
@@ -84,7 +113,7 @@
 
 .footerInner {
   width: 100%;
-  max-width: 1100px;
+  max-width: 1200px;
   display: flex;
   justify-content: space-between;
   gap: 16px;
@@ -94,6 +123,7 @@
 .footerLinks {
   display: flex;
   gap: 12px;
+  color: var(--foreground);
 }
 
 @media (hover: hover) and (pointer: fine) {
@@ -101,19 +131,19 @@
     color: var(--accent);
   }
   .cartLink:hover {
-    border-color: var(--accent);
+    border-color: rgba(191,164,106,0.6);
   }
 }
 
 @media (max-width: 900px) {
   .searchInput {
-    width: 180px;
+    width: 200px;
   }
 }
 
 @media (max-width: 600px) {
   .navbar {
-    padding: 8px 16px;
+    padding: 10px 16px;
   }
 
   .searchInput {

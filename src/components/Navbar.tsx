@@ -1,4 +1,3 @@
-"use client";
 import React, { useState } from "react";
 import Link from "next/link";
 import { useRouter, usePathname } from "next/navigation";
@@ -37,13 +36,15 @@ export default function Navbar() {
     }
   }
 
+  const initial = BRAND ? BRAND.split(' ').map(s => s[0]).slice(0,2).join('') : 'S';
+
   return (
     <header className={styles.header}>
       <FetchGuard />
       <nav className={[styles.navbar, scrolled && styles.navbarScrolled].filter(Boolean).join(' ')} aria-label="Main navigation">
         <div className={styles.brand}>
           <Link href="/" aria-label="Home">
-            <img src="/next.svg" alt="Logo" className={styles.brandLogo} />
+            <div className={styles.brandMark} aria-hidden="true">{initial}</div>
           </Link>
           <span className={styles.brandName}>{BRAND}</span>
         </div>
