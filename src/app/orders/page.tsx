@@ -1,5 +1,6 @@
 import OrdersClient from './OrdersClient';
 import styles from '../page.module.css';
+import OrdersClient from './OrdersClient';
 
 export default function OrdersPage() {
   return (
