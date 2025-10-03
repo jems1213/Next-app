@@ -27,7 +27,7 @@
 
 /* When a page is compact, reduce main top padding too */
 .pageCompact .main {
-  padding-top: 200px !important;
+  padding-top: 0 !important;
 }
 
 /* Checkout-specific adjustments: tighter spacing and white text */
