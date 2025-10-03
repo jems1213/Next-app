@@ -27,7 +27,7 @@
 
 /* When a page is compact, reduce main top padding too */
 .pageCompact .main {
-  padding-top: 0;
+  padding-top: 0 !important;
 }
 
 /* Checkout-specific adjustments: tighter spacing and white text */
@@ -393,7 +393,7 @@ a.secondary {
 /* --- Product detail styles --- */
 .productDetailWrap {
   display: flex;
-  gap: 24px;
+  gap: 12px;
   align-items: flex-start;
   flex-wrap: wrap;
 }
@@ -715,7 +715,7 @@ a.secondary {
   text-decoration: none;
   font-size: 14px;
   display: inline-block;
-  margin-bottom: 60px;
+  margin-bottom: 12px;
   position: relative;
   z-index: 12;
 }
@@ -728,7 +728,7 @@ a.secondary {
 
 /* tighten product detail layout to reduce gap between back link and image */
 .productDetailWrap {
-  gap: 36px; /* increased gap to give more space from product photo */
+  gap: 12px; /* reduced gap for product detail */
 }
 
 .productDetailWrap .imageWrap {

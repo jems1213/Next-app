@@ -17,36 +17,49 @@ export default function FetchGuard() {
         return await originalFetch(input as any, init);
       } catch (err: any) {
         try {
-          const url = typeof input === "string" ? input : (input as Request).url || "";
+          const url = typeof input === "string" ? input : (input as Request)?.url || "";
 
-          // gather diagnostics from error object
           const errMsg = (err && (err.message || String(err))) || "";
           const errStack = (err && err.stack) || "";
 
-          const isFullStoryUrl = typeof url === "string" && (url.includes("fullstory") || url.includes("edge.fullstory") || url.includes("fullstory.com"));
-          const errMentionsFullstory = errMsg && errMsg.toLowerCase && errMsg.toLowerCase().includes("fullstory") || errStack && errStack.toLowerCase && errStack.toLowerCase().includes("fullstory");
-
-          if (isFullStoryUrl || errMentionsFullstory) {
-            // swallow the error for these external analytics calls so they don't pollute our console
-            return new Response(null, { status: 503, statusText: "Service Unavailable" });
+          // If the request directly targets a known analytics/third-party host, swallow the error.
+          if (typeof url === 'string' && (url.includes('fullstory') || url.includes('edge.fullstory') || url.includes('fullstory.com'))) {
+            return new Response(null, { status: 503, statusText: 'Service Unavailable' });
           }
 
-          // If the fetch failed with a generic network error, and the request was cross-origin,
-          // suppress it to avoid noisy errors coming from third-party scripts (e.g., analytics).
+          // If the error message or stack mentions FullStory, swallow it
+          if ((errMsg && errMsg.toLowerCase && errMsg.toLowerCase().includes('fullstory')) || (errStack && errStack.toLowerCase && errStack.toLowerCase().includes('fullstory'))) {
+            return new Response(null, { status: 503, statusText: 'Service Unavailable' });
+          }
+
+          // For generic network failures, try to determine if the request was cross-origin or from a third-party
           if (errMsg && errMsg.toLowerCase && errMsg.toLowerCase().includes('failed to fetch')) {
             try {
               const parsed = new URL(String(url), window.location.href);
-              if (parsed.hostname && parsed.hostname !== window.location.hostname) {
+              const isCrossOrigin = parsed.hostname && parsed.hostname !== window.location.hostname;
+
+              const inputMode = (init && (init as any).mode) || ((input as Request)?.mode) || '';
+
+              // Swallow if cross-origin or explicitly no-cors/cors mode to avoid noisy third-party failures
+              if (isCrossOrigin || inputMode === 'no-cors' || inputMode === 'cors') {
                 return new Response(null, { status: 503, statusText: 'Service Unavailable' });
               }
+
+              // If the request is same-origin, let the error propagate so app logic can handle it
             } catch (e) {
-              // if URL parsing fails, conservatively swallow
+              // If URL parsing fails, conservatively swallow to avoid noisy third-party errors
               return new Response(null, { status: 503, statusText: 'Service Unavailable' });
             }
           }
+
+          // Also swallow if the error stack originates from FullStory or its CDN
+          if (errStack && errStack.toLowerCase && (errStack.toLowerCase().includes('edge.fullstory') || errStack.toLowerCase().includes('fullstory'))) {
+            return new Response(null, { status: 503, statusText: 'Service Unavailable' });
+          }
         } catch (e) {
-          // ignore
+          // ignore diagnostics errors
         }
+
         // rethrow for other fetch errors so app behavior remains unchanged
         throw err;
       }

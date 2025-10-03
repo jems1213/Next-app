@@ -61,8 +61,20 @@ export async function getProducts() {
 
 export async function getProduct(id: string) {
   // try the API first
-  const res = await fetch(`https://fakestoreapi.com/products/${encodeURIComponent(id)}`, { next: { revalidate: 60 } });
-  if (res.ok) return res.json();
+  try {
+    const res = await fetch(`https://fakestoreapi.com/products/${encodeURIComponent(id)}`, { next: { revalidate: 60 } });
+    if (res.ok) {
+      try {
+        const json = await res.json();
+        // basic validation
+        if (json && (json.id || json.title)) return json;
+      } catch (e) {
+        // parsing failed, fall through to fallback
+      }
+    }
+  } catch (e) {
+    // network error, fall through to fallback
+  }
 
   // fallback: try to find in augmented product list
   try {

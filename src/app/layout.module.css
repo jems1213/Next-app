@@ -120,7 +120,7 @@
 
 .footer {
   border-top: 1px solid var(--muted-border);
-  padding: 36px 20px;
+  padding: 56px 28px; /* increased vertical & horizontal padding for better spacing */
   display: flex;
   justify-content: center;
   background: var(--surface);
@@ -131,14 +131,65 @@
   max-width: 1200px;
   display: flex;
   justify-content: space-between;
-  gap: 16px;
+  gap: 32px; /* more breathing room between sections */
   align-items: center;
 }
 
 .footerLinks {
   display: flex;
-  gap: 12px;
+  gap: 14px;
   color: var(--foreground);
+}
+
+/* Enhanced footer layout */
+.footerGrid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr); /* equal-width columns */
+  gap: 20px; /* tighter gap */
+  align-items: start;
+  width: 100%;
+}
+
+.footerCols {
+  display: flex;
+  gap: 20px; /* tightened gap between columns */
+  align-items: flex-start;
+}
+
+.footerCol { display: flex; flex-direction: column; gap: 10px; }
+.footerColTitle { font-weight: 700; margin-bottom: 6px; color: rgba(207,230,255,1); }
+
+.footerBrandCol { display: flex; gap: 16px; align-items: center; }
+.brandMarkSmall { width:48px; height:48px; display:inline-flex; align-items:center; justify-content:center; border-radius:10px; background:linear-gradient(135deg, rgba(191,164,106,0.12), rgba(191,164,106,0.04)); border:1px solid rgba(191,164,106,0.12); font-weight:700; }
+
+.newsletterForm { display:flex; gap:12px; align-items:center; margin-top:8px; }
+.newsletterInput { padding:12px 14px; border-radius:12px; border:1px solid var(--muted-border); background:transparent; color:var(--foreground); min-width:260px; }
+.newsletterButton { padding:10px 16px; border-radius:12px; }
+
+.socialIcons { display:flex; gap:14px; margin-top:12px; color:var(--color-muted); }
+
+.textMuted { color: var(--color-muted); }
+
+/* Animated subtle background for footer */
+.footerAnimate { position:relative; overflow:hidden; }
+.footerAnimate::before {
+  content:'';
+  position:absolute;
+  inset: -20% -10% auto -10%;
+  height: 220px;
+  background: radial-gradient(60% 40% at 10% 20%, rgba(99,102,241,0.05), transparent 40%), radial-gradient(40% 30% at 90% 60%, rgba(191,164,106,0.04), transparent 40%);
+  transform: translateY(0);
+  transition: transform 800ms ease;
+  pointer-events:none;
+}
+
+@media (hover:hover) and (pointer:fine) {
+  .footerAnimate:hover::before { transform: translateY(-8px); }
+}
+
+@media (max-width: 900px) {
+  .footerCols { flex-direction: column; gap: 16px; }
+  .newsletterInput { min-width:160px; }
 }
 
 .announcementBar {
