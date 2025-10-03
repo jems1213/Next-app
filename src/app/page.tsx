@@ -6,7 +6,7 @@ import ProductListClient from "../components/ProductListClient";
 import React from "react";
 import Hero3DClient from "../components/Hero3DClient";
 import dynamic from 'next/dynamic';
-const Hero = dynamic(() => import('../components/Hero'), { ssr: false });
+import HeroShell from "../components/HeroShell";
 
 export default async function Home() {
   const products = await getProducts();
