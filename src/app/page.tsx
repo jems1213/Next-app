@@ -5,7 +5,6 @@ import { getProducts } from "../lib/fakeStore";
 import ProductListClient from "../components/ProductListClient";
 import React from "react";
 import Hero3DClient from "../components/Hero3DClient";
-import dynamic from 'next/dynamic';
 import HeroShell from "../components/HeroShell";
 
 export default async function Home() {
