@@ -35,19 +35,64 @@
   .grid { grid-template-columns: 1fr; gap: 14px; }
 }
 
+.card {
+  display: grid;
+  grid-template-columns: 360px 1fr;
+  gap: 20px;
+  align-items: start;
+  background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(11,17,32,0.02));
+  border-radius: 14px;
+  padding: 18px;
+  border: 1px solid rgba(255,255,255,0.03);
+  box-shadow: 0 30px 60px rgba(2,6,23,0.2);
+}
+
+@media (max-width: 900px) {
+  .card { grid-template-columns: 1fr; }
+}
+
 .media {
   display: flex;
   align-items: center;
   justify-content: center;
   background: linear-gradient(180deg, rgba(255,255,255,0.02), transparent);
   border-radius: 12px;
-  padding: 12px;
-  box-shadow: 0 20px 40px rgba(2,6,23,0.14);
+  padding: 8px;
 }
 
-.mediaImage { width: 100%; height: auto; border-radius: 10px; }
+.mediaImage { width: 320px; height: auto; border-radius: 10px; object-fit: contain; }
 
-.info { display: flex; flex-direction: column; gap: 12px; }
+.info { display: flex; flex-direction: column; gap: 10px; }
+
+.title {
+  font-size: 28px;
+  line-height: 1.06;
+  font-weight: 800;
+  color: var(--foreground);
+  animation: floatIn 480ms cubic-bezier(.2,.9,.2,1) both;
+}
+
+@keyframes floatIn { from { opacity: 0; transform: translateY(8px) scale(.998);} to { opacity:1; transform: translateY(0) scale(1);} }
+
+.price {
+  font-size: 18px;
+  font-weight: 800;
+  color: var(--accent);
+}
+
+.description { color: var(--color-muted); max-height: 5.4em; overflow: hidden; }
+
+.controls { display: flex; flex-direction: row; gap: 12px; align-items: center; margin-top: 6px; }
+
+.buttons { display: flex; gap: 12px; align-items: center; }
+
+.animatedButton { transition: transform 220ms cubic-bezier(.2,.9,.2,1), box-shadow 220ms ease; }
+
+.animatedButton:hover { transform: translateY(-4px) scale(1.01); box-shadow: 0 14px 40px rgba(11,165,233,0.08); }
+
+.ghostButton { background: transparent; border: 1px solid var(--muted-border); padding: 8px 12px; border-radius: 10px; }
+
+.smallMeta { color: var(--color-muted); font-size: 13px; }
 
 .title {
   font-size: 26px;
