@@ -1,5 +1,6 @@
 import CartClient from './CartClient';
 import styles from '../page.module.css';
+import cartPageStyles from './cartPage.module.css';
 import { cookies } from 'next/headers';
 import Link from 'next/link';
 
