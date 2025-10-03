@@ -20,6 +20,16 @@
   font-family: var(--font-geist-sans);
 }
 
+/* Compact page variant: reduces top spacing (use on pages that have their own hero/header) */
+.pageCompact {
+  padding-top: var(--space-lg);
+}
+
+/* When a page is compact, reduce main top padding too */
+.pageCompact .main {
+  padding-top: 0;
+}
+
 /* Checkout-specific adjustments: tighter spacing and white text */
 .checkoutPage {
   /* remove top padding entirely to sit directly under the navbar */
