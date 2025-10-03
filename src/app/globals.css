@@ -109,3 +109,32 @@ a {
     color-scheme: dark;
   }
 }
+
+/* Button styles base */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  border-radius: var(--radius-md);
+  padding: 12px 20px;
+  border: none;
+  cursor: pointer;
+}
+
+.btn-primary {
+  background: linear-gradient(90deg, var(--color-accent-600), var(--color-accent));
+  color: white;
+  box-shadow: 0 8px 24px rgba(11,17,32,0.12);
+}
+
+/* Form inputs */
+input[type="text"], input[type="email"], input[type="password"], textarea, select {
+  padding: 10px 12px;
+  border-radius: 8px;
+  border: 1px solid var(--muted-border);
+  background: transparent;
+  color: var(--color-foreground);
+}
+
+label { display: block; font-weight: 600; margin-bottom: 6px; }
