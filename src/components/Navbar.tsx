@@ -4,6 +4,8 @@ import Link from "next/link";
 import { useRouter, usePathname } from "next/navigation";
 import { useCart } from "../context/cart";
 import styles from "../app/layout.module.css";
+import FetchGuard from "./FetchGuard";
+import { BRAND } from '../lib/site';
 
 export default function Navbar() {
   const router = useRouter();
@@ -11,9 +13,19 @@ export default function Navbar() {
   const { totalQuantity } = useCart();
   const [q, setQ] = useState("");
   const [mounted, setMounted] = useState(false);
+  const [scrolled, setScrolled] = useState(false);
 
   React.useEffect(() => {
     setMounted(true);
+  }, []);
+
+  React.useEffect(() => {
+    function onScroll() {
+      setScrolled(window.scrollY > 8);
+    }
+    onScroll();
+    window.addEventListener('scroll', onScroll);
+    return () => window.removeEventListener('scroll', onScroll);
   }, []);
 
   function onSubmit(e: React.FormEvent) {
@@ -25,14 +37,17 @@ export default function Navbar() {
     }
   }
 
+  const initial = BRAND ? BRAND.split(' ').map(s => s[0]).slice(0,2).join('') : 'S';
+
   return (
     <header className={styles.header}>
-      <nav className={styles.navbar} aria-label="Main navigation">
+      <FetchGuard />
+      <nav className={[styles.navbar, scrolled && styles.navbarScrolled].filter(Boolean).join(' ')} aria-label="Main navigation">
         <div className={styles.brand}>
           <Link href="/" aria-label="Home">
-            <img src="/next.svg" alt="Logo" className={styles.brandLogo} />
+            <div className={styles.brandMark} aria-hidden="true">{initial}</div>
           </Link>
-          Shop
+          <span className={styles.brandName}>{BRAND}</span>
         </div>
 
         <div className={styles.navLinks} role="navigation" aria-hidden={false}>
@@ -50,7 +65,7 @@ export default function Navbar() {
           />
         </form>
 
-        <Link href="/checkout" className={styles.cartLink} aria-label="Cart">
+        <Link href="/cart" className={styles.cartLink} aria-label="Cart">
           Cart{mounted ? (typeof totalQuantity === 'number' ? ` (${totalQuantity})` : '') : ''}
         </Link>
       </nav>

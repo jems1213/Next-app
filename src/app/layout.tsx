@@ -19,8 +19,8 @@ export const metadata: Metadata = {
 
 import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
+import UnhandledRejectionGuard from "../components/UnhandledRejectionGuard";
 import { CartProvider } from "../context/cart";
-import layoutStyles from "./layout.module.css";
 
 export default function RootLayout({
   children,
@@ -31,10 +31,11 @@ export default function RootLayout({
     <html lang="en">
       <body className={`${geistSans.variable} ${geistMono.variable}`}>
         <CartProvider>
-          <div className={layoutStyles.header}>
-            <Navbar />
-          </div>
+          {/* inline guard to prevent noisy failed fetches from external analytics (runs before client JS) */}
+          <script dangerouslySetInnerHTML={{__html: `(function(){try{if(typeof window==='undefined')return;var o=window.fetch.bind(window);window.fetch=function(i,u){try{return o(i,u).catch(function(err){try{var url=typeof i==='string'?i:(i&&i.url?i.url:'');if(url&& (url.indexOf('fullstory')!==-1 || url.indexOf('fullstory.com')!==-1)){return new Response(null,{status:503,statusText:'Service Unavailable'});} }catch(e){} throw err;});}catch(e){return o(i,u);} };}catch(e){} })();`}} />
 
+          <Navbar />
+          <UnhandledRejectionGuard />
           <main>{children}</main>
 
           <Footer />
