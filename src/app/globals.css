@@ -33,6 +33,12 @@
   /* Layout */
   --container-max: 1400px;
   --radius-md: 12px;
+  --announcement-height: 40px;
+}
+
+/* Ensure main content sits below sticky announcement + header */
+main {
+  padding-top: calc(var(--announcement-height) + 72px);
 }
 
 @media (prefers-color-scheme: dark) {
