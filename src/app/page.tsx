@@ -32,7 +32,12 @@ export default async function Home() {
             {/* 3D hero model (placed on right) */}
             {/* default model chosen: Nike Air Zoom Pegasus demo */}
             <div className={styles.heroModelColumn}>
-              <Hero3DClient src="https://cdn.builder.io/o/assets%2F3c18b0444cd749efb807f80093d75ea4%2F04b421f72b3e4403b02a7f829f85faf7?alt=media&token=7fcc8d84-88a4-4df1-abb1-7d7ac5fb5c71&apiKey=3c18b0444cd749efb807f80093d75ea4" fallbackImage="https://cdn.builder.io/api/v1/image/assets%2F3c18b0444cd749efb807f80093d75ea4%2Ffa6376dd65b14375b77b6b5cc23bc0f4?format=webp&width=800" />
+              {/* carousel with multiple 3D models */}
+              <HeroCarousel models={[
+                { src: "https://cdn.builder.io/o/assets%2F3c18b0444cd749efb807f80093d75ea4%2F04b421f72b3e4403b02a7f829f85faf7?alt=media&token=7fcc8d84-88a4-4df1-abb1-7d7ac5fb5c71&apiKey=3c18b0444cd749efb807f80093d75ea4", fallback: "https://cdn.builder.io/api/v1/image/assets%2F3c18b0444cd749efb807f80093d75ea4%2Ffa6376dd65b14375b77b6b5cc23bc0f4?format=webp&width=800", alt: 'Nike Pegasus' },
+                { src: "https://cdn.builder.io/o/assets%2F3c18b0444cd749efb807f80093d75ea4%2F678043e52a974f059c2a4ced3e891e9c?alt=media&token=84111f9a-e1eb-4563-8ff7-74d54614129d&apiKey=3c18b0444cd749efb807f80093d75ea4", fallback: "https://cdn.builder.io/api/v1/image/assets%2F3c18b0444cd749efb807f80093d75ea4%2Ffa6376dd65b14375b77b6b5cc23bc0f4?format=webp&width=800", alt: 'Vans Old School' },
+                { src: "https://cdn.builder.io/o/assets%2F3c18b0444cd749efb807f80093d75ea4%2F008dbfb1a75a437085e63584a7133461?alt=media&token=b5541eee-2edc-47b5-a0f4-1f90bec4d05a&apiKey=3c18b0444cd749efb807f80093d75ea4", fallback: "https://cdn.builder.io/api/v1/image/assets%2F3c18b0444cd749efb807f80093d75ea4%2Ffa6376dd65b14375b77b6b5cc23bc0f4?format=webp&width=800", alt: 'Nike Journey' },
+              ]} />
             </div>
 
           </div>
