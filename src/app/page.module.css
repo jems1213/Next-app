@@ -728,7 +728,7 @@ a.secondary {
 
 /* tighten product detail layout to reduce gap between back link and image */
 .productDetailWrap {
-  gap: 36px; /* increased gap to give more space from product photo */
+  gap: 12px; /* reduced gap for product detail */
 }
 
 .productDetailWrap .imageWrap {
