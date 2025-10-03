@@ -126,6 +126,19 @@
   color: var(--foreground);
 }
 
+.announcementBar {
+  background: linear-gradient(90deg, rgb(11, 16, 32), rgb(14, 165, 233));
+  color: #ffffff;
+  text-align: center;
+  font-weight: 600;
+  font-size: 14.4px;
+  padding: 8px 16px;
+}
+
+.announcementText {
+  color: #ffffff;
+}
+
 @media (hover: hover) and (pointer: fine) {
   .navLinks a:hover {
     color: var(--accent);
