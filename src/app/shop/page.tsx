@@ -7,7 +7,7 @@ export default async function Shop() {
   const products = await getProducts();
 
   return (
-    <div className={styles.page}>
+    <div className={`${styles.page} ${styles.pageCompact}`}>
       <header className={styles.heroInner}>
         <h1 className={styles.heroTitle}>Shop</h1>
         <p className={styles.heroLead}>Browse our full selection of products. Use the filters to find what you love.</p>
