@@ -81,7 +81,7 @@ export default function Hero() {
 
           <div>
             <Link href="/shop">
-              <button className="hero-button">
+              <button className="btn btn-primary hero-button">
                 {slides[currentSlide].cta} <span className="button-icon">→</span>
               </button>
             </Link>
