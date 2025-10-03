@@ -21,14 +21,24 @@
   --font-sans: Inter, Arial, Helvetica, sans-serif;
   --font-heading: 'Playfair Display', Georgia, serif;
 
-  /* Spacing */
-  --space-xxs: 4px;
-  --space-xs: 8px;
-  --space-sm: 12px;
-  --space-md: 16px;
-  --space-lg: 24px;
-  --space-xl: 32px;
-  --space-xxl: 48px;
+  /* Type scale (modular, 8px system) */
+  --type-h1: 48px; /* default */
+  --type-h1-xl: 56px; /* xl screens */
+  --type-h2: 32px;
+  --type-h2-xl: 40px;
+  --type-h3: 22px;
+  --type-body: 16px;
+  --type-body-line: 1.6;
+
+  /* Spacing (modular 8px scale) */
+  --space-xxs: 4px; /* 4 */
+  --space-xs: 8px;  /* 8 */
+  --space-sm: 12px; /* 12 */
+  --space-md: 16px; /* 16 */
+  --space-lg: 24px; /* 24 */
+  --space-xl: 32px; /* 32 */
+  --space-xxl: 48px;/* 48 */
+  --space-3xl: 64px;/* 64 */
 
   /* Layout */
   --container-max: 1400px;
@@ -90,6 +100,35 @@ h1, h2, h3, h4, h5 {
   color: var(--foreground);
 }
 
+/* Apply requested type scale */
+body {
+  font-size: var(--type-body);
+  line-height: var(--type-body-line);
+}
+
+h1 {
+  font-size: var(--type-h1);
+  font-weight: 700;
+  line-height: 1.05;
+}
+
+h2 {
+  font-size: var(--type-h2);
+  font-weight: 700;
+  line-height: 1.1;
+}
+
+h3 {
+  font-size: var(--type-h3);
+  font-weight: 600;
+}
+
+/* Larger scales on wide / xl screens */
+@media (min-width: 1200px) {
+  h1 { font-size: var(--type-h1-xl); }
+  h2 { font-size: var(--type-h2-xl); }
+}
+
 * {
   box-sizing: border-box;
   padding: 0;
@@ -135,3 +174,6 @@ input[type="text"], input[type="email"], input[type="password"], textarea, selec
 }
 
 label { display: block; font-weight: 600; margin-bottom: 6px; }
+
+/* Visually hidden (accessible) */
+.sr-only { position: absolute !important; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0, 0, 0, 0); white-space: nowrap; border: 0; }
