@@ -35,12 +35,19 @@ export default function FetchGuard() {
           // suppress it to avoid noisy errors coming from third-party scripts (e.g., analytics).
           if (errMsg && errMsg.toLowerCase && errMsg.toLowerCase().includes('failed to fetch')) {
             try {
+              // If request is provided as Request object try to inspect mode and url
+              const isRequest = typeof input === 'object' && 'url' in (input as any);
+              const maybeMode = (init && (init as any).mode) || (isRequest && (input as Request).mode) || '';
+
+              // parse host if possible
               const parsed = new URL(String(url), window.location.href);
-              if (parsed.hostname && parsed.hostname !== window.location.hostname) {
+
+              // swallow if cross-origin OR if the request mode indicates a cross-origin/no-cors fetch
+              if ((parsed.hostname && parsed.hostname !== window.location.hostname) || maybeMode === 'no-cors' || maybeMode === 'cors') {
                 return new Response(null, { status: 503, statusText: 'Service Unavailable' });
               }
             } catch (e) {
-              // if URL parsing fails, conservatively swallow
+              // if URL parsing fails, conservatively swallow to avoid noisy third-party errors
               return new Response(null, { status: 503, statusText: 'Service Unavailable' });
             }
           }
