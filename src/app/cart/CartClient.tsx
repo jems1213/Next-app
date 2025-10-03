@@ -168,7 +168,7 @@ export default function CartClient({ initialItems }: { initialItems?: any[] }) {
 
       {/* Mini cart preview */}
       <div className={`${styles.miniCart} ${showMini ? styles.miniOpen : ""}`} aria-hidden={!showMini}>
-        <div className={styles.miniHeader}>Mini cart ({totalQuantity})</div>
+        <div className={styles.miniHeader}>Mini cart ({displayTotalQuantity})</div>
         <ul className={styles.miniItems}>
           {displayItems.slice(0, 5).map((it) => (
             <li key={it.id} className={styles.miniItem}>
