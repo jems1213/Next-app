@@ -1,5 +1,4 @@
 import Link from "next/link";
-import Link from "next/link";
 import styles from "../../page.module.css";
 
 export default function OrderPage({ params }: { params: { id: string } }) {
