@@ -27,7 +27,8 @@ export default function FetchGuard() {
             return new Response(null, { status: 503, statusText: 'Service Unavailable' });
           }
 
-          if (errMsg && errMsg.toLowerCase && errMsg.toLowerCase().includes('fullstory')) {
+          // If the error message or stack mentions FullStory, swallow it
+          if ((errMsg && errMsg.toLowerCase && errMsg.toLowerCase().includes('fullstory')) || (errStack && errStack.toLowerCase && errStack.toLowerCase().includes('fullstory'))) {
             return new Response(null, { status: 503, statusText: 'Service Unavailable' });
           }
 
@@ -49,6 +50,11 @@ export default function FetchGuard() {
               // If URL parsing fails, conservatively swallow to avoid noisy third-party errors
               return new Response(null, { status: 503, statusText: 'Service Unavailable' });
             }
+          }
+
+          // Also swallow if the error stack originates from FullStory or its CDN
+          if (errStack && errStack.toLowerCase && (errStack.toLowerCase().includes('edge.fullstory') || errStack.toLowerCase().includes('fullstory'))) {
+            return new Response(null, { status: 503, statusText: 'Service Unavailable' });
           }
         } catch (e) {
           // ignore diagnostics errors
