@@ -5,8 +5,10 @@ import styles from "../../page.module.css";
 import { getProduct } from "../../../lib/fakeStore";
 
 export default async function ProductPage(props: { params: { id: string } }) {
-  // params may be a thenable in some Next versions; await to be safe
-  const { params } = (await props) as { params: { id: string } };
+  // params may be a thenable in some Next versions; await props first then extract params
+  const awaited = (await props) as any;
+  const params = awaited.params as { id: string };
+
   let product: any = null;
   try {
     product = await getProduct(params.id);
