@@ -2,7 +2,7 @@ import Image from "next/image";
 import Link from "next/link";
 import ProductDetailClient from '../../../components/ProductDetailClient';
 import styles from "../../page.module.css";
-import productStyles from "./product.module.css";
+import productStyles from "../product.module.css";
 import { getProduct } from "../../../lib/fakeStore";
 
 export default async function ProductPage(props: { params: { id: string } }) {
