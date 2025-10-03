@@ -6,8 +6,8 @@ import { getProduct } from "../../../lib/fakeStore";
 
 export default async function ProductPage(props: { params: { id: string } }) {
   // params may be a thenable in some Next versions; await props first then extract params
-  const awaited = (await props) as any;
-  const params = awaited.params as { id: string };
+  // some Next versions pass params as a thenable - await params directly
+  const params = await (props as any).params as { id: string };
 
   let product: any = null;
   try {
