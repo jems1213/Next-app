@@ -58,7 +58,7 @@ export default function Footer() {
       </div>
 
       <div className={styles.footerInner} style={{borderTop:'1px solid var(--muted-border)', marginTop:22, paddingTop:18}}>
-        <div className={styles.textMuted}>© {new Date().getFullYear()} {BRAND} — All rights reserved.</div>
+        <div />
         <div className={styles.footerLinks}>
           <Link href="/terms">Terms</Link>
           <Link href="/privacy">Privacy</Link>
