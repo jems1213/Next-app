@@ -7,6 +7,6 @@ const Hero3D = dynamic(() => import('./Hero3D'), {
   loading: () => <div style={{ width: 320, height: 320 }} />,
 });
 
-export default function Hero3DClient({ src }: { src: string }) {
-  return <Hero3D src={src} />;
+export default function Hero3DClient({ src, fallbackImage }: { src: string, fallbackImage?: string }) {
+  return <Hero3D src={src} fallbackImage={fallbackImage} />;
 }
