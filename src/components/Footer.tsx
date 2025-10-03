@@ -1,8 +1,16 @@
+"use client";
+import React from 'react';
 import Link from "next/link";
 import styles from "../app/layout.module.css";
 import { BRAND } from '../lib/site';
 
 export default function Footer() {
+  function onSubscribe(e: React.FormEvent) {
+    e.preventDefault();
+    // lightweight demo feedback
+    alert('Subscribed (demo)');
+  }
+
   return (
     <footer className={`${styles.footer} ${styles.footerAnimate}`}>
       <div className={styles.footerInner}>
