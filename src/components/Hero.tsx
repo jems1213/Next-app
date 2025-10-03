@@ -15,7 +15,7 @@ export default function Hero() {
       cta: "Shop Now",
       image: "",
       bgColor: "#071023",
-      textColor: "#000",
+      textColor: "#fff",
       threeD: true,
       modelUrl:
         "https://cdn.builder.io/o/assets%2Fad449939a7dd4bddae2e1ca210d150b7%2F46e23d39ee9a412ba423c502db72469a?alt=media&token=f333f103-13c5-421d-bde6-75a53f118aea&apiKey=ad449939a7dd4bddae2e1ca210d150b7",
