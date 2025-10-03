@@ -1,8 +1,8 @@
 .hero {
   position: relative;
-  width: 100%;
-  height: 92vh;
-  min-height: 520px;
+  width: 100vw;
+  height: 100dvh;
+  min-height: 100dvh;
   overflow: hidden;
   display: flex;
   align-items: center;
@@ -79,6 +79,7 @@
 
 .hero-button:hover .button-icon { transform: translateX(5px); }
 
+/* Make the image/3d area fill the hero height */
 .hero-image-container {
   flex: 1;
   height: 100%;
@@ -88,9 +89,49 @@
   position: relative;
 }
 
-.hero-image { max-height: 85%; max-width: 85%; transform: rotate(-7deg); box-shadow: 0 30px 60px rgba(7,26,47,0.6); border-radius: 12px; z-index: 3; position: relative; }
+/* hero image should cover the available space */
+.hero-image {
+  width: 100%;
+  height: 100%;
+  max-width: 100%;
+  max-height: 100%;
+  object-fit: cover;
+  transform: rotate(-7deg);
+  box-shadow: 0 30px 60px rgba(7,26,47,0.6);
+  border-radius: 12px;
+  z-index: 3;
+  position: relative;
+}
 
-.hero-3d-wrap { width: 100%; max-width: 640px; height: 480px; }
+.hero-3d-wrap {
+  width: 100%;
+  max-width: 720px;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* root wrapper used by the Hero3D client (replaces inline styles) */
+.hero3d-root {
+  width: 100%;
+  height: 420px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.hero3d-loading {
+  width: 320px;
+  height: 320px;
+}
+
+.hero-placeholder-img {
+  width: 320px;
+  height: 320px;
+  object-fit: contain;
+  border-radius: 12px;
+}
 
 .hero-controls {
   position: absolute;
