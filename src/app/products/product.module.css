@@ -2,7 +2,7 @@
 
 .productSection {
   position: relative;
-  padding: 24px 16px 48px 16px;
+  padding: 36px 18px 64px 18px; /* increased vertical padding */
   display: grid;
   place-items: center;
   overflow: visible;
@@ -37,14 +37,15 @@
 
 .card {
   display: grid;
-  grid-template-columns: 360px 1fr;
-  gap: 20px;
+  grid-template-columns: 320px 1fr;
+  gap: 28px; /* increased gap between media and info */
   align-items: start;
   background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(11,17,32,0.02));
   border-radius: 14px;
-  padding: 18px;
+  padding: 28px; /* increased padding inside the card */
+  margin: 18px 0; /* vertical spacing around card */
   border: 1px solid rgba(255,255,255,0.03);
-  box-shadow: 0 30px 60px rgba(2,6,23,0.2);
+  box-shadow: 0 30px 60px rgba(2,6,23,0.18);
 }
 
 @media (max-width: 900px) {
