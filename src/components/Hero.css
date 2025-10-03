@@ -27,14 +27,15 @@
 
 .hero-content {
   flex: 1;
-  max-width: 620px;
+  max-width: 720px;
   z-index: 6; /* ensure content sits above images */
-  padding-right: 2rem;
-  padding-top: 5rem;
-  padding-bottom: 5rem;
+  padding-right: 3rem;
+  padding-left: 2rem;
+  padding-top: 6rem;
+  padding-bottom: 6rem;
   display: flex;
   flex-direction: column;
-  gap: 1.4rem; /* spacing between subtitle, title, text, button */
+  gap: 1.6rem; /* spacing between subtitle, title, text, button */
 }
 
 /* add some space between navbar and hero on small screens */
