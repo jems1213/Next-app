@@ -452,6 +452,36 @@ a.secondary {
   align-items: flex-start;
 }
 
+/* layout for hero with text + 3d model */
+.heroContentRow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 24px;
+}
+
+.heroText {
+  flex: 1 1 520px;
+  max-width: 600px;
+}
+
+.heroModelWrap {
+  flex: 1 1 420px;
+  max-width: 640px;
+  height: 420px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.modelViewer {
+  width: 100%;
+  height: 100%;
+  border-radius: 12px;
+  background: linear-gradient(135deg, rgba(37,99,235,0.04), rgba(99,102,241,0.02));
+  contain: strict;
+}
+
 .heroTitle {
   font-size: 40px;
   line-height: 1.02;
