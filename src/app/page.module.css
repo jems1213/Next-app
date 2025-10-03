@@ -393,7 +393,7 @@ a.secondary {
 /* --- Product detail styles --- */
 .productDetailWrap {
   display: flex;
-  gap: 24px;
+  gap: 12px;
   align-items: flex-start;
   flex-wrap: wrap;
 }
