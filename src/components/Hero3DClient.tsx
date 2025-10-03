@@ -4,7 +4,7 @@ import React from 'react';
 
 const Hero3D = dynamic(() => import('./Hero3D'), {
   ssr: false,
-  loading: () => <div style={{ width: 320, height: 320 }} />,
+  loading: () => <div className="hero3d-loading" />,
 });
 
 export default function Hero3DClient({ src, fallbackImage }: { src: string, fallbackImage?: string }) {
