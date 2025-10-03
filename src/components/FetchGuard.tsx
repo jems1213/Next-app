@@ -30,6 +30,20 @@ export default function FetchGuard() {
             // swallow the error for these external analytics calls so they don't pollute our console
             return new Response(null, { status: 503, statusText: "Service Unavailable" });
           }
+
+          // If the fetch failed with a generic network error, and the request was cross-origin,
+          // suppress it to avoid noisy errors coming from third-party scripts (e.g., analytics).
+          if (errMsg && errMsg.toLowerCase && errMsg.toLowerCase().includes('failed to fetch')) {
+            try {
+              const parsed = new URL(String(url), window.location.href);
+              if (parsed.hostname && parsed.hostname !== window.location.hostname) {
+                return new Response(null, { status: 503, statusText: 'Service Unavailable' });
+              }
+            } catch (e) {
+              // if URL parsing fails, conservatively swallow
+              return new Response(null, { status: 503, statusText: 'Service Unavailable' });
+            }
+          }
         } catch (e) {
           // ignore
         }
