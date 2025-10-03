@@ -273,6 +273,21 @@
 
 /* end premium footer */
 
+/* Compact footer variant */
+.k-footer { padding:32px 16px; }
+.k-footerGrid { grid-template-columns: repeat(4, auto); gap:16px; }
+.k-footerColTitle { font-size:13px; margin-bottom:8px; }
+.k-brandIntro { display:none; }
+.k-newsletter .k-input { padding:8px 12px 8px 36px; border-radius:9999px; font-size:14px; }
+.k-newsletter .k-button { padding:8px 14px; font-size:14px; }
+.k-trustRow { gap:10px; }
+.k-paymentLogos .logo { width:36px; height:20px; font-size:11px; }
+.k-footerBottom { margin-top:24px; padding-top:12px; font-size:13px; }
+@media (max-width: 780px) {
+  .k-footerGrid { display: grid; grid-template-columns: repeat(2, 1fr); gap:12px; }
+  .k-brandIntro { display:block; font-size:13px; color:#D1D5DB; }
+}
+
 @media (hover: hover) and (pointer: fine) {
   .navLinks a:hover {
     color: var(--accent);
