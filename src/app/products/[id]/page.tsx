@@ -33,9 +33,9 @@ export default async function ProductPage(props: { params: { id: string } }) {
         <div className={productStyles.container}>
           <Link href="/" className={styles.backLink}>&larr; Back to products</Link>
 
-          <div className={productStyles.grid}>
+          <div className={productStyles.card}>
             <div className={productStyles.media}>
-              <Image src={product.image} alt={product.title} width={640} height={640} className={productStyles.mediaImage} unoptimized />
+              <Image src={product.image} alt={product.title} width={320} height={320} className={productStyles.mediaImage} unoptimized />
             </div>
 
             <div className={productStyles.info}>
