@@ -3,7 +3,7 @@ import styles from "../../page.module.css";
 
 export default function OrderPage({ params }: { params: { id: string } }) {
   return (
-    <div className={styles.page}>
+    <div className={`${styles.page} ${styles.pageCompact}`}>
       <main className={styles.main}>
         <h1 className={styles.title}>Order placed</h1>
         <p>Your order <strong>{params.id}</strong> was placed successfully.</p>
