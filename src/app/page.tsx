@@ -17,7 +17,7 @@ export default async function Home() {
           {/* New hero implemented as client component */}
           {/* @ts-ignore */}
           <div id="hero-root">
-            {/* Render client-only hero */}
+            <Hero />
           </div>
         </header>
 
