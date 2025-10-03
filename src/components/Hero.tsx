@@ -14,7 +14,7 @@ export default function Hero() {
       description: "Discover the latest trends in premium footwear",
       cta: "Shop Now",
       image: "",
-      bgColor: "#f5f5f5",
+      bgColor: "#071023",
       textColor: "#000",
       threeD: true,
       modelUrl:
@@ -38,7 +38,7 @@ export default function Hero() {
       description: "Cutting-edge technology for peak performance",
       cta: "View Tech",
       image: "",
-      bgColor: "#e74c3c",
+      bgColor: "#071023",
       textColor: "#fff",
       threeD: true,
       modelUrl:
