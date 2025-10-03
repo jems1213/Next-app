@@ -70,6 +70,26 @@ export default function FetchGuard() {
         // suppress failures coming from known analytics hosts (e.g., FullStory)
         if ((msg.includes("Failed to fetch") || stack.includes("Failed to fetch")) && (msg.toLowerCase().includes("fullstory") || stack.toLowerCase().includes("fullstory"))) {
           event.preventDefault();
+          return;
+        }
+
+        // also suppress generic cross-origin "Failed to fetch" errors to reduce noise
+        if ((msg.includes("Failed to fetch") || stack.includes("Failed to fetch"))) {
+          try {
+            // attempt to find a URL in the message
+            const found = msg.match(/https?:\/\/[^\s)\]]+/);
+            if (found) {
+              const parsed = new URL(found[0]);
+              if (parsed.hostname !== window.location.hostname) {
+                event.preventDefault();
+              }
+            } else {
+              // no URL found — prevent default to reduce noise
+              event.preventDefault();
+            }
+          } catch (e) {
+            event.preventDefault();
+          }
         }
       } catch (e) {
         // ignore
