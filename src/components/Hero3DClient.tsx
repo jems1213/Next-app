@@ -30,9 +30,9 @@ export default function Hero3DClient({ src, fallbackImage }: { src: string, fall
   }, [inView]);
 
   return (
-    <div ref={ref} style={{ width: '100%', height: 420, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+    <div ref={ref} className="hero3d-root">
       {inView ? <Hero3D src={src} fallbackImage={fallbackImage} /> : (
-        <img src={fallbackImage || '/next.svg'} alt="hero placeholder" style={{ width: 320, height: 320, objectFit: 'contain', borderRadius: 12 }} />
+        <img src={fallbackImage || '/next.svg'} alt="hero placeholder" className="hero-placeholder-img" />
       )}
     </div>
   );
