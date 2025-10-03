@@ -30,11 +30,11 @@
   max-width: 620px;
   z-index: 6; /* ensure content sits above images */
   padding-right: 2rem;
-  padding-top: 3.5rem;
-  padding-bottom: 3.5rem;
+  padding-top: 5rem;
+  padding-bottom: 5rem;
   display: flex;
   flex-direction: column;
-  gap: 1.1rem; /* spacing between subtitle, title, text, button */
+  gap: 1.4rem; /* spacing between subtitle, title, text, button */
 }
 
 /* add some space between navbar and hero on small screens */
