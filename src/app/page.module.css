@@ -518,8 +518,56 @@ a.secondary {
 }
 
 .heroLead {
-  color: rgba(255,255,255,0.9);
+  color: var(--gray-alpha-200);
   font-size: 16px;
+  margin-bottom: 18px;
+}
+
+.heroActions {
+  display: flex;
+  gap: 12px;
+  margin-bottom: 18px;
+}
+
+.heroCTA {
+  appearance: none;
+  border-radius: 50px;
+  padding: 12px 28px;
+  font-weight: 700;
+  background: linear-gradient(90deg, rgb(11, 16, 32), rgb(14, 165, 233));
+  color: #fff;
+  text-transform: uppercase;
+  box-shadow: 0 12px 30px rgba(14,165,233,0.08);
+}
+
+.heroCTA:hover { transform: translateY(-2px); }
+
+.heroGhost {
+  padding: 10px 20px;
+  border-radius: 40px;
+  border: 1px solid rgba(11,17,32,0.06);
+  background: transparent;
+  color: var(--foreground);
+  font-weight: 600;
+}
+
+.heroFeatures {
+  display: flex;
+  gap: 14px;
+  margin-top: 8px;
+  list-style: none;
+  padding: 0;
+  color: var(--gray-alpha-200);
+  font-size: 14px;
+}
+
+.modelViewer {
+  width: 100%;
+  height: 100%;
+  border-radius: 12px;
+  background: transparent;
+  contain: strict;
+  box-shadow: 0 20px 60px rgba(2,6,23,0.16);
 }
 
 
