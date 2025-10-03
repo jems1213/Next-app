@@ -188,6 +188,8 @@ a.secondary {
 .title {
   font-size: 32px;
   font-weight: 700;
+  margin-top: 0.75rem;
+  margin-bottom: 0.5rem;
 }
 
 .lead {
