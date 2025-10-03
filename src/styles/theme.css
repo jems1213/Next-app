@@ -1,0 +1,19 @@
+/* Theme helper utilities for the redesigned theme */
+
+.hero-full {
+  width: 100vw;
+  height: calc(100dvh - 112px); /* keep space for announcement + header */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.text-muted {
+  color: var(--color-muted);
+}
+
+.card {
+  background: linear-gradient(180deg, rgba(255,255,255,0.03), rgba(0,0,0,0));
+  border-radius: var(--radius-md);
+  border: 1px solid var(--muted-border);
+}

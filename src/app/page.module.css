@@ -11,9 +11,23 @@
   align-items: center;
   justify-items: center;
   min-height: 100svh;
-  padding: 80px;
+  /* Ensure top spacing to account for sticky announcement and header */
+  padding-top: calc(var(--announcement-height) + 72px + var(--space-lg));
+  padding-right: var(--space-xl);
+  padding-left: var(--space-xl);
+  padding-bottom: var(--space-xxl);
   gap: 64px;
   font-family: var(--font-geist-sans);
+}
+
+/* Compact page variant: reduces top spacing (use on pages that have their own hero/header) */
+.pageCompact {
+  padding-top: var(--space-lg);
+}
+
+/* When a page is compact, reduce main top padding too */
+.pageCompact .main {
+  padding-top: 0;
 }
 
 /* Checkout-specific adjustments: tighter spacing and white text */
@@ -49,7 +63,15 @@
   gap: 32px;
   grid-row-start: 2;
   margin-top: 0%; /* ensure main sits directly below navbar */
-  padding-top: 0;
+  padding-top: 200px; /* user requested 200px spacing */
+}
+
+@media (max-width: 900px) {
+  .main { padding-top: 140px; }
+}
+
+@media (max-width: 600px) {
+  .main { padding-top: 100px; }
 }
 
 .main ol {
@@ -188,6 +210,8 @@ a.secondary {
 .title {
   font-size: 32px;
   font-weight: 700;
+  margin-top: 0.75rem;
+  margin-bottom: 0.5rem;
 }
 
 .lead {

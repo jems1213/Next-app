@@ -14,8 +14,8 @@ export default function Hero() {
       description: "Discover the latest trends in premium footwear",
       cta: "Shop Now",
       image: "",
-      bgColor: "#f5f5f5",
-      textColor: "#000",
+      bgColor: "#071023",
+      textColor: "#fff",
       threeD: true,
       modelUrl:
         "https://cdn.builder.io/o/assets%2Fad449939a7dd4bddae2e1ca210d150b7%2F46e23d39ee9a412ba423c502db72469a?alt=media&token=f333f103-13c5-421d-bde6-75a53f118aea&apiKey=ad449939a7dd4bddae2e1ca210d150b7",
@@ -38,7 +38,7 @@ export default function Hero() {
       description: "Cutting-edge technology for peak performance",
       cta: "View Tech",
       image: "",
-      bgColor: "#e74c3c",
+      bgColor: "#071023",
       textColor: "#fff",
       threeD: true,
       modelUrl:
@@ -65,8 +65,10 @@ export default function Hero() {
   const next = () => setCurrentSlide((s) => (s + 1) % slides.length);
   const prev = () => setCurrentSlide((s) => (s - 1 + slides.length) % slides.length);
 
+  const slide = slides[currentSlide];
+
   return (
-    <section className={`hero hero-variant-${currentSlide}`}>
+    <section className={`hero hero-variant-${currentSlide}`} style={{ background: slide.bgColor || undefined, color: slide.textColor || undefined }}>
       <div className="hero-container">
         <div className="hero-content">
           <h2 className="hero-subtitle">{slides[currentSlide].subtitle}</h2>
@@ -81,7 +83,7 @@ export default function Hero() {
 
           <div>
             <Link href="/shop">
-              <button className="hero-button">
+              <button className="btn btn-primary hero-button">
                 {slides[currentSlide].cta} <span className="button-icon">→</span>
               </button>
             </Link>

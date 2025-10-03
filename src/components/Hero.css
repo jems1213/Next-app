@@ -1,7 +1,8 @@
 .hero {
   position: relative;
-  width: 100%;
-  height: 92vh;
+  width: 100vw;
+  /* occupy the viewport minus announcement + header (announcement ~40px + header 72px = 112px) */
+  height: calc(100dvh - 112px);
   min-height: 520px;
   overflow: hidden;
   display: flex;
@@ -9,13 +10,14 @@
   transition: background-color 0.5s ease;
   background: transparent;
   color: #fff;
+  margin-bottom: var(--space-xxl); /* ensure spacing between hero and following content */
 }
 
 .hero-container {
-  max-width: 1400px;
+  max-width: none; /* allow full-width layout */
   width: 100%;
-  margin: 0 auto;
-  padding: 0 2rem;
+  margin: 0;
+  padding: 0 6rem; /* generous side padding for full-bleed look */
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -26,15 +28,30 @@
 
 .hero-content {
   flex: 1;
-  max-width: 620px;
-  z-index: 4;
-  padding-right: 2rem;
+  max-width: 720px;
+  z-index: 6; /* ensure content sits above images */
+  padding-right: 3rem;
+  padding-left: 2rem;
+  padding-top: 6rem;
+  padding-bottom: 6rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1.6rem; /* spacing between subtitle, title, text, button */
 }
 
-.hero-subtitle { color: rgba(255,255,255,0.85); letter-spacing: 3px; }
-.hero-title { color: white; font-size: 3.5rem; text-shadow: 0 8px 30px rgba(7,26,47,0.7); }
-.hero-text { color: rgba(255,255,255,0.9); }
-.hero-button { background: linear-gradient(90deg, #0b1220, #0ea5e9); color: white; box-shadow: 0 12px 30px rgba(255,107,53,0.12); }
+/* add some space between navbar and hero on small screens */
+@media (max-width: 992px) {
+  .hero {
+    padding-top: 12px;
+  }
+}
+
+.hero-subtitle { color: inherit; opacity: 0.9; letter-spacing: 3px; }
+.hero-title { color: inherit; font-size: 3.5rem; text-shadow: 0 8px 30px rgba(7,26,47,0.35); }
+.hero-text { color: inherit; opacity: 0.92; }
+.hero-button { /* visual tweaks but rely on .btn/.btn-primary for base */
+  box-shadow: 0 12px 30px rgba(14,165,233,0.08);
+}
 
 .hero-subtitle {
   font-size: 1.1rem;
@@ -49,6 +66,15 @@
   font-weight: 700;
   line-height: 1.1;
   margin-bottom: 1rem;
+}
+
+.hero-title-word {
+  display: inline-block;
+  margin-right: 0.35rem;
+}
+
+.hero-content {
+  align-items: flex-start; /* ensure left alignment */
 }
 
 .hero-text {
@@ -79,6 +105,7 @@
 
 .hero-button:hover .button-icon { transform: translateX(5px); }
 
+/* Make the image/3d area fill the hero height */
 .hero-image-container {
   flex: 1;
   height: 100%;
@@ -88,9 +115,60 @@
   position: relative;
 }
 
-.hero-image { max-height: 85%; max-width: 85%; transform: rotate(-7deg); box-shadow: 0 30px 60px rgba(7,26,47,0.6); border-radius: 12px; z-index: 3; position: relative; }
+/* hero image should cover the available space */
+.hero-image {
+  width: auto;
+  height: 80%;
+  max-width: 48%;
+  max-height: 90%;
+  object-fit: contain;
+  transform: rotate(-7deg) translateX(4%);
+  box-shadow: 0 30px 90px rgba(7,26,47,0.6);
+  border-radius: 12px;
+  z-index: 4;
+  position: relative;
+}
 
-.hero-3d-wrap { width: 100%; max-width: 640px; height: 480px; }
+/* ensure 3d wrap doesn't overflow too much */
+.hero-3d-wrap {
+  width: auto;
+  max-width: 720px;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: visible;
+}
+
+.hero-3d-wrap {
+  width: 100%;
+  max-width: 720px;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* root wrapper used by the Hero3D client (replaces inline styles) */
+.hero3d-root {
+  width: 100%;
+  height: 420px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.hero3d-loading {
+  width: 320px;
+  height: 320px;
+}
+
+.hero-placeholder-img {
+  width: 320px;
+  height: 320px;
+  object-fit: contain;
+  border-radius: 12px;
+}
 
 .hero-controls {
   position: absolute;
@@ -100,7 +178,7 @@
   display: flex;
   align-items: center;
   gap: 1rem;
-  z-index: 3;
+  z-index: 8; /* bring controls above everything */
 }
 
 .control-button {
@@ -127,18 +205,21 @@
 
 @media (max-width: 992px) {
   .hero { min-height: 0; height: auto; padding-bottom: 2rem; }
-  .hero-container { flex-direction: column; justify-content: center; text-align: center; padding-top: 5rem; height: auto; }
-  .hero-content { padding-right: 0; margin-bottom: 1.5rem; max-width: 100%; order: 1; z-index: 5; }
+  .hero-container { flex-direction: column; justify-content: center; text-align: center; padding-top: 3.5rem; height: auto; padding-left: 1rem; padding-right: 1rem; }
+  .hero-content { padding-right: 0; margin-bottom: 1.5rem; max-width: 100%; order: 1; z-index: 5; padding-top: 2.5rem; padding-bottom: 2.5rem; }
   .hero-title { font-size: 2.2rem; }
-  .hero-image { max-height: 40vh; }
+  .hero-image { max-height: 40vh; max-width: 90%; }
   .hero-3d-wrap { height: 45vh; }
 }
 
 @media (max-width: 576px) {
-  .hero { min-height: 0; height: auto; padding: 4rem 0; }
+  .hero { min-height: 0; height: auto; padding: 2.5rem 0; }
   .hero-title { font-size: 1.8rem; }
   .hero-subtitle { font-size: 0.95rem; }
   .hero-text { font-size: 0.95rem; }
   .hero-image-container { height: 40vh; padding: 0 1rem; display:flex; align-items:center; justify-content:center; }
   .hero-3d-wrap { height: 40vh; }
+  .hero-content { padding-top: 3rem; padding-bottom: 3rem; gap: 0.9rem; }
 }
+
+/* Variant backgrounds removed — slide-specific bg/text colors are applied inline from Hero.tsx */

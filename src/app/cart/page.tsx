@@ -3,8 +3,8 @@ import styles from '../page.module.css';
 import { cookies } from 'next/headers';
 import Link from 'next/link';
 
-export default function CartPage() {
-  const cookieStore = cookies();
+export default async function CartPage() {
+  const cookieStore = await cookies();
   const cartCookie = cookieStore.get('cart')?.value ?? '[]';
   let items = [] as any[];
   try {
@@ -12,7 +12,7 @@ export default function CartPage() {
   } catch {}
 
   return (
-    <div className={styles.page}>
+    <div className={`${styles.page} ${styles.pageCompact}`}>
       <main className={styles.main}>
         <Link href="/" className={styles.backLink}>&larr; Back</Link>
         <h1 className={styles.title}>Your Cart</h1>
