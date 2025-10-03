@@ -4,7 +4,8 @@ import styles from "./page.module.css";
 import { getProducts } from "../lib/fakeStore";
 import ProductListClient from "../components/ProductListClient";
 import React from "react";
-import Hero3D from "../components/Hero3D";
+import dynamic from 'next/dynamic';
+const Hero3D = dynamic(() => import('../components/Hero3D'), { ssr: false, loading: () => <div style={{width:320,height:320}} /> });
 
 export default async function Home() {
   const products = await getProducts();
