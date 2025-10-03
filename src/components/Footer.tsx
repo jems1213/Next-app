@@ -39,7 +39,7 @@ export default function Footer() {
 
           <div className={styles.footerCol}>
             <h4 className={styles.footerColTitle}>Stay in touch</h4>
-            <form className={styles.newsletterForm} onSubmit={(e)=>{e.preventDefault();alert('Subscribed (demo)')}}>
+            <form className={styles.newsletterForm} onSubmit={onSubscribe}>
               <input aria-label="Email" placeholder="Your email" className={styles.newsletterInput} />
               <button className={`btn btn-primary ${styles.newsletterButton}`} type="submit">Subscribe</button>
             </form>
