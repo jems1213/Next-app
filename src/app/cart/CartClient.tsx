@@ -7,7 +7,15 @@ import styles from "./cart.module.css";
 export default function CartClient({ initialItems }: { initialItems?: any[] }) {
   const { items, savedItems, addItem, removeItem, updateItem, clear, totalQuantity, saveForLater, moveToCart } = useCart();
 
-  const displayItems = (items && items.length) ? items : (initialItems ?? []);
+  const [mounted, setMounted] = useState(false);
+  useEffect(() => { setMounted(true); }, []);
+
+  // During hydration, prefer the server-provided snapshot (initialItems) until the
+  // client has mounted to avoid HTML mismatches between SSR and client state.
+  const displayItems = !mounted ? (initialItems ?? []) : ((items && items.length) ? items : (initialItems ?? []));
+
+  // show totals consistent with the rendered items during hydration
+  const displayTotalQuantity = !mounted ? (initialItems ?? []).reduce((s:any, i:any) => s + (i.quantity || 0), 0) : totalQuantity;
 
   const [coupon, setCoupon] = useState("");
   const [appliedCoupon, setAppliedCoupon] = useState<string | null>(null);
