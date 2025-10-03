@@ -1,0 +1,15 @@
+.faqWrap {
+  max-width: 1000px;
+  width: 100%;
+  display: grid;
+  gap: 16px;
+}
+
+.faqSummary {
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.faqText {
+  color: var(--gray-alpha-100, rgba(0,0,0,0.06));
+}
