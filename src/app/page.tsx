@@ -20,7 +20,7 @@ export default async function Home() {
 
             {/* 3D hero model */}
             {/* default model chosen: Nike Air Zoom Pegasus demo */}
-            <Hero3D src="https://cdn.builder.io/o/assets%2F3c18b0444cd749efb807f80093d75ea4%2F04b421f72b3e4403b02a7f829f85faf7?alt=media&token=7fcc8d84-88a4-4df1-abb1-7d7ac5fb5c71&apiKey=3c18b0444cd749efb807f80093d75ea4" />
+            <Hero3DClient src="https://cdn.builder.io/o/assets%2F3c18b0444cd749efb807f80093d75ea4%2F04b421f72b3e4403b02a7f829f85faf7?alt=media&token=7fcc8d84-88a4-4df1-abb1-7d7ac5fb5c71&apiKey=3c18b0444cd749efb807f80093d75ea4" />
 
           </div>
         </header>
