@@ -48,7 +48,9 @@
 .hero-subtitle { color: rgba(255,255,255,0.85); letter-spacing: 3px; }
 .hero-title { color: white; font-size: 3.5rem; text-shadow: 0 8px 30px rgba(7,26,47,0.7); }
 .hero-text { color: rgba(255,255,255,0.9); }
-.hero-button { background: linear-gradient(90deg, #0b1220, #0ea5e9); color: white; box-shadow: 0 12px 30px rgba(255,107,53,0.12); }
+.hero-button { /* visual tweaks but rely on .btn/.btn-primary for base */
+  box-shadow: 0 12px 30px rgba(14,165,233,0.08);
+}
 
 .hero-subtitle {
   font-size: 1.1rem;
