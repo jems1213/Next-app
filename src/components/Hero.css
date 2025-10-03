@@ -17,6 +17,7 @@
   max-width: none; /* allow full-width layout */
   width: 100%;
   margin: 0;
+  margin-top: 10rem;
   padding: 0 6rem; /* generous side padding for full-bleed look */
   display: flex;
   align-items: center;
