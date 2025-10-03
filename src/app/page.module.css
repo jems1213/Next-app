@@ -462,24 +462,32 @@ a.secondary {
 
 /* layout for hero with text + 3d model */
 .heroContentRow {
-  display: flex;
+  display: grid;
+  grid-template-columns: 1fr 520px;
   align-items: center;
-  justify-content: space-between;
-  gap: 24px;
+  justify-content: center;
+  gap: 32px;
 }
 
 .heroText {
-  flex: 1 1 520px;
-  max-width: 600px;
+  flex: none;
+  max-width: 640px;
 }
 
-.heroModelWrap {
-  flex: 1 1 420px;
-  max-width: 640px;
-  height: 420px;
+.heroModelColumn {
   display: flex;
   align-items: center;
   justify-content: center;
+}
+
+.heroModelWrap {
+  width: 100%;
+  max-width: 520px;
+  height: 480px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transform: translateZ(0);
 }
 
 .modelViewer {
