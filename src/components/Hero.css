@@ -28,8 +28,15 @@
 .hero-content {
   flex: 1;
   max-width: 620px;
-  z-index: 4;
+  z-index: 6; /* ensure content sits above images */
   padding-right: 2rem;
+}
+
+/* add some space between navbar and hero on small screens */
+@media (max-width: 992px) {
+  .hero {
+    padding-top: 12px;
+  }
 }
 
 .hero-subtitle { color: rgba(255,255,255,0.85); letter-spacing: 3px; }
@@ -94,14 +101,25 @@
 .hero-image {
   width: 100%;
   height: 100%;
-  max-width: 100%;
-  max-height: 100%;
-  object-fit: cover;
-  transform: rotate(-7deg);
+  max-width: 65%;
+  max-height: 95%;
+  object-fit: contain;
+  transform: rotate(-7deg) translateX(6%);
   box-shadow: 0 30px 60px rgba(7,26,47,0.6);
   border-radius: 12px;
   z-index: 3;
   position: relative;
+}
+
+/* ensure 3d wrap doesn't overflow too much */
+.hero-3d-wrap {
+  width: 100%;
+  max-width: 560px;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: visible;
 }
 
 .hero-3d-wrap {
@@ -142,7 +160,7 @@
   display: flex;
   align-items: center;
   gap: 1rem;
-  z-index: 3;
+  z-index: 8; /* bring controls above everything */
 }
 
 .control-button {
