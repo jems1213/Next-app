@@ -65,8 +65,10 @@ export default function Hero() {
   const next = () => setCurrentSlide((s) => (s + 1) % slides.length);
   const prev = () => setCurrentSlide((s) => (s - 1 + slides.length) % slides.length);
 
+  const slide = slides[currentSlide];
+
   return (
-    <section className={`hero hero-variant-${currentSlide}`}>
+    <section className={`hero hero-variant-${currentSlide}`} style={{ background: slide.bgColor || undefined, color: slide.textColor || undefined }}>
       <div className="hero-container">
         <div className="hero-content">
           <h2 className="hero-subtitle">{slides[currentSlide].subtitle}</h2>
