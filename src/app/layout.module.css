@@ -144,19 +144,19 @@
 /* Enhanced footer layout */
 .footerGrid {
   display: grid;
-  grid-template-columns: 1.4fr 1fr 1fr 1.4fr;
-  gap: 28px;
+  grid-template-columns: repeat(4, 1fr); /* equal-width columns */
+  gap: 20px; /* tighter gap */
   align-items: start;
   width: 100%;
 }
 
 .footerCols {
   display: flex;
-  gap: 40px; /* increased gap between columns */
+  gap: 20px; /* tightened gap between columns */
   align-items: flex-start;
 }
 
-.footerCol { display: flex; flex-direction: column; gap: 12px; }
+.footerCol { display: flex; flex-direction: column; gap: 10px; }
 .footerColTitle { font-weight: 700; margin-bottom: 6px; color: rgba(207,230,255,1); }
 
 .footerBrandCol { display: flex; gap: 16px; align-items: center; }
