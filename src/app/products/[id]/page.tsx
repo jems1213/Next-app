@@ -4,8 +4,26 @@ import ProductDetailClient from '../../../components/ProductDetailClient';
 import styles from "../../page.module.css";
 import { getProduct } from "../../../lib/fakeStore";
 
-export default async function ProductPage({ params }: { params: { id: string } }) {
-  const product = await getProduct(params.id);
+export default async function ProductPage(props: { params: { id: string } }) {
+  // params may be a thenable in some Next versions; await to be safe
+  const { params } = (await props) as { params: { id: string } };
+  let product: any = null;
+  try {
+    product = await getProduct(params.id);
+  } catch (e) {
+    // graceful fallback: show an error page content instead of crashing JSON parse
+    return (
+      <div className={styles.page}>
+        <main className={styles.main}>
+          <Link href="/" className={styles.backLink}>&larr; Back to products</Link>
+          <div style={{ padding: 40 }}>
+            <h1 className={styles.title}>Product not found</h1>
+            <p className={styles.lead}>We couldn't load that product. It may not exist or the external API failed. Try again later.</p>
+          </div>
+        </main>
+      </div>
+    );
+  }
 
   return (
     <div className={styles.page}>
