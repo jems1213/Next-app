@@ -120,7 +120,7 @@
 
 .footer {
   border-top: 1px solid var(--muted-border);
-  padding: 36px 20px;
+  padding: 56px 28px; /* increased vertical & horizontal padding for better spacing */
   display: flex;
   justify-content: center;
   background: var(--surface);
@@ -131,34 +131,34 @@
   max-width: 1200px;
   display: flex;
   justify-content: space-between;
-  gap: 16px;
+  gap: 32px; /* more breathing room between sections */
   align-items: center;
 }
 
 .footerLinks {
   display: flex;
-  gap: 12px;
+  gap: 14px;
   color: var(--foreground);
 }
 
 /* Enhanced footer layout */
 .footerCols {
   display: flex;
-  gap: 28px;
+  gap: 40px; /* increased gap between columns */
   align-items: flex-start;
 }
 
-.footerCol { display: flex; flex-direction: column; gap: 8px; }
+.footerCol { display: flex; flex-direction: column; gap: 12px; }
 .footerColTitle { font-weight: 700; margin-bottom: 6px; }
 
-.footerBrandCol { display: flex; gap: 12px; align-items: center; }
-.brandMarkSmall { width:40px; height:40px; display:inline-flex; align-items:center; justify-content:center; border-radius:8px; background:linear-gradient(135deg, rgba(191,164,106,0.12), rgba(191,164,106,0.04)); border:1px solid rgba(191,164,106,0.12); font-weight:700; }
+.footerBrandCol { display: flex; gap: 16px; align-items: center; }
+.brandMarkSmall { width:48px; height:48px; display:inline-flex; align-items:center; justify-content:center; border-radius:10px; background:linear-gradient(135deg, rgba(191,164,106,0.12), rgba(191,164,106,0.04)); border:1px solid rgba(191,164,106,0.12); font-weight:700; }
 
-.newsletterForm { display:flex; gap:8px; align-items:center; margin-top:6px; }
-.newsletterInput { padding:10px 12px; border-radius:10px; border:1px solid var(--muted-border); background:transparent; color:var(--foreground); min-width:220px; }
-.newsletterButton { padding:10px 14px; border-radius:10px; }
+.newsletterForm { display:flex; gap:12px; align-items:center; margin-top:8px; }
+.newsletterInput { padding:12px 14px; border-radius:12px; border:1px solid var(--muted-border); background:transparent; color:var(--foreground); min-width:260px; }
+.newsletterButton { padding:10px 16px; border-radius:12px; }
 
-.socialIcons { display:flex; gap:10px; margin-top:10px; color:var(--color-muted); }
+.socialIcons { display:flex; gap:14px; margin-top:12px; color:var(--color-muted); }
 
 .textMuted { color: var(--color-muted); }
 
