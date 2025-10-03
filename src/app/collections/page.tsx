@@ -9,7 +9,7 @@ export default async function Collections() {
   const categories = Array.from(new Set(products.map((p) => p.category)));
 
   return (
-    <div className={styles.page}>
+    <div className={`${styles.page} ${styles.pageCompact}`}>
       <header className={styles.heroInner}>
         <h1 className={styles.heroTitle}>Collections</h1>
         <p className={styles.heroLead}>Shop by curated collections and categories.</p>
