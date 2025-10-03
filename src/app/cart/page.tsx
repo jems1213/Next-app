@@ -14,7 +14,7 @@ export default async function CartPage() {
 
   return (
     <div className={`${styles.page} ${styles.pageCompact}`}>
-      <main className={styles.main}>
+      <main className={`${styles.main} ${cartPageStyles.noTopPadding}`}>
         <Link href="/" className={styles.backLink}>&larr; Back</Link>
         <h1 className={styles.title}>Your Cart</h1>
         <p className={styles.lead}>Review items in your cart and proceed to checkout.</p>
