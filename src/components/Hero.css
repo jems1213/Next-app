@@ -10,6 +10,7 @@
   transition: background-color 0.5s ease;
   background: transparent;
   color: #fff;
+  margin-bottom: var(--space-xxl); /* ensure spacing between hero and following content */
 }
 
 .hero-container {
