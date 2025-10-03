@@ -42,7 +42,7 @@
   align-items: start;
   background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(11,17,32,0.02));
   border-radius: 14px;
-  padding: 28px; /* increased padding inside the card */
+  padding: 280px 28px 28px; /* increased padding inside the card */
   margin: 18px 0; /* vertical spacing around card */
   border: 1px solid rgba(255,255,255,0.03);
   box-shadow: 0 30px 60px rgba(2,6,23,0.18);
