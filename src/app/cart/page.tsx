@@ -12,7 +12,7 @@ export default function CartPage() {
   } catch {}
 
   return (
-    <div className={styles.page}>
+    <div className={`${styles.page} ${styles.pageCompact}`}>
       <main className={styles.main}>
         <Link href="/" className={styles.backLink}>&larr; Back</Link>
         <h1 className={styles.title}>Your Cart</h1>
