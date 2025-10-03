@@ -50,7 +50,11 @@ export default function Hero3D({ src }: { src: string }) {
   }
 
   if (!ready) {
-    return <div className={styles.heroModelWrap} />;
+    return (
+      <div className={styles.heroModelWrap}>
+        <img src="/next.svg" alt="loading model" className={styles.modelViewerPlaceholder} />
+      </div>
+    );
   }
 
   return (
