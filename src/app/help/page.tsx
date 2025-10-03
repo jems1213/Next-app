@@ -1,5 +1,6 @@
 import React from 'react';
 import styles from '../page.module.css';
+import css from './help.module.css';
 
 export default function Help() {
   return (
@@ -11,20 +12,20 @@ export default function Help() {
 
       <main className={styles.main}>
         <h2 className={styles.title}>Frequently Asked Questions</h2>
-        <section style={{ maxWidth: 1000, width: '100%', display: 'grid', gap: 16 }}>
+        <section className={css.faqWrap}>
           <details>
-            <summary style={{ fontWeight: 700 }}>Shipping & Delivery</summary>
-            <p style={{ color: 'var(--gray-alpha-100)' }}>We offer free shipping on orders over $50. Delivery times vary by location.</p>
+            <summary className={css.faqSummary}>Shipping & Delivery</summary>
+            <p className={css.faqText}>We offer free shipping on orders over $50. Delivery times vary by location.</p>
           </details>
 
           <details>
-            <summary style={{ fontWeight: 700 }}>Returns & Exchanges</summary>
-            <p style={{ color: 'var(--gray-alpha-100)' }}>Returns accepted within 30 days with original packaging.</p>
+            <summary className={css.faqSummary}>Returns & Exchanges</summary>
+            <p className={css.faqText}>Returns accepted within 30 days with original packaging.</p>
           </details>
 
           <details>
-            <summary style={{ fontWeight: 700 }}>Contact</summary>
-            <p style={{ color: 'var(--gray-alpha-100)' }}>Email us at support@example.com or use the contact form.</p>
+            <summary className={css.faqSummary}>Contact</summary>
+            <p className={css.faqText}>Email us at support@example.com or use the contact form.</p>
           </details>
         </section>
       </main>
