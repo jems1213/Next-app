@@ -5,6 +5,7 @@ import { getProducts } from "../lib/fakeStore";
 import ProductListClient from "../components/ProductListClient";
 import React from "react";
 import Hero3DClient from "../components/Hero3DClient";
+import HeroCarousel from "../components/HeroCarousel";
 
 export default async function Home() {
   const products = await getProducts();
