@@ -1,0 +1,98 @@
+:root {
+  --product-accent: rgba(99,102,241,0.08);
+}
+
+.productSection {
+  position: relative;
+  padding: 24px 16px 48px 16px;
+  display: grid;
+  place-items: center;
+  overflow: visible;
+}
+
+.backdrop {
+  position: absolute;
+  inset: -10% -20% auto -20%;
+  background: radial-gradient(60% 60% at 20% 10%, rgba(59,130,246,0.05), transparent 60%),
+              radial-gradient(50% 50% at 80% 30%, rgba(99,102,241,0.04), transparent 60%);
+  filter: blur(36px);
+  pointer-events: none;
+  z-index: 0;
+}
+
+.container {
+  width: 100%;
+  max-width: 1100px;
+  z-index: 1;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+  align-items: start;
+}
+
+@media (max-width: 900px) {
+  .grid { grid-template-columns: 1fr; gap: 14px; }
+}
+
+.media {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(180deg, rgba(255,255,255,0.02), transparent);
+  border-radius: 12px;
+  padding: 12px;
+  box-shadow: 0 20px 40px rgba(2,6,23,0.14);
+}
+
+.mediaImage { width: 100%; height: auto; border-radius: 10px; }
+
+.info { display: flex; flex-direction: column; gap: 12px; }
+
+.title {
+  font-size: 26px;
+  line-height: 1.05;
+  font-weight: 800;
+  color: var(--foreground);
+  animation: fadeUp 420ms cubic-bezier(.2,.9,.2,1) both;
+}
+
+.price {
+  font-size: 20px;
+  font-weight: 800;
+  color: var(--accent);
+}
+
+.description { color: var(--color-muted); }
+
+.meta { color: var(--color-muted); font-size: 14px; }
+
+.controls { display: flex; flex-direction: column; gap: 12px; margin-top: 8px; }
+
+.buttons { display: flex; gap: 12px; align-items: center; }
+
+.ghostButton {
+  background: transparent;
+  border: 1px solid var(--muted-border);
+  padding: 10px 14px;
+  border-radius: 10px;
+}
+
+.animatedButton {
+  transition: transform 240ms ease, box-shadow 240ms ease;
+}
+
+.animatedButton:hover { transform: translateY(-4px); box-shadow: 0 12px 30px rgba(99,102,241,0.08); }
+
+@keyframes fadeUp { from { opacity: 0; transform: translateY(8px);} to { opacity:1; transform: translateY(0);} }
+
+/* Tighten the main layout spacing to avoid extra scroll */
+:global(.page) {
+  padding-top: calc(var(--announcement-height) + 32px); /* reduced top spacing for product pages */
+}
+
+:global(.main) {
+  padding-top: 0px;
+}
