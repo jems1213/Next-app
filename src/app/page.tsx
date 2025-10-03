@@ -3,17 +3,20 @@ import Link from "next/link";
 import styles from "./page.module.css";
 import { getProducts } from "../lib/fakeStore";
 import ProductListClient from "../components/ProductListClient";
+import React from "react";
+import Hero3DClient from "../components/Hero3DClient";
+import HeroShell from "../components/HeroShell";
 
 export default async function Home() {
   const products = await getProducts();
 
   return (
       <div className={styles.page}>
-        <header className={styles.hero}>
-          <div className={styles.heroInner}>
-            <h1 className={styles.heroTitle}>Discover smart products, beautifully presented</h1>
-            <p className={styles.heroLead}>Modern, responsive store with subtle motion and delightful interactions.</p>
-
+        <header>
+          {/* New hero implemented as client component */}
+          {/* @ts-ignore */}
+          <div id="hero-root">
+            <HeroShell />
           </div>
         </header>
 

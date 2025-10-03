@@ -126,6 +126,19 @@
   color: var(--foreground);
 }
 
+.announcementBar {
+  background: linear-gradient(90deg, rgb(11, 16, 32), rgb(14, 165, 233));
+  color: #ffffff;
+  text-align: center;
+  font-weight: 600;
+  font-size: 14.4px;
+  padding: 8px 16px;
+}
+
+.announcementText {
+  color: #ffffff;
+}
+
 @media (hover: hover) and (pointer: fine) {
   .navLinks a:hover {
     color: var(--accent);
@@ -157,5 +170,135 @@
   .footerInner {
     flex-direction: column;
     align-items: flex-start;
+  }
+}
+
+/* New navbar layout styles inspired by the provided design */
+.navInner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  max-width: 1400px;
+  height: 76px;
+  padding: 0 24px;
+  margin: 0 auto;
+  gap: 16px;
+}
+
+.brandLink {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-weight: 800;
+  font-size: 21.6px;
+  color: var(--foreground);
+}
+
+.brandEmoji {
+  font-size: 28.8px;
+  display: inline-block;
+  margin-right: 8px;
+  filter: drop-shadow(rgba(255, 107, 53, 0.06) 0px 6px 14px);
+}
+
+.brandTitle {
+  font-weight: 800;
+  letter-spacing: 0.8px;
+  font-size: 21.6px;
+  font-family: 'Playfair Display', serif;
+}
+
+.centerNav {
+  display: flex;
+  align-items: center;
+  margin-left: 24px;
+}
+
+.navList {
+  display: flex;
+  gap: 12px;
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.navItem a {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 12px 8px;
+  border-radius: 5px;
+  color: var(--foreground);
+  font-weight: 600;
+  font-size: 15.2px;
+}
+
+.navPill {
+  background-color: var(--foreground);
+  color: #ffffff;
+  border-radius: 12px;
+  padding: 3.2px 8px;
+  font-size: 11.2px;
+  font-weight: 600;
+  margin-left: 8px;
+}
+
+.navActions {
+  margin-left: auto;
+  display: flex;
+  gap: 16px;
+  align-items: center;
+}
+
+.iconButton {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 7.2px;
+  border-radius: 8px;
+  color: var(--foreground);
+  background: rgba(255,255,255,0.02);
+}
+
+.signInButton {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 7.2px;
+  border-radius: 8px;
+  color: var(--foreground);
+  font-weight: 600;
+  background: rgba(255,255,255,0.02);
+}
+
+.menuButton {
+  display: none;
+  background: transparent;
+  border: none;
+  padding: 8px;
+}
+
+.cartBadge {
+  display: inline-block;
+  min-width: 20px;
+  height: 20px;
+  padding: 0 6px;
+  border-radius: 999px;
+  background: var(--accent);
+  color: #fff;
+  font-weight: 700;
+  font-size: 12px;
+  line-height: 20px;
+  margin-left: 6px;
+  text-align: center;
+}
+
+@media (max-width: 900px) {
+  .centerNav {
+    display: none;
+  }
+  .menuButton {
+    display: inline-flex;
   }
 }

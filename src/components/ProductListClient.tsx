@@ -94,7 +94,7 @@ export default function ProductListClient({ products }: { products: any[] }) {
           <article key={p.id} className={styles.card}>
             <Link href={`/products/${p.id}`} className={styles.cardLink}>
               <div className={styles.imageWrap}>
-                <Image src={p.image} alt={p.title} width={240} height={240} className={styles.productImage} unoptimized />
+                <Image src={p.image} alt={p.title} width={240} height={240} className={styles.productImage} unoptimized loading="lazy" />
               </div>
               <h3 title={p.title} className={styles.productTitle}>{p.title}</h3>
               <p className={styles.productCategory}>{p.category}</p>

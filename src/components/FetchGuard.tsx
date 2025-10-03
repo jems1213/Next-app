@@ -25,9 +25,16 @@ export default function FetchGuard() {
       } catch (err: any) {
         try {
           const url = typeof input === "string" ? input : (input as Request).url || "";
-          if (typeof url === "string" && (url.includes("fullstory") || url.includes("edge.fullstory") || url.includes("fullstory.com"))) {
+
+          // gather diagnostics from error object
+          const errMsg = (err && (err.message || String(err))) || "";
+          const errStack = (err && err.stack) || "";
+
+          const isFullStoryUrl = typeof url === "string" && (url.includes("fullstory") || url.includes("edge.fullstory") || url.includes("fullstory.com"));
+          const errMentionsFullstory = errMsg.toLowerCase().includes("fullstory") || errStack.toLowerCase().includes("fullstory");
+
+          if (isFullStoryUrl || errMentionsFullstory) {
             // swallow the error for these external analytics calls so they don't pollute our console
-            // return a generic Response to satisfy callers that expect a Response
             return new Response(null, { status: 503, statusText: "Service Unavailable" });
           }
         } catch (e) {
@@ -43,7 +50,8 @@ export default function FetchGuard() {
       try {
         const reason = event.reason;
         const msg = String(reason ?? "");
-        if (msg.includes("Failed to fetch") && msg.includes("fullstory")) {
+        const stack = (reason && reason.stack) || "";
+        if ((msg.includes("Failed to fetch") || stack.includes("Failed to fetch")) && (msg.toLowerCase().includes("fullstory") || stack.toLowerCase().includes("fullstory"))) {
           event.preventDefault();
         }
       } catch (e) {
