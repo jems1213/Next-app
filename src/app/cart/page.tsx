@@ -3,8 +3,8 @@ import styles from '../page.module.css';
 import { cookies } from 'next/headers';
 import Link from 'next/link';
 
-export default function CartPage() {
-  const cookieStore = cookies();
+export default async function CartPage() {
+  const cookieStore = await cookies();
   const cartCookie = cookieStore.get('cart')?.value ?? '[]';
   let items = [] as any[];
   try {
