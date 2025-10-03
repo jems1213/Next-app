@@ -1,8 +1,9 @@
 .hero {
   position: relative;
   width: 100vw;
-  height: 100dvh;
-  min-height: 100dvh;
+  /* occupy the viewport minus announcement + header (announcement ~40px + header 72px = 112px) */
+  height: calc(100dvh - 112px);
+  min-height: 520px;
   overflow: hidden;
   display: flex;
   align-items: center;
