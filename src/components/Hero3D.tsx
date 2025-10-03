@@ -2,7 +2,7 @@
 import React, { useEffect, useState } from "react";
 import styles from "../app/page.module.css";
 
-export default function Hero3D({ src }: { src: string }) {
+export default function Hero3D({ src, fallbackImage }: { src: string, fallbackImage?: string }) {
   const [ready, setReady] = useState(false);
   const [failed, setFailed] = useState(false);
 
