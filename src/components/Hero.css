@@ -13,10 +13,10 @@
 }
 
 .hero-container {
-  max-width: 1400px;
+  max-width: none; /* allow full-width layout */
   width: 100%;
-  margin: 0 auto;
-  padding: 0 2rem;
+  margin: 0;
+  padding: 0 6rem; /* generous side padding for full-bleed look */
   display: flex;
   align-items: center;
   justify-content: space-between;
