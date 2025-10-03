@@ -105,22 +105,22 @@
 
 /* hero image should cover the available space */
 .hero-image {
-  width: 100%;
-  height: 100%;
-  max-width: 65%;
-  max-height: 95%;
+  width: auto;
+  height: 80%;
+  max-width: 48%;
+  max-height: 90%;
   object-fit: contain;
-  transform: rotate(-7deg) translateX(6%);
-  box-shadow: 0 30px 60px rgba(7,26,47,0.6);
+  transform: rotate(-7deg) translateX(4%);
+  box-shadow: 0 30px 90px rgba(7,26,47,0.6);
   border-radius: 12px;
-  z-index: 3;
+  z-index: 4;
   position: relative;
 }
 
 /* ensure 3d wrap doesn't overflow too much */
 .hero-3d-wrap {
-  width: 100%;
-  max-width: 560px;
+  width: auto;
+  max-width: 720px;
   height: 100%;
   display: flex;
   align-items: center;
@@ -193,10 +193,10 @@
 
 @media (max-width: 992px) {
   .hero { min-height: 0; height: auto; padding-bottom: 2rem; }
-  .hero-container { flex-direction: column; justify-content: center; text-align: center; padding-top: 5rem; height: auto; }
-  .hero-content { padding-right: 0; margin-bottom: 1.5rem; max-width: 100%; order: 1; z-index: 5; }
+  .hero-container { flex-direction: column; justify-content: center; text-align: center; padding-top: 3.5rem; height: auto; padding-left: 1rem; padding-right: 1rem; }
+  .hero-content { padding-right: 0; margin-bottom: 1.5rem; max-width: 100%; order: 1; z-index: 5; padding-top: 2.5rem; padding-bottom: 2.5rem; }
   .hero-title { font-size: 2.2rem; }
-  .hero-image { max-height: 40vh; }
+  .hero-image { max-height: 40vh; max-width: 90%; }
   .hero-3d-wrap { height: 45vh; }
 }
 
