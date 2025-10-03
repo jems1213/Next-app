@@ -3,6 +3,8 @@ import Link from "next/link";
 import styles from "./page.module.css";
 import { getProducts } from "../lib/fakeStore";
 import ProductListClient from "../components/ProductListClient";
+import React from "react";
+import Hero3D from "../components/Hero3D";
 
 export default async function Home() {
   const products = await getProducts();
