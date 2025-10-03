@@ -1,0 +1,25 @@
+.collectionsGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 20px;
+  width: 100%;
+  max-width: 1100px;
+}
+
+.collectionCard {
+  padding: 24px;
+  border-radius: 12px;
+  border: 1px solid var(--muted-border);
+  background: linear-gradient(180deg, rgba(255,255,255,0.01), transparent);
+  text-decoration: none;
+  color: inherit;
+}
+
+.collectionTitle {
+  margin-bottom: 8px;
+  font-weight: 700;
+}
+
+.collectionDesc {
+  color: var(--gray-alpha-100, rgba(0,0,0,0.06));
+}
