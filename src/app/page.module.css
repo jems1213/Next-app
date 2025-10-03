@@ -11,7 +11,11 @@
   align-items: center;
   justify-items: center;
   min-height: 100svh;
-  padding: 80px;
+  /* Ensure top spacing to account for sticky announcement and header */
+  padding-top: calc(var(--announcement-height) + 72px + var(--space-lg));
+  padding-right: var(--space-xl);
+  padding-left: var(--space-xl);
+  padding-bottom: var(--space-xxl);
   gap: 64px;
   font-family: var(--font-geist-sans);
 }
