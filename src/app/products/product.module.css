@@ -1,3 +1,5 @@
+/* Product page styles - local only */
+
 .productSection {
   position: relative;
   padding: 24px 16px 48px 16px;
@@ -83,12 +85,3 @@
 .animatedButton:hover { transform: translateY(-4px); box-shadow: 0 12px 30px rgba(99,102,241,0.08); }
 
 @keyframes fadeUp { from { opacity: 0; transform: translateY(8px);} to { opacity:1; transform: translateY(0);} }
-
-/* Tighten the main layout spacing to avoid extra scroll */
-:global(.page) {
-  padding-top: calc(var(--announcement-height) + 32px); /* reduced top spacing for product pages */
-}
-
-:global(.main) {
-  padding-top: 0px;
-}
