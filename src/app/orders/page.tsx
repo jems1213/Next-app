@@ -3,7 +3,7 @@ import OrdersClient from './OrdersClient';
 
 export default function OrdersPage() {
   return (
-    <div className={styles.page}>
+    <div className={`${styles.page} ${styles.pageCompact}`}>
       <main className={styles.main}>
         <h1 className={styles.title}>Your orders</h1>
         <p className={styles.lead}>A list of orders you have placed from this browser.</p>
