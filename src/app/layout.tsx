@@ -21,6 +21,7 @@ import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
 import UnhandledRejectionGuard from "../components/UnhandledRejectionGuard";
 import { CartProvider } from "../context/cart";
+import AnnouncementBar from "../components/AnnouncementBar";
 
 export default function RootLayout({
   children,
