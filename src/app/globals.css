@@ -174,3 +174,6 @@ input[type="text"], input[type="email"], input[type="password"], textarea, selec
 }
 
 label { display: block; font-weight: 600; margin-bottom: 6px; }
+
+/* Visually hidden (accessible) */
+.sr-only { position: absolute !important; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0, 0, 0, 0); white-space: nowrap; border: 0; }
