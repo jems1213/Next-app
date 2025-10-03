@@ -81,7 +81,7 @@
   }
 }
 
-.authHeader { margin-bottom: 12px; }
+.authHeader { margin-bottom: 12px; margin-top: 150px; }
 
 .title {
   font-family: var(--font-heading);
