@@ -570,6 +570,14 @@ a.secondary {
   box-shadow: 0 20px 60px rgba(2,6,23,0.16);
 }
 
+/* carousel controls */
+.heroCarousel { display: flex; flex-direction: column; gap: 12px; align-items: center; }
+.heroControls { display: flex; align-items: center; gap: 12px; }
+.heroControlButton { appearance: none; background: rgba(0,0,0,0.06); border: none; width: 40px; height: 40px; border-radius: 50%; display: inline-flex; align-items: center; justify-content: center; cursor: pointer; }
+.heroDots { display: flex; gap: 8px; }
+.heroDot { width: 12px; height: 12px; border-radius: 50%; background: rgba(0,0,0,0.12); border: none; }
+.activeDot { background: var(--foreground); }
+
 
 
 @media (max-width: 900px) {
