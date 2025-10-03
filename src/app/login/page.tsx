@@ -1,10 +1,13 @@
 "use client";
 import React, { useState } from 'react';
-import styles from '../page.module.css';
+import pageStyles from '../page.module.css';
+import styles from './login.module.css';
+import Link from 'next/link';
 
 export default function LoginPage() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [remember, setRemember] = useState(true);
   const [msg, setMsg] = useState('');
 
   function submit(e: React.FormEvent) {
@@ -13,26 +16,70 @@ export default function LoginPage() {
   }
 
   return (
-    <div className={`${styles.page} ${styles.pageCompact}`}>
-      <header className={styles.heroInner}>
-        <h1 className={styles.heroTitle}>Sign In</h1>
-        <p className={styles.heroLead}>Access your account to view orders, wishlist and more.</p>
-      </header>
+    <div className={`${pageStyles.page} ${pageStyles.pageCompact}`}>
+      <section className={styles.authSection}>
+        <div className={styles.backdrop} />
+        <div className={styles.orbit} />
+        <span className={styles.spark} />
+        <span className={styles.spark} />
+        <span className={styles.spark} />
 
-      <main className={styles.main}>
-        <form onSubmit={submit} style={{ maxWidth: 520, width: '100%', display: 'grid', gap: 12 }}>
-          <label>
-            Email
-            <input type="email" value={email} onChange={(e)=>setEmail(e.target.value)} required />
-          </label>
-          <label>
-            Password
-            <input type="password" value={password} onChange={(e)=>setPassword(e.target.value)} required />
-          </label>
-          <button className="btn btn-primary" type="submit">Sign In</button>
-          {msg && <p>{msg}</p>}
-        </form>
-      </main>
+        <div className={styles.authWrap}>
+          <header className={styles.authHeader}>
+            <h1 className={styles.title}>Sign In</h1>
+            <p className={styles.lead}>Access your account to view orders, wishlist and more.</p>
+          </header>
+
+          <div className={styles.authCard}>
+            <form onSubmit={submit} className={styles.authForm} aria-label="Sign in form">
+              <div className={styles.fieldGroup}>
+                <label htmlFor="email" className={styles.fieldLabel}>Email</label>
+                <input
+                  id="email"
+                  className={styles.inputControl}
+                  type="email"
+                  autoComplete="email"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  required
+                />
+              </div>
+
+              <div className={styles.fieldGroup}>
+                <label htmlFor="password" className={styles.fieldLabel}>Password</label>
+                <input
+                  id="password"
+                  className={styles.inputControl}
+                  type="password"
+                  autoComplete="current-password"
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                  required
+                />
+              </div>
+
+              <div className={styles.rowActions}>
+                <label>
+                  <input
+                    type="checkbox"
+                    checked={remember}
+                    onChange={(e) => setRemember(e.target.checked)}
+                  />{' '}
+                  Remember me
+                </label>
+                <Link href="/help" className={styles.linkMuted}>Forgot password?</Link>
+              </div>
+
+              <button className={`btn btn-primary ${styles.submitButton}`} type="submit">Sign In</button>
+              {msg && <p className={styles.metaMsg}>{msg}</p>}
+
+              <p className={styles.smallNote}>
+                New here? <Link href="/register">Create an account</Link>
+              </p>
+            </form>
+          </div>
+        </div>
+      </section>
     </div>
   );
 }
