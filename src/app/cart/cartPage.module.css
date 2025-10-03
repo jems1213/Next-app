@@ -1,0 +1,5 @@
+.noTopPadding { padding-top: 0 !important; }
+
+@media (max-width: 900px) {
+  .noTopPadding { padding-top: 0 !important; }
+}
