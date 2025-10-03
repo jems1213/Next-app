@@ -41,10 +41,12 @@ export default function Hero3D({ src, fallbackImage }: { src: string, fallbackIm
     return () => clearTimeout(timeout);
   }, [ready]);
 
+  const placeholder = fallbackImage || '/next.svg';
+
   if (failed) {
     return (
       <div className={styles.heroModelWrap}>
-        <img src="/next.svg" alt="product preview" className={styles.modelViewerPlaceholder} />
+        <img src={placeholder} alt="product preview" className={styles.modelViewerPlaceholder} />
       </div>
     );
   }
@@ -52,7 +54,7 @@ export default function Hero3D({ src, fallbackImage }: { src: string, fallbackIm
   if (!ready) {
     return (
       <div className={styles.heroModelWrap}>
-        <img src="/next.svg" alt="loading model" className={styles.modelViewerPlaceholder} />
+        <img src={placeholder} alt="loading model" className={styles.modelViewerPlaceholder} />
       </div>
     );
   }
