@@ -23,8 +23,7 @@ import UnhandledRejectionGuard from "../components/UnhandledRejectionGuard";
 import { CartProvider } from "../context/cart";
 import { AuthProvider } from "../context/auth";
 import AnnouncementBar from "../components/AnnouncementBar";
-import dynamic from 'next/dynamic';
-const ToastRoot = dynamic(() => import('../components/Toast'), { ssr: false });
+import ToastClient from "../components/ToastClient";
 
 export default function RootLayout({
   children,
