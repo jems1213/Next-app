@@ -10,7 +10,10 @@
 .accountUserEmail{font-size:13px;color:var(--color-muted)}
 
 /* make nav independently scrollable within sidebar */
-.accountNav{display:flex;flex-direction:column;gap:6px;margin-top:12px;max-height:calc(100vh - (var(--announcement-height,40px) + var(--header-height,72px) + 160px));overflow-y:auto;padding-right:6px;-webkit-overflow-scrolling:touch}
+.sidebarSection{flex:1 1 auto;overflow:hidden;display:flex;flex-direction:column;padding-top:8px}
+.accountNav{display:flex;flex-direction:column;gap:6px;margin-top:8px;overflow-y:auto;padding-right:6px;-webkit-overflow-scrolling:touch}
+.accountNav::-webkit-scrollbar{width:8px}
+.accountNav::-webkit-scrollbar-thumb{background:rgba(255,255,255,0.04);border-radius:8px}
 .navItem{display:flex;align-items:center;padding:10px 12px;background:transparent;border:none;color:var(--foreground);cursor:pointer;border-radius:6px;transition:all 180ms ease;text-align:left;font-size:15px}
 .navItem:hover{background:rgba(255,255,255,0.02)}
 .navIcon{margin-right:10px;font-size:14px;opacity:0.9}
