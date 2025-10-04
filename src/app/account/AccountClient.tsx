@@ -91,7 +91,7 @@ export default function AccountClient() {
     <div className={styles.accountContainer}>
       <aside className={styles.accountSidebar}>
         <div className={styles.userSummary}>
-          <img src={avatar} alt="Avatar" className={styles.userAvatar} />
+          <img src={avatar} alt="User" className={styles.userAvatar} />
           <h3 className={styles.accountUserName}>{mounted ? (user?.name || `${firstName} ${lastName}`.trim()) : `${firstName} ${lastName}`}</h3>
           <p className={styles.accountUserEmail}>{mounted ? (user?.email || email) : email}</p>
         </div>
@@ -128,7 +128,7 @@ export default function AccountClient() {
               <span className={styles.navButtonLabel}>Account Settings</span>
             </button>
 
-            <button onClick={() => { signOut(); try { window.dispatchEvent(new CustomEvent('app-toast', { detail: { message: 'Signed out', type: 'info' } })); } catch(e){} }} className={`${styles.navItem} ${styles.logout}`}>
+            <button onClick={() => { signOut(); try { window.dispatchEvent(new CustomEvent('app-toast', { detail: { message: 'Signed out', type: 'info' } })); } catch(e){} }} className={`${styles.navItem} ${styles.logoutHighlight}`}>
               <svg className={styles.navIconSvg} viewBox="0 0 24 24" aria-hidden focusable="false"><path d="M17 16l4-4m0 0l-4-4m4 4H7" /><path d="M7 8v8" /></svg>
               <span className={styles.navButtonLabel}>Sign Out</span>
             </button>
