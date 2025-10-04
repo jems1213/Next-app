@@ -1,78 +1,78 @@
 .accountContainer{--account-max-width:1100px;display:flex;gap:24px;width:100%;max-width:var(--account-max-width);margin:0 auto;padding:0 16px;align-items:flex-start;position:relative}
 
-/* Reserve space on wide screens so centered content doesn't get overlapped by left sidebar */
 @media (min-width: 1200px) {
-  .accountContainer{padding-left:calc(280px + 48px)}
+  .accountContainer{padding-left:calc(320px + 48px)}
 }
 
-/* Fixed sidebar aligned to the centered container */
-.accountSidebar{width:280px;padding:32px 24px;flex:0 0 280px;align-self:flex-start;position:sticky;left:calc(50% - (var(--container-max) / 2) + 24px);top:0px;z-index:60;background-color: rgb(11, 16, 32);color: rgba(255,255,255,0.9);border-radius:8px;box-shadow: 0 8px 24px rgba(0,0,0,0.35);display:block;overflow:auto;max-height:calc(100vh - (var(--announcement-height, 0px) + var(--header-height, 72px) + 32px))}
+.accountSidebar{width:320px;padding:28px 20px;flex:0 0 320px;align-self:flex-start;position:sticky;left:calc(50% - (var(--container-max) / 2) + 24px);top:0px;z-index:60;background-color: rgb(11, 16, 32);color: rgba(255,255,255,0.95);border-radius:12px;box-shadow: 0 12px 40px rgba(2,6,23,0.6);display:block;overflow:auto;max-height:calc(100vh - 48px)}
 
-/* user summary */
-.userSummary{text-align:center;margin-bottom:18px;padding-bottom:12px;border-bottom:1px solid rgba(255,255,255,0.06);position:sticky;top:12px;z-index:10}
-.userAvatar{width:40px;height:40px;border-radius:50%;object-fit:cover;margin-bottom:8px;border:1.5px solid rgba(255,255,255,0.12);display:inline-block}
-.accountUserName{font-weight:700;color:rgba(255,255,255,0.9);font-size:15.2px;margin-top:8px}
-.accountUserEmail{font-size:13.6px;color:rgba(255,255,255,0.7);margin-top:3px}
+/* Collapsed sidebar */
+.sidebarCollapsed{width:84px;padding-left:12px;padding-right:12px}
 
-/* sidebar section: nav flows with page scroll (no internal scrollbar) */
-.sidebarSection{flex:0 0 auto;overflow:visible;display:block;padding-top:8px}
+.sidebarTop{display:flex;align-items:center;justify-content:space-between;margin-bottom:12px}
+.userSummaryCompact{display:flex;align-items:center;gap:12px}
+.userAvatar{width:40px;height:40px;border-radius:50%;object-fit:cover;border:2px solid rgba(255,255,255,0.06);flex-shrink:0}
+.userMeta{display:flex;flex-direction:column}
+.accountUserName{font-weight:700;color:rgba(255,255,255,0.95);font-size:15.2px}
+.accountUserEmail{font-size:13px;color:rgba(255,255,255,0.68)}
+
+.collapseToggle{background:transparent;border:none;color:rgba(255,255,255,0.7);cursor:pointer;padding:8px;border-radius:8px}
+.collapseToggle:hover{background:rgba(255,255,255,0.02)}
+
 .accountNav{display:flex;flex-direction:column;gap:8px;margin-top:12px;padding-right:6px;scroll-padding-top:20px}
+.navItem{display:flex;align-items:center;padding:12px 14px;background:transparent;border:none;color:rgba(255,255,255,0.92);cursor:pointer;border-radius:10px;transition:transform 150ms ease, background 150ms ease;text-align:left;font-size:15px;margin-left:8px;margin-right:8px}
+.navItem:hover{transform:translateX(4px);background:rgba(255,255,255,0.02)}
+.navLabel{flex:1}
+.navIconSvg{width:18px;height:18px;flex:0 0 18px;display:inline-block;stroke:currentColor;fill:none;opacity:0.95;margin-right:12px}
+.navActive{background:linear-gradient(90deg, rgba(199,180,100,0.12), rgba(199,180,100,0.06));box-shadow:inset 0 0 0 1px rgba(199,180,100,0.06);transform:none}
+.logoutHighlight{color:rgb(255,107,107);border-color:rgb(255,107,107)}
+.navDivider{height:1px;background:rgba(255,255,255,0.03);margin:12px 8px;border-radius:2px}
 
-/* navigation button (refined names) */
-.navItem{display:flex;align-items:center;padding:12px 16px;background:transparent;border:none;color:rgba(255,255,255,0.9);cursor:pointer;border-radius:5px;transition:all 180ms ease;text-align:left;font-size:15.2px;margin-left:12px;margin-right:12px}
-.navItem:hover{background:rgba(255,255,255,0.03)}
-.navIcon{margin-right:12px;font-size:16px;opacity:0.95}
-.active{background:rgba(255,255,255,0.03);font-weight:700}
-.logout{margin-top:8px;color:var(--accent)}
-.logoutHighlight{margin-top:16px;color:rgb(255,107,107);border-color:rgb(255,107,107)}
-.navButton{display:flex;align-items:center;gap:10px;width:100%;box-sizing:border-box;text-align:left}
-.navButtonLabel{flex:1}
-.navButtonActive{background:rgba(255,255,255,0.02);font-weight:700}
+.sidebarFooter{margin-top:18px;padding-top:8px;border-top:1px solid rgba(255,255,255,0.03);display:flex;flex-direction:column;gap:6px}
+.smallMuted{color:rgba(255,255,255,0.6);font-size:12px}
+.smallMutedBold{font-weight:700;color:rgba(255,255,255,0.9)}
 
-/* SVG icon styling for sidebar nav */
-.navIconSvg{width:18px;height:18px;flex:0 0 18px;display:inline-block;stroke:currentColor;fill:none;opacity:0.95}
-
-/* Account header inside sidebar */
-.accountHeader{display:flex;align-items:center;gap:12px;margin-bottom:18px}
-.accountAvatarCircle{width:56px;height:56px;border-radius:999px;background:#CFB464;display:flex;align-items:center;justify-content:center;color:#0b1020;font-weight:800;font-size:18px}
-.accountUserName{font-weight:800}
-.accountUserEmail{font-size:13px;color:var(--color-muted)}
-
-/* Keep a compact nav variant preserved */
-.accountNav{display:flex;flex-direction:column;gap:8px}
-.navButton:hover{background:rgba(255,255,255,0.02)}
-
-/* Content area */
 .accountContent{flex:1;min-height:420px;margin-left:0;padding-left:12px;transition:height 260ms ease;overflow:visible;position:relative}
 @media (min-width: 1200px) {
-  /* keep a visual offset so content remains centered while reserving left sidebar */
   .accountContent{max-width:var(--account-max-width);margin:0 auto;padding-left:12px}
 }
+
+.panelCard{background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));border-radius:12px;padding:20px;box-shadow: 0 8px 30px rgba(2,6,23,0.35);transition:transform 220ms ease, box-shadow 220ms ease}
+.panelCard:hover{transform:translateY(-4px);box-shadow: 0 16px 40px rgba(2,6,23,0.45)}
+.panelHeader{display:flex;align-items:center;justify-content:space-between;margin-bottom:12px}
+.panelTitle{font-size:20px;margin:0}
+.panelActions{display:flex;gap:8px}
+
+.fadeOut{animation:fadeOut 200ms forwards}
+.fadeIn{animation:fadeIn 280ms forwards}
+@keyframes fadeOut{from{opacity:1;transform:translateY(0)}to{opacity:0;transform:translateY(-6px)}}
+@keyframes fadeIn{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:translateY(0)}}
+
 .contentInner{transition:opacity 180ms ease}
-.panelTitle{margin-top:0}
-.profileForm{display:grid;gap:12px;max-width:660px}
+
+.profileForm{display:grid;gap:12px;max-width:720px}
 .formRow{display:flex;gap:12px}
 .formLabel{display:flex;flex-direction:column;font-size:14px}
-.input{padding:10px 12px;border-radius:8px;border:1px solid var(--muted-border);background:rgba(255,255,255,0.02);color:var(--foreground)}
+.input{padding:10px 12px;border-radius:10px;border:1px solid rgba(255,255,255,0.04);background:transparent;color:var(--foreground)}
 .mutedText{color:var(--color-muted);font-size:13px}
 .formActions{display:flex;gap:8px;margin-top:6px}
-.orderCard{padding:12px;border-radius:8px;background:linear-gradient(180deg, rgba(255,255,255,0.01), transparent);display:flex;justify-content:space-between;align-items:center}
-.orderList{display:grid;gap:12px}
-.btn{padding:8px 10px;border-radius:8px;border:1px solid var(--muted-border);background:transparent;color:var(--foreground);cursor:pointer}
-.btnPrimary{background:#CFB464;color:#0b1020;border:none}
 
-/* Responsive adjustments */
-@media (max-width:900px){.accountContainer{flex-direction:column}.accountSidebar{position:static;width:100%;border-right:none;border-bottom:1px solid rgba(255,255,255,0.03);padding-right:0;padding-bottom:12px}.accountContent{margin-left:0;padding-left:0}}
+.orderList{display:grid;gap:12px;margin-top:8px}
+.orderCard{padding:12px;border-radius:10px;background:linear-gradient(180deg, rgba(255,255,255,0.01), transparent);display:flex;justify-content:space-between;align-items:center}
+.orderMeta{font-weight:800}
+.orderMetaSmall{color:var(--color-muted);font-size:13px}
+.orderActions{display:flex;gap:8px}
 
-/* New helper classes - convert inline styles to classes */
+.btn{padding:8px 12px;border-radius:8px;border:1px solid rgba(255,255,255,0.04);background:transparent;color:var(--foreground);cursor:pointer}
+.btnPrimary{background:linear-gradient(90deg, var(--color-accent-600), var(--color-accent));color:var(--background);border:none}
+.smallUnderlineLink{text-decoration:underline}
+
+@media (max-width:900px){.accountContainer{flex-direction:column;gap:12px}.accountSidebar{position:static;width:100%;border-right:none;border-bottom:1px solid rgba(255,255,255,0.03);padding-right:0;padding-bottom:12px;border-radius:0}.sidebarCollapsed{width:100%}.accountContent{margin-left:0;padding-left:0}}
+
 .formLabelHalf{flex:1}
 .placeholderBox{height:220}
-.orderMeta{font-weight:800}
-.orderMetaSmall{color:var(--color-muted);font-size:13px;margin-top:4px}
-.orderActions{display:flex;gap:8px}
-.smallUnderlineLink{text-decoration:underline}
+.spacedTop{margin-top:8px}
 .centerPadded{padding-top:24px;padding-bottom:24px}
 .checkboxRow{display:flex;align-items:center;gap:8px}
-.spacedTop{margin-top:8px}
 
-/* keep any existing selector names for compatibility */
+/* compatibility selectors kept */
