@@ -10,7 +10,7 @@ import { BRAND } from '../lib/site';
 export default function Navbar() {
   const router = useRouter();
   const pathname = usePathname();
-  const { totalQuantity } = useCart();
+  const { totalQuantity, savedItems } = useCart();
   const [mounted, setMounted] = React.useState(false);
   const [scrolled, setScrolled] = React.useState(false);
 
