@@ -8,12 +8,12 @@ export default function AccountClient() {
   const { user, update, signOut } = useAuth();
   const { savedItems, addItem } = useCart();
   const [tab, setTab] = useState<'profile'|'orders'|'wishlist'|'address'|'payment'|'settings'>('profile');
-  // Defer user-dependent state until after client mount to avoid SSR/CSR hydration mismatch
+  // Show sensible defaults server-side so the sidebar is populated immediately
   const [mounted, setMounted] = useState(false);
-  const [firstName, setFirstName] = useState('');
-  const [lastName, setLastName] = useState('');
-  const [email, setEmail] = useState('');
-  const [avatar, setAvatar] = useState('');
+  const [firstName, setFirstName] = useState('javiyajems');
+  const [lastName, setLastName] = useState('Jems');
+  const [email, setEmail] = useState('javiyajems@gmail.com');
+  const [avatar, setAvatar] = useState('https://ui-avatars.com/api/?name=javiyajems&background=111827&color=ffffff&size=64');
   const [orders, setOrders] = useState<any[] | null>(null);
 
   React.useEffect(() => {
@@ -30,16 +30,10 @@ export default function AccountClient() {
     setMounted(true);
     if (user) {
       const parts = (user.name || '').split(' ');
-      setFirstName(parts[0] || '');
-      setLastName(parts[1] || '');
-      setEmail(user.email || '');
-      setAvatar(user.avatar || '');
-    } else {
-      // keep same friendly defaults after mount
-      setFirstName('Javiya');
-      setLastName('Jems');
-      setEmail('javiyajems@gmail.com');
-      setAvatar('');
+      setFirstName(parts[0] || firstName);
+      setLastName(parts[1] || lastName);
+      setEmail(user.email || email);
+      setAvatar(user.avatar || avatar);
     }
   }, [user]);
 
