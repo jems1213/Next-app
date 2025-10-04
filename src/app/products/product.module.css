@@ -85,7 +85,20 @@
   color: var(--accent);
 }
 
-.description { color: var(--color-muted); max-height: 5.4em; overflow: hidden; transition: max-height 220ms ease; }
+.description { color: var(--color-muted); max-height: 5.4em; overflow: hidden; transition: max-height 220ms ease; position: relative; }
+
+/* When collapsed, add a subtle fade overlay to hide the abrupt cut-off */
+.description:not(.descriptionExpanded)::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 3.2rem; /* covers the bottom area where text would be cut */
+  background: linear-gradient(180deg, rgba(11,17,32,0), var(--surface));
+  pointer-events: none;
+  z-index: 1;
+}
 
 .descriptionExpanded { max-height: 200vh; /* effectively unlimited for practical purposes */ }
 
@@ -98,6 +111,8 @@
   font-weight: 700;
   cursor: pointer;
   padding: 6px 8px;
+  position: relative;
+  z-index: 2; /* sit above the overlay */
 }
 
 .controls { display: flex; flex-direction: row; gap: 12px; align-items: center; margin-top: 6px; }
