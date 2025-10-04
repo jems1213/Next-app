@@ -63,24 +63,45 @@ export default function Navbar() {
             </Link>
 
             {user ? (
-              <div style={{ position: 'relative' }}>
-                <button aria-label="Account" className={styles.iconButton} onClick={() => setMenuOpen((s) => !s)}>
-                  <img src={user.avatar} alt={user.name} style={{ width: 36, height: 36, borderRadius: 999 }} />
+              <div className={styles.accountAvatarButton}>
+                <button aria-label="Account" className={`${styles.iconButton} ${styles.accountAvatarBtn}`} onClick={() => setMenuOpen((s) => !s)}>
+                  <div className={styles.accountAvatar}>
+                    {user.avatar ? <img src={user.avatar} alt={user.name} /> : <span aria-hidden>{user.name?.charAt(0)?.toUpperCase()}</span>}
+                  </div>
                 </button>
 
                 {menuOpen ? (
-                  <div style={{ position: 'absolute', right: 0, top: 44, background: 'var(--surface)', border: '1px solid var(--muted-border)', borderRadius: 8, padding: 8, minWidth: 180, zIndex: 80 }}>
-                    <div style={{ padding: '8px 10px', borderBottom: '1px solid rgba(255,255,255,0.03)' }}>
-                      <div style={{ fontWeight: 800 }}>{user.name}</div>
-                      <div style={{ color: 'var(--color-muted)', fontSize: 12 }}>{user.email}</div>
+                  <div className={styles.accountMenu}>
+                    <div className={styles.accountHeader}>
+                      <div className={styles.accountName}>{user.name}</div>
+                      <div className={styles.accountEmail}>{user.email}</div>
                     </div>
 
-                    <div style={{ display: 'flex', flexDirection: 'column', gap: 6, padding: 8 }}>
-                      <Link href="/account">My Account</Link>
-                      <Link href="/orders">My Orders</Link>
-                      <Link href="/wishlist">Wishlist</Link>
-                      <Link href="/cart">Cart</Link>
-                      <button onClick={() => { signOut(); setMenuOpen(false); }} style={{ marginTop: 8, padding: '8px 10px', borderRadius: 8, border: '1px solid var(--muted-border)', background: 'transparent' }}>Sign Out</button>
+                    <div className={styles.accountMenuList}>
+                      <Link href="/account" className={styles.accountMenuItem} onClick={() => setMenuOpen(false)}>
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5"><path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4z" /><path d="M6 20v-1c0-2.2 3.134-4 6-4s6 1.8 6 4v1" /></svg>
+                        <span>My Account</span>
+                      </Link>
+
+                      <Link href="/orders" className={styles.accountMenuItem} onClick={() => setMenuOpen(false)}>
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5"><path d="M3 7h18" /><path d="M6 7v13" /><path d="M18 7v13" /><path d="M9 7v13" /></svg>
+                        <span>My Orders</span>
+                      </Link>
+
+                      <Link href="/wishlist" className={styles.accountMenuItem} onClick={() => setMenuOpen(false)}>
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z" /></svg>
+                        <span>Wishlist</span>
+                      </Link>
+
+                      <Link href="/cart" className={styles.accountMenuItem} onClick={() => setMenuOpen(false)}>
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5"><path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z" /><line x1="3" y1="6" x2="21" y2="6" /></svg>
+                        <span>Cart</span>
+                      </Link>
+
+                      <button onClick={() => { signOut(); setMenuOpen(false); }} className={styles.accountMenuItem}>
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5"><path d="M17 16l4-4m0 0l-4-4m4 4H7" /><path d="M7 8v8" /></svg>
+                        <span>Sign Out</span>
+                      </button>
                     </div>
                   </div>
                 ) : null}
