@@ -23,6 +23,7 @@ import UnhandledRejectionGuard from "../components/UnhandledRejectionGuard";
 import { CartProvider } from "../context/cart";
 import { AuthProvider } from "../context/auth";
 import AnnouncementBar from "../components/AnnouncementBar";
+import ToastRoot from "../components/Toast";
 
 export default function RootLayout({
   children,
