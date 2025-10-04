@@ -200,6 +200,8 @@
 /* --- Premium footer additions (Kharido) --- */
 
 .k-footer {
+  position: relative;
+  z-index: 20;
   background: var(--brand-dark, #101428);
   color: #ffffff;
   padding: 64px 20px;
@@ -274,7 +276,7 @@
 /* end premium footer */
 
 /* Compact footer variant */
-.k-footer { padding:32px 16px; }
+.k-footer { position: relative; z-index: 20; padding:32px 16px; }
 .k-footerGrid { grid-template-columns: repeat(4, auto); gap:16px; }
 .k-footerColTitle { font-size:13px; margin-bottom:8px; }
 .k-brandIntro { display:none; }
@@ -399,6 +401,71 @@
   gap: 16px;
   align-items: center;
 }
+
+/* Account avatar & menu styles */
+.accountAvatarButton {
+  position: relative;
+}
+
+.accountAvatarBtn {
+  padding: 0;
+  background: transparent;
+  border: none;
+  border-radius: 50%;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+.accountAvatarBtn:focus { outline: 2px solid rgba(207,180,100,0.16); outline-offset: 2px; }
+
+.accountAvatar {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background: #CFB464;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  color: #0b1020;
+  font-weight: 700;
+  overflow: hidden;
+  border: 2px solid rgba(0,0,0,0.06);
+}
+
+.accountAvatar img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  border-radius: 50%;
+}
+
+.accountMenu {
+  position: absolute;
+  right: 0;
+  top: 44px;
+  background: var(--surface);
+  border: 1px solid var(--muted-border);
+  border-radius: 8px;
+  padding: 8px;
+  min-width: 220px;
+  z-index: 80;
+  box-shadow: 0 8px 30px rgba(11,17,32,0.12);
+}
+
+.accountHeader {
+  padding: 8px 10px;
+  border-bottom: 1px solid rgba(255,255,255,0.03);
+}
+
+.accountName { font-weight: 800; }
+.accountEmail { color: var(--color-muted); font-size: 12px; }
+
+.accountMenuList { display: flex; flex-direction: column; gap: 6px; padding: 8px; }
+
+.accountMenuItem { display: flex; gap: 10px; align-items: center; padding: 8px; border-radius: 6px; color: var(--foreground); text-decoration: none; background: transparent; border: none; }
+.accountMenuItem:hover { background: rgba(255,255,255,0.02); }
+.accountMenuItem svg { width: 18px; height: 18px; color: #CFB464; flex: 0 0 18px; }
 
 .iconButton {
   display: inline-flex;

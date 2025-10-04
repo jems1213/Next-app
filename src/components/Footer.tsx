@@ -34,7 +34,7 @@ export default function Footer() {
               <span aria-hidden style={{ fontSize: 48, lineHeight: '48px', marginRight: 12 }}>👟</span>
               <div>
                 <h3 style={{ margin: 0, fontSize: 20, fontWeight: 800 }}>{BRAND}</h3>
-                <p style={{ color: 'rgb(159,179,209)', marginTop: 6, maxWidth: 320 }}>Your destination for curated sneakers — new drops, classics and exclusive collabs.</p>
+                <p style={{ color: 'rgb(159,179,209)', marginTop: 6, maxWidth: 320 }}>{"Your destination for curated sneakers \u2014 new drops, classics and exclusive collabs."}</p>
               </div>
             </div>
           </div>
@@ -94,7 +94,7 @@ export default function Footer() {
           <div style={{ color: 'rgb(159,179,209)', fontSize: 14 }}>
             <span>© {BRAND} </span>
             <span>2025</span>
-            <span> — All rights reserved.</span>
+            <span>{" \u2014 All rights reserved."}</span>
           </div>
 
           <div style={{ display: 'flex', gap: 12 }}>

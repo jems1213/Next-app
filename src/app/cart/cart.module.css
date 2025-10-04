@@ -1,4 +1,7 @@
-.cartContainer { display: grid; grid-template-columns: 1fr 360px; gap: 28px; align-items: start; padding: 18px; }
+.cartContainer { display: grid; grid-template-columns: 1fr 360px; gap: 28px; align-items: start; padding: 18px; width: 100%; }
+
+/* Make header span both columns so title sits above the columns */
+.headerRow { grid-column: 1 / -1; display:flex; justify-content:space-between; align-items:center; margin-bottom:8px; }
 
 @media (max-width: 900px) { .cartContainer { grid-template-columns: 1fr; } }
 
@@ -11,6 +14,9 @@
 .itemsList { list-style:none; margin:0; padding:0; display:flex; flex-direction:column; gap:12px; }
 .itemRow { display:flex; gap:12px; align-items:center; background:linear-gradient(180deg, rgba(255,255,255,0.01), transparent); border-radius:12px; padding:12px; border:1px solid rgba(255,255,255,0.03); }
 @media (max-width:900px) { .itemRow { flex-direction:row; } }
+
+/* Ensure the right column stays visible and aligned like a payment panel */
+.rightColumn { background:linear-gradient(180deg, rgba(255,255,255,0.02), transparent); padding:12px; border-radius:12px; border:1px solid rgba(255,255,255,0.03); position:sticky; top:120px; align-self:start; }
 
 .itemMedia { width:72px; height:72px; flex:0 0 72px; display:flex; align-items:center; justify-content:center; }
 .itemImage { width:72px; height:72px; object-fit:cover; border-radius:8px; }
@@ -67,3 +73,20 @@
 .emptyTitle { font-size:20px; font-weight:800; }
 .emptyLead { color:var(--color-muted); }
 .browseButton { background:var(--accent); color:white; padding:10px 14px; border-radius:10px; text-decoration:none; }
+
+/* Custom select wrapper to allow styled arrow and match theme */
+.selectWrap { position: relative; display: inline-block; width: 100%; }
+.selectWrap .input { -webkit-appearance: none; -moz-appearance: none; appearance: none; padding-right: 40px; background: rgba(255,255,255,0.01); color: var(--foreground); border: 1px solid var(--muted-border); }
+.selectWrap:after { content: ""; position: absolute; right: 12px; top: 50%; transform: translateY(-50%); width: 0; height: 0; border-left: 6px solid transparent; border-right: 6px solid transparent; border-top: 8px solid #CFB464; pointer-events: none; }
+
+/* Category select style (match home page filter) */
+.categorySelect { padding: 8px 10px; border-radius: 10px; border: 1px solid var(--muted-border); background: rgba(255,255,255,0.02); color: #ffffff; appearance: none; -webkit-appearance: none; -moz-appearance: none; min-width: 160px; background-image: linear-gradient(45deg, transparent 50%, rgba(255,255,255,0.6) 50%), linear-gradient(135deg, rgba(255,255,255,0.6) 50%, transparent 50%); background-position: calc(100% - 18px) calc(1em + 2px), calc(100% - 13px) calc(1em + 2px); background-size: 6px 6px, 6px 6px; background-repeat: no-repeat; padding-right: 36px; }
+.categorySelect:focus { outline: 2px solid var(--accent); outline-offset: 1px; }
+.categorySelect option { background: var(--surface); color: #ffffff; }
+
+/* Make apply and estimate buttons match new accent color */
+.applyButton { background: #CFB464; color: #0b1020; padding: 8px 10px; border-radius: 8px; border: none; }
+.estimateButton { background: #0b1020; color: #CFB464; border: 1px solid rgba(255,255,255,0.06); padding: 8px 10px; border-radius: 8px; }
+
+/* Focus styles */
+.input:focus { outline: 2px solid rgba(207,180,100,0.16); outline-offset: 2px; }

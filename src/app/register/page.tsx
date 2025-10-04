@@ -3,6 +3,8 @@ import React, { useState } from 'react';
 import pageStyles from '../page.module.css';
 import styles from '../login/login.module.css';
 import Link from 'next/link';
+import { useRouter } from 'next/navigation';
+import { useAuth } from '../../context/auth';
 
 export default function RegisterPage() {
   const [firstName, setFirstName] = useState('');
@@ -12,8 +14,10 @@ export default function RegisterPage() {
   const [confirmPassword, setConfirmPassword] = useState('');
   const [msg, setMsg] = useState('');
   const [error, setError] = useState('');
+  const router = useRouter();
+  const { signIn, update } = useAuth();
 
-  function submit(e: React.FormEvent) {
+  async function submit(e: React.FormEvent) {
     e.preventDefault();
     setError('');
 
@@ -27,15 +31,24 @@ export default function RegisterPage() {
       return;
     }
 
-    // Demo success
-    setMsg('Account created (demo). You can now sign in.');
+    try {
+      // Demo: create account and sign in
+      await signIn(email, password);
+      // set provided name
+      update({ name: `${firstName.trim()} ${lastName.trim()}`.trim() });
+      setMsg('Account created (demo). Redirecting...');
+      // redirect to home
+      router.push('/');
+    } catch (e) {
+      setError('Failed to create account');
+    }
   }
 
   const canSubmit = firstName.trim() && lastName.trim() && email.trim() && password && confirmPassword && password === confirmPassword;
 
   return (
     <div className={`${pageStyles.page} ${pageStyles.pageCompact}`}>
-      <section className={styles.authSection}>
+      <section className={styles.authSection} style={{ paddingTop: 120 }}>
         <div className={styles.backdrop} />
         <div className={styles.orbit} />
         <span className={styles.spark} />

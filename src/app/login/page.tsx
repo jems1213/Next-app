@@ -1,5 +1,7 @@
 "use client";
 import React, { useState } from 'react';
+import { useRouter } from 'next/navigation';
+import { useAuth } from '../../context/auth';
 import pageStyles from '../page.module.css';
 import styles from './login.module.css';
 import Link from 'next/link';
@@ -9,10 +11,18 @@ export default function LoginPage() {
   const [password, setPassword] = useState('');
   const [remember, setRemember] = useState(true);
   const [msg, setMsg] = useState('');
+  const router = useRouter();
+  const { signIn } = useAuth();
 
-  function submit(e: React.FormEvent) {
+  async function submit(e: React.FormEvent) {
     e.preventDefault();
-    setMsg('Signed in (demo).');
+    try {
+      await signIn(email, password);
+      setMsg('Signed in (demo).');
+      router.push('/');
+    } catch (err) {
+      setMsg('Sign in failed.');
+    }
   }
 
   return (

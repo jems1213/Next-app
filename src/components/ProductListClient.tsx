@@ -53,6 +53,9 @@ export default function ProductListClient({ products }: { products: any[] }) {
 
   function handleAdd(p: any, btnRef: HTMLButtonElement | null) {
     addItem({ id: p.id, title: p.title, price: p.price, image: p.image });
+    try {
+      window.dispatchEvent(new CustomEvent('app-toast', { detail: { message: `${p.title} added to cart.`, type: 'success' } }));
+    } catch (e) {}
     if (btnRef) {
       btnRef.classList.add('pulse');
       setTimeout(() => btnRef.classList.remove('pulse'), 360);
