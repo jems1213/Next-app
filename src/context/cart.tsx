@@ -19,6 +19,7 @@ type CartContextValue = {
   totalQuantity: number;
   saveForLater: (id: number) => void;
   addToSaved: (item: Omit<CartItem, "quantity">) => void;
+  removeFromSaved: (id: number) => void;
   moveToCart: (id: number, qty?: number) => void;
 };
 
