@@ -73,3 +73,15 @@
 .emptyTitle { font-size:20px; font-weight:800; }
 .emptyLead { color:var(--color-muted); }
 .browseButton { background:var(--accent); color:white; padding:10px 14px; border-radius:10px; text-decoration:none; }
+
+/* Custom select wrapper to allow styled arrow and match theme */
+.selectWrap { position: relative; display: inline-block; width: 100%; }
+.selectWrap .input { -webkit-appearance: none; -moz-appearance: none; appearance: none; padding-right: 40px; background: rgba(255,255,255,0.01); color: var(--foreground); border: 1px solid var(--muted-border); }
+.selectWrap:after { content: ""; position: absolute; right: 12px; top: 50%; transform: translateY(-50%); width: 0; height: 0; border-left: 6px solid transparent; border-right: 6px solid transparent; border-top: 8px solid #CFB464; pointer-events: none; }
+
+/* Make apply and estimate buttons match new accent color */
+.applyButton { background: #CFB464; color: #0b1020; padding: 8px 10px; border-radius: 8px; border: none; }
+.estimateButton { background: #0b1020; color: #CFB464; border: 1px solid rgba(255,255,255,0.06); padding: 8px 10px; border-radius: 8px; }
+
+/* Focus styles */
+.input:focus { outline: 2px solid rgba(207,180,100,0.16); outline-offset: 2px; }
