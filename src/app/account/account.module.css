@@ -1,0 +1,42 @@
+.container{--account-max-width:1100px;display:flex;gap:24px;width:100%;max-width:var(--account-max-width);margin:0 auto;padding:0 16px;align-items:flex-start;position:relative}
+.sidebar{width:280px;background:var(--sidebar-bg, rgb(11,16,32));color:var(--sidebar-color, rgba(255,255,255,0.9));padding:24px;border-radius:8px}
+.sidebarHeader{display:flex;gap:12px;align-items:center;margin-bottom:12px}
+.avatar{width:40px;height:40px;border-radius:50%;object-fit:cover;border:1px solid rgba(255,255,255,0.12)}
+.userMeta{display:flex;flex-direction:column}
+.userName{font-weight:700}
+.userEmail{color:rgba(255,255,255,0.7);font-size:13px}
+.nav{display:flex;flex-direction:column;gap:8px;margin-top:8px}
+.navItem{background:transparent;border:0;color:inherit;padding:12px 16px;text-align:left;border-radius:6px;cursor:pointer;font-weight:500}
+.navItem:hover{background:rgba(255,255,255,0.03)}
+.active{background:rgba(255,255,255,0.06)}
+.divider{height:1px;background:rgba(255,255,255,0.04);margin:12px 0}
+.logout{color:rgb(255,107,107)}
+.sidebarFooter{margin-top:18px;color:rgba(255,255,255,0.7);font-size:13px}
+.memberSinceLabel{font-size:12px}
+.memberSince{font-weight:700}
+.content{flex:1;min-height:320px}
+.card{background:#fff;border-radius:8px;padding:24px;box-shadow:rgba(0,0,0,0.04) 0 2px 10px}
+.cardTitle{font-size:20px;margin-bottom:16px}
+.form{display:flex;flex-direction:column;gap:12px}
+.label{display:flex;flex-direction:column;gap:8px;font-weight:500}
+.labelHalf{flex:1}
+.row{display:flex;gap:12px}
+.input{padding:10px 12px;border-radius:8px;border:1px solid rgba(11,16,32,0.06)}
+.formActions{display:flex;justify-content:flex-end}
+.saveButton{background:rgb(11,16,32);color:#fff;padding:10px 14px;border-radius:8px;border:0;font-weight:700}
+.summary{margin-top:18px;border-top:1px solid rgba(0,0,0,0.06);padding-top:18px}
+.summaryAvatar img{width:64px;height:64px;border-radius:8px;object-fit:cover}
+.summaryName{font-weight:700;margin-top:8px}
+.summaryEmail{color:rgba(0,0,0,0.6);font-size:13px}
+.stats{display:flex;gap:8px;margin-top:12px}
+.stat{background:rgba(0,0,0,0.04);padding:6px 8px;border-radius:8px;font-weight:600}
+.quickLinks{display:flex;flex-direction:column;gap:8px;margin-top:12px}
+.quickLink{background:transparent;border:1px solid rgba(11,16,32,0.06);padding:8px 12px;border-radius:8px;cursor:pointer}
+.muted{color:rgba(0,0,0,0.6)}
+.center{text-align:center}
+.ordersList{display:flex;flex-direction:column;gap:12px}
+.orderCard{display:flex;justify-content:space-between;align-items:center;padding:12px;border-radius:8px;border:1px solid rgba(0,0,0,0.04)}
+.orderMetaSmall{color:rgba(0,0,0,0.6);font-size:13px}
+.orderActions{display:flex;gap:8px}
+.underLink{background:transparent;border:0;color:var(--link, rgb(11,16,32));text-decoration:underline}
+.btnPrimary{background:rgb(11,16,32);color:#fff;padding:8px 12px;border-radius:8px;border:0}
