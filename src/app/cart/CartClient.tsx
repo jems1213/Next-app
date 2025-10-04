@@ -145,7 +145,7 @@ export default function CartClient({ initialItems }: { initialItems?: any[] }) {
         <div className={styles.shippingRow}>
           <div className={styles.shippingTitle}>Estimate shipping</div>
           <div className={styles.selectWrap}>
-            <select className={`${styles.input} ${styles.select}`} value={shippingCountry} onChange={(e) => setShippingCountry(e.target.value)}>
+            <select className={`${styles.input} ${styles.categorySelect}`} value={shippingCountry} onChange={(e) => setShippingCountry(e.target.value)}>
               <option value="US">United States</option>
               <option value="CA">Canada</option>
               <option value="GB">United Kingdom</option>
