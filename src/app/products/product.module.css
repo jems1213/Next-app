@@ -85,7 +85,20 @@
   color: var(--accent);
 }
 
-.description { color: var(--color-muted); max-height: 5.4em; overflow: hidden; }
+.description { color: var(--color-muted); max-height: 5.4em; overflow: hidden; transition: max-height 220ms ease; }
+
+.descriptionExpanded { max-height: 200vh; /* effectively unlimited for practical purposes */ }
+
+.descriptionToggle {
+  margin-top: 8px;
+  display: inline-block;
+  background: transparent;
+  border: none;
+  color: var(--accent);
+  font-weight: 700;
+  cursor: pointer;
+  padding: 6px 8px;
+}
 
 .controls { display: flex; flex-direction: row; gap: 12px; align-items: center; margin-top: 6px; }
 
