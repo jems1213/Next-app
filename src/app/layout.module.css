@@ -406,8 +406,15 @@
 }
 
 .accountAvatarBtn {
-  padding: 4px;
+  padding: 0;
+  background: transparent;
+  border: none;
+  border-radius: 50%;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
 }
+.accountAvatarBtn:focus { outline: 2px solid rgba(207,180,100,0.16); outline-offset: 2px; }
 
 .accountAvatar {
   width: 36px;
