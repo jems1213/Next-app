@@ -50,10 +50,6 @@ export default async function ProductPage(props: { params: { id: string } }) {
                 {/* @ts-ignore Server -> Client prop */}
                 <ProductDetailClient product={product} />
 
-                <div className={productStyles.buttons}>
-                  <button className={`btn btn-primary ${productStyles.animatedButton}`} aria-label="Buy now">Buy now</button>
-                  <button className={`btn ${productStyles.ghostButton} ${productStyles.animatedButton}`} aria-label="Add to wishlist">Add to wishlist</button>
-                </div>
               </div>
             </div>
           </div>
