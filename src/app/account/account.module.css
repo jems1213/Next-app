@@ -71,5 +71,6 @@
 .orderActions{display:flex;gap:8px}
 .smallUnderlineLink{text-decoration:underline}
 .centerPadded{padding-top:24px;padding-bottom:24px}
+.checkboxRow{display:flex;align-items:center;gap:8px}
 
 /* keep any existing selector names for compatibility */
