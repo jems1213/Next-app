@@ -532,6 +532,7 @@ a.secondary {
 }
 
 .heroTitle {
+  padding-top: 100px;
   font-size: 40px;
   line-height: 1.02;
   font-weight: 800;
