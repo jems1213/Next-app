@@ -1,10 +1,10 @@
-.accountContainer{--account-max-width:1100px;display:flex;gap:24px;width:100%;max-width:var(--account-max-width);margin:0 auto;padding:0 16px;align-items:flex-start}
 .accountContainer{--account-max-width:1100px;display:flex;gap:24px;width:100%;max-width:var(--account-max-width);margin:0 auto;padding:0 16px;align-items:flex-start;position:relative}
 
 /* Reserve space on wide screens so centered content doesn't get overlapped by left sidebar */
 @media (min-width: 1200px) {
   .accountContainer{padding-left:calc(280px + 48px)}
 }
+
 /* Fixed sidebar aligned to the centered container */
 .accountSidebar{width:280px;padding:18px 16px;flex:0 0 280px;align-self:flex-start;position:sticky;left:calc(50% - (var(--container-max) / 2) + 24px);top:calc(var(--announcement-height, 0px) + var(--header-height, 72px));z-index:60;background: linear-gradient(180deg, rgba(11,17,32,0.95), rgba(11,17,32,0.9));border-radius:8px;box-shadow: 0 8px 24px rgba(0,0,0,0.35);display:block;overflow:visible}
 
@@ -17,21 +17,31 @@
 /* sidebar section: nav flows with page scroll (no internal scrollbar) */
 .sidebarSection{flex:0 0 auto;overflow:visible;display:block;padding-top:8px}
 .accountNav{display:flex;flex-direction:column;gap:6px;margin-top:12px;padding-right:6px}
+
+/* navigation button (refined names) */
 .navItem{display:flex;align-items:center;padding:10px 12px;background:transparent;border:none;color:var(--foreground);cursor:pointer;border-radius:6px;transition:all 180ms ease;text-align:left;font-size:15px}
 .navItem:hover{background:rgba(255,255,255,0.02)}
 .navIcon{margin-right:10px;font-size:14px;opacity:0.9}
 .active{background:rgba(255,255,255,0.02);font-weight:700}
 .logout{margin-top:8px;color:var(--accent)}
-.navButton{display:block;width:100%;box-sizing:border-box;text-align:left}
-.navButtonActive{width:100%}
+.navButton{display:flex;align-items:center;gap:10px;width:100%;box-sizing:border-box;text-align:left}
+.navButtonLabel{flex:1}
+.navButtonActive{background:rgba(255,255,255,0.02);font-weight:700}
+
+/* SVG icon styling for sidebar nav */
+.navIconSvg{width:18px;height:18px;flex:0 0 18px;display:inline-block;stroke:currentColor;fill:none;opacity:0.95}
+
+/* Account header inside sidebar */
 .accountHeader{display:flex;align-items:center;gap:12px;margin-bottom:18px}
 .accountAvatarCircle{width:56px;height:56px;border-radius:999px;background:#CFB464;display:flex;align-items:center;justify-content:center;color:#0b1020;font-weight:800;font-size:18px}
 .accountUserName{font-weight:800}
 .accountUserEmail{font-size:13px;color:var(--color-muted)}
+
+/* Keep a compact nav variant preserved */
 .accountNav{display:flex;flex-direction:column;gap:8px}
-.navButton{background:transparent;border:none;padding:8px 10px;text-align:left;cursor:pointer;border-radius:6px;color:var(--foreground);font-size:15px}
 .navButton:hover{background:rgba(255,255,255,0.02)}
-.navButtonActive{background:rgba(255,255,255,0.02);font-weight:700}
+
+/* Content area */
 .accountContent{flex:1;min-height:420px;margin-left:0;padding-left:12px;transition:height 260ms ease;overflow:visible;position:relative}
 @media (min-width: 1200px) {
   /* keep a visual offset so content remains centered while reserving left sidebar */
@@ -49,4 +59,17 @@
 .orderList{display:grid;gap:12px}
 .btn{padding:8px 10px;border-radius:8px;border:1px solid var(--muted-border);background:transparent;color:var(--foreground);cursor:pointer}
 .btnPrimary{background:#CFB464;color:#0b1020;border:none}
+
+/* Responsive adjustments */
 @media (max-width:900px){.accountContainer{flex-direction:column}.accountSidebar{position:static;width:100%;border-right:none;border-bottom:1px solid rgba(255,255,255,0.03);padding-right:0;padding-bottom:12px}.accountContent{margin-left:0;padding-left:0}}
+
+/* New helper classes - convert inline styles to classes */
+.formLabelHalf{flex:1}
+.placeholderBox{height:220}
+.orderMeta{font-weight:800}
+.orderMetaSmall{color:var(--color-muted);font-size:13px;margin-top:4px}
+.orderActions{display:flex;gap:8px}
+.smallUnderlineLink{text-decoration:underline}
+.centerPadded{padding-top:24px;padding-bottom:24px}
+
+/* keep any existing selector names for compatibility */
