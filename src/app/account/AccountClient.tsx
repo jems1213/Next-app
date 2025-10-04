@@ -112,8 +112,8 @@ export default function AccountClient() {
           <div className={styles.userSummaryCompact}>
             <img src={avatar} alt="User avatar" className={styles.userAvatar} />
             <div className={styles.userMeta}>
-              <div className={styles.accountUserName}>{mounted ? (user?.name || `${firstName} ${lastName}`.trim()) : `${firstName} ${lastName}`}</div>
-              <div className={styles.accountUserEmail}>{mounted ? (user?.email || email) : email}</div>
+              <div className={styles.accountUserName}>{user?.name || `${firstName} ${lastName}`.trim()}</div>
+              <div className={styles.accountUserEmail}>{user?.email || email}</div>
             </div>
           </div>
 
