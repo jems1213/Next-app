@@ -44,6 +44,7 @@ export default function RootLayout({
             <main>{children}</main>
 
             <Footer />
+            <ToastRoot />
           </AuthProvider>
         </CartProvider>
       </body>
