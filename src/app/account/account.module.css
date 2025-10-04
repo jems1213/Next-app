@@ -10,9 +10,9 @@
 
 /* user summary */
 .userSummary{text-align:center;margin-bottom:18px;padding-bottom:12px;border-bottom:1px solid rgba(255,255,255,0.06);position:sticky;top:12px;z-index:10}
-.userAvatar{width:48px;height:48px;border-radius:50%;object-fit:cover;margin-bottom:8px;border:2px solid rgba(255,255,255,0.04)}
-.accountUserName{font-weight:800;color:var(--foreground);font-size:15px}
-.accountUserEmail{font-size:13px;color:var(--color-muted)}
+.userAvatar{width:40px;height:40px;border-radius:50%;object-fit:cover;margin-bottom:8px;border:1.5px solid rgba(255,255,255,0.12);display:inline-block}
+.accountUserName{font-weight:700;color:rgba(255,255,255,0.9);font-size:15.2px;margin-top:8px}
+.accountUserEmail{font-size:13.6px;color:rgba(255,255,255,0.7);margin-top:3px}
 
 /* sidebar section: nav flows with page scroll (no internal scrollbar) */
 .sidebarSection{flex:0 0 auto;overflow:visible;display:block;padding-top:8px}
