@@ -1,4 +1,7 @@
-.cartContainer { display: grid; grid-template-columns: 1fr 360px; gap: 28px; align-items: start; padding: 18px; }
+.cartContainer { display: grid; grid-template-columns: 1fr 360px; gap: 28px; align-items: start; padding: 18px; width: 100%; }
+
+/* Make header span both columns so title sits above the columns */
+.headerRow { grid-column: 1 / -1; display:flex; justify-content:space-between; align-items:center; margin-bottom:8px; }
 
 @media (max-width: 900px) { .cartContainer { grid-template-columns: 1fr; } }
 
