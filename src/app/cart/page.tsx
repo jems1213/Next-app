@@ -21,7 +21,7 @@ export default async function CartPage() {
 
       <main className={styles.main} style={{ paddingTop: 24, gap: 18 }}>
         <div style={{ width: '100%', maxWidth: 1100, margin: '0 auto', padding: '0 12px 0 24px' }}>
-          <Link href="/" className={styles.backLink} style={{ display: 'inline-block', marginBottom: 6, marginTop: 12, paddingLeft: 8 }}>&larr; Back</Link>
+          <Link href="/" className={styles.backLink} style={{ display: 'inline-block', marginBottom: 6, marginTop: 32, paddingLeft: 8 }}>&larr; Back</Link>
           <CartClient initialItems={items} />
         </div>
       </main>
