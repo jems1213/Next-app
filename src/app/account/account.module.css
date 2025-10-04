@@ -6,7 +6,7 @@
 }
 
 /* Fixed sidebar aligned to the centered container */
-.accountSidebar{width:280px;padding:18px 16px;flex:0 0 280px;align-self:flex-start;position:sticky;left:calc(50% - (var(--container-max) / 2) + 24px);top:calc(var(--announcement-height, 0px) + var(--header-height, 72px));z-index:60;background: linear-gradient(180deg, rgba(11,17,32,0.95), rgba(11,17,32,0.9));border-radius:8px;box-shadow: 0 8px 24px rgba(0,0,0,0.35);display:block;overflow:visible}
+.accountSidebar{width:280px;padding:32px 24px;flex:0 0 280px;align-self:flex-start;position:sticky;left:calc(50% - (var(--container-max) / 2) + 24px);top:calc(var(--announcement-height, 0px) + var(--header-height, 72px));z-index:60;background-color: rgb(11, 16, 32);color: rgba(255,255,255,0.9);border-radius:8px;box-shadow: 0 8px 24px rgba(0,0,0,0.35);display:block;overflow:auto;max-height:calc(100vh - (var(--announcement-height, 0px) + var(--header-height, 72px) + 32px))}
 
 /* user summary */
 .userSummary{text-align:left;margin-bottom:18px;padding-bottom:12px;border-bottom:1px solid rgba(255,255,255,0.03);position:sticky;top:12px;z-index:10}
