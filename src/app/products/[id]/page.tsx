@@ -14,7 +14,7 @@ export default async function ProductPage(props: { params: { id: string } }) {
     product = await getProduct(params.id);
   } catch (e) {
     return (
-      <div className={`${styles.page} ${styles.pageCompact}`}>
+      <div className={`${styles.page}`}>
         <main className={styles.main}>
           <Link href="/" className={styles.backLink}>&larr; Back to products</Link>
           <div style={{ padding: 20 }}>
@@ -27,7 +27,7 @@ export default async function ProductPage(props: { params: { id: string } }) {
   }
 
   return (
-    <div className={`${styles.page} ${styles.pageCompact}`}>
+    <div className={`${styles.page}`}>
       <section className={productStyles.productSection}>
         <div className={productStyles.backdrop} />
         <div className={productStyles.container}>
