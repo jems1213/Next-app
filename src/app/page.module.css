@@ -12,7 +12,8 @@
   justify-items: center;
   min-height: 100svh;
   /* Ensure top spacing to account for sticky announcement and header */
-  padding-top: calc(var(--announcement-height) + 72px + var(--space-lg));
+  /* Increased top padding to give more space for page headers */
+  padding-top: calc(var(--announcement-height) + 72px + var(--space-xl) + 24px);
   padding-right: var(--space-xl);
   padding-left: var(--space-xl);
   padding-bottom: var(--space-xxl);
