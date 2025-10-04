@@ -92,7 +92,7 @@ export default function ProductListClient({ products }: { products: any[] }) {
       <section className={styles.grid}>
         {filtered.map((p) => (
           <article key={p.id} className={styles.card}>
-            <Link href={`/products/${p.id}`} className={styles.cardLink}>
+            <Link href={`/products/${p.id}`} prefetch={false} className={styles.cardLink}>
               <div className={styles.imageWrap}>
                 <Image src={p.image} alt={p.title} width={240} height={240} className={styles.productImage} unoptimized loading="lazy" />
               </div>
