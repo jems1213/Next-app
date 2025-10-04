@@ -16,7 +16,7 @@
 
 /* sidebar section: nav flows with page scroll (no internal scrollbar) */
 .sidebarSection{flex:0 0 auto;overflow:visible;display:block;padding-top:8px}
-.accountNav{display:flex;flex-direction:column;gap:6px;margin-top:12px;padding-right:6px}
+.accountNav{display:flex;flex-direction:column;gap:8px;margin-top:12px;padding-right:6px;scroll-padding-top:20px}
 
 /* navigation button (refined names) */
 .navItem{display:flex;align-items:center;padding:12px 16px;background:transparent;border:none;color:rgba(255,255,255,0.9);cursor:pointer;border-radius:5px;transition:all 180ms ease;text-align:left;font-size:15.2px;margin-left:12px;margin-right:12px}
