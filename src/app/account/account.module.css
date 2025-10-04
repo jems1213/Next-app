@@ -8,7 +8,8 @@
 .navButton{background:transparent;border:none;padding:8px 10px;text-align:left;cursor:pointer;border-radius:6px;color:var(--foreground);font-size:15px}
 .navButton:hover{background:rgba(255,255,255,0.02)}
 .navButtonActive{background:rgba(255,255,255,0.02);font-weight:700}
-.accountContent{flex:1;min-height:420px;padding-left:12px}
+.accountContent{flex:1;min-height:420px;padding-left:12px;transition:height 260ms ease;overflow:hidden;position:relative}
+.contentInner{transition:opacity 180ms ease}
 .panelTitle{margin-top:0}
 .profileForm{display:grid;gap:12px;max-width:660px}
 .formRow{display:flex;gap:12px}
