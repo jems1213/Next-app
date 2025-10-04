@@ -1,7 +1,20 @@
 .accountContainer{--account-max-width:1100px;display:flex;gap:24px;width:100%;max-width:var(--account-max-width);margin:0 auto;padding:0 16px;align-items:flex-start}
 .accountContainer{--account-max-width:1100px;display:flex;gap:24px;width:100%;max-width:var(--account-max-width);margin:0 auto;padding:0 16px;align-items:flex-start;position:relative}
 /* Fixed sidebar aligned to the centered container */
-.accountSidebar{width:260px;border-right:1px solid rgba(255,255,255,0.03);padding:18px 12px;flex:0 0 260px;align-self:flex-start;position:fixed;left:calc(50% - (var(--account-max-width) / 2) + 16px);top:calc(var(--announcement-height, 0px) + var(--header-height, 72px) + 12px);z-index:60;background: linear-gradient(180deg, rgba(11,17,32,0.95), rgba(11,17,32,0.9));border-radius:8px;box-shadow: 0 8px 24px rgba(0,0,0,0.35)}
+.accountSidebar{width:280px;padding:18px 16px;flex:0 0 280px;align-self:flex-start;position:fixed;left:calc(50% - (var(--account-max-width) / 2) + 16px);top:calc(var(--announcement-height, 0px) + var(--header-height, 72px) + 12px);z-index:60;background: linear-gradient(180deg, rgba(11,17,32,0.95), rgba(11,17,32,0.9));border-radius:8px;box-shadow: 0 8px 24px rgba(0,0,0,0.35)}
+
+/* user summary */
+.userSummary{text-align:left;margin-bottom:18px;padding-bottom:12px;border-bottom:1px solid rgba(255,255,255,0.03)}
+.userAvatar{width:48px;height:48px;border-radius:50%;object-fit:cover;margin-bottom:8px;border:2px solid rgba(255,255,255,0.04)}
+.accountUserName{font-weight:800;color:var(--foreground);font-size:15px}
+.accountUserEmail{font-size:13px;color:var(--color-muted)}
+
+.accountNav{display:flex;flex-direction:column;gap:6px;margin-top:8px}
+.navItem{display:flex;align-items:center;padding:10px 12px;background:transparent;border:none;color:var(--foreground);cursor:pointer;border-radius:6px;transition:all 180ms ease;text-align:left;font-size:15px}
+.navItem:hover{background:rgba(255,255,255,0.02)}
+.navIcon{margin-right:10px;font-size:14px;opacity:0.9}
+.active{background:rgba(255,255,255,0.02);font-weight:700}
+.logout{margin-top:8px;color:var(--accent)}
 .navButton{display:block;width:100%;box-sizing:border-box;text-align:left}
 .navButtonActive{width:100%}
 .accountHeader{display:flex;align-items:center;gap:12px;margin-bottom:18px}
