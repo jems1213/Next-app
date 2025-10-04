@@ -87,35 +87,40 @@ export default function AccountClient() {
         {tab === 'profile' && (
           <div>
             <h2 className={styles.panelTitle}>Profile Information</h2>
-            <form onSubmit={saveProfile} className={styles.profileForm}>
-              <label className={styles.formLabel}>
-                User Photo (URL)
-                <input value={avatar} onChange={(e) => setAvatar(e.target.value)} placeholder="https://..." className={styles.input} />
-              </label>
-
-              <div className={styles.formRow}>
-                <label className={styles.formLabel} style={{flex:1}}>
-                  First Name
-                  <input value={firstName} onChange={(e)=>setFirstName(e.target.value)} className={styles.input} />
+            {/* Render form only after client mount to prevent SSR/CSR mismatch */}
+            {mounted ? (
+              <form onSubmit={saveProfile} className={styles.profileForm}>
+                <label className={styles.formLabel}>
+                  User Photo (URL)
+                  <input value={avatar} onChange={(e) => setAvatar(e.target.value)} placeholder="https://..." className={styles.input} />
                 </label>
-                <label className={styles.formLabel} style={{flex:1}}>
-                  Last Name
-                  <input value={lastName} onChange={(e)=>setLastName(e.target.value)} className={styles.input} />
+
+                <div className={styles.formRow}>
+                  <label className={styles.formLabel} style={{flex:1}}>
+                    First Name
+                    <input value={firstName} onChange={(e)=>setFirstName(e.target.value)} className={styles.input} />
+                  </label>
+                  <label className={styles.formLabel} style={{flex:1}}>
+                    Last Name
+                    <input value={lastName} onChange={(e)=>setLastName(e.target.value)} className={styles.input} />
+                  </label>
+                </div>
+
+                <label className={styles.formLabel}>
+                  Email
+                  <input value={email} onChange={(e)=>setEmail(e.target.value)} className={styles.input} />
                 </label>
-              </div>
 
-              <label className={styles.formLabel}>
-                Email
-                <input value={email} onChange={(e)=>setEmail(e.target.value)} className={styles.input} />
-              </label>
+                <div className={styles.mutedText}>Member Since: 7/1/2025</div>
 
-              <div className={styles.mutedText}>Member Since: 7/1/2025</div>
-
-              <div className={styles.formActions}>
-                <button type="submit" className="btn btn-primary">Save profile</button>
-                <button type="button" onClick={() => { setFirstName('Javiya'); setLastName('Jems'); setEmail('javiyajems@gmail.com'); setAvatar(''); }} className="btn">Reset</button>
-              </div>
-            </form>
+                <div className={styles.formActions}>
+                  <button type="submit" className="btn btn-primary">Save profile</button>
+                  <button type="button" onClick={() => { setFirstName('Javiya'); setLastName('Jems'); setEmail('javiyajems@gmail.com'); setAvatar(''); }} className="btn">Reset</button>
+                </div>
+              </form>
+            ) : (
+              <div style={{height:220}} />
+            )}
           </div>
         )}
 
