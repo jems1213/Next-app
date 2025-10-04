@@ -384,7 +384,7 @@
 }
 
 .navPill {
-  background-color: var(--foreground);
+  background: linear-gradient(90deg, var(--color-accent-600), var(--color-accent));
   color: #ffffff;
   border-radius: 12px;
   padding: 3.2px 8px;
