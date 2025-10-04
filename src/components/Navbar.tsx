@@ -1,8 +1,9 @@
 "use client";
-import React from "react";
+import React, { useState } from "react";
 import Link from "next/link";
 import { useRouter, usePathname } from "next/navigation";
 import { useCart } from "../context/cart";
+import { useAuth } from "../context/auth";
 import styles from "../app/layout.module.css";
 import FetchGuard from "./FetchGuard";
 import { BRAND } from '../lib/site';
@@ -11,6 +12,8 @@ export default function Navbar() {
   const router = useRouter();
   const pathname = usePathname();
   const { totalQuantity, savedItems } = useCart();
+  const { user, signOut } = useAuth();
+  const [menuOpen, setMenuOpen] = useState(false);
   const [mounted, setMounted] = React.useState(false);
   const [scrolled, setScrolled] = React.useState(false);
 
@@ -59,7 +62,32 @@ export default function Navbar() {
               {mounted && typeof totalQuantity === 'number' && totalQuantity > 0 ? <span className={styles.cartBadge}>{totalQuantity}</span> : null}
             </Link>
 
-            <Link href="/login" prefetch={false} className={styles.signInButton}>Sign In</Link>
+            {user ? (
+              <div style={{ position: 'relative' }}>
+                <button aria-label="Account" className={styles.iconButton} onClick={() => setMenuOpen((s) => !s)}>
+                  <img src={user.avatar} alt={user.name} style={{ width: 36, height: 36, borderRadius: 999 }} />
+                </button>
+
+                {menuOpen ? (
+                  <div style={{ position: 'absolute', right: 0, top: 44, background: 'var(--surface)', border: '1px solid var(--muted-border)', borderRadius: 8, padding: 8, minWidth: 180, zIndex: 80 }}>
+                    <div style={{ padding: '8px 10px', borderBottom: '1px solid rgba(255,255,255,0.03)' }}>
+                      <div style={{ fontWeight: 800 }}>{user.name}</div>
+                      <div style={{ color: 'var(--color-muted)', fontSize: 12 }}>{user.email}</div>
+                    </div>
+
+                    <div style={{ display: 'flex', flexDirection: 'column', gap: 6, padding: 8 }}>
+                      <Link href="/account">My Account</Link>
+                      <Link href="/orders">My Orders</Link>
+                      <Link href="/wishlist">Wishlist</Link>
+                      <Link href="/cart">Cart</Link>
+                      <button onClick={() => { signOut(); setMenuOpen(false); }} style={{ marginTop: 8, padding: '8px 10px', borderRadius: 8, border: '1px solid var(--muted-border)', background: 'transparent' }}>Sign Out</button>
+                    </div>
+                  </div>
+                ) : null}
+              </div>
+            ) : (
+              <Link href="/login" prefetch={false} className={styles.signInButton}>Sign In</Link>
+            )}
           </div>
         </div>
 
