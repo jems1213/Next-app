@@ -42,7 +42,7 @@ export default function Hero() {
       textColor: "#fff",
       threeD: true,
       modelUrl:
-        "https://cdn.builder.io/o/assets%2F3c18b0444cd749efb807f80093d75ea4%2F04b421f72b3e4403b02a7f829f85faf7?alt=media&token=7fcc8d84-88a4-4df1-abb1-7d7ac5fb5c71&apiKey=3c18b0444cd749efb807f80093d75ea4",
+        "https://cdn.builder.io/o/assets%2Fbfe13fd89ddb4f94b41d8d5cfed1abdc%2F18a8ccda281f457ab89f41cd435aff9e?alt=media&token=3546867b-6fae-474b-89a3-493a0208f6a5&apiKey=bfe13fd89ddb4f94b41d8d5cfed1abdc",
     },
   ];
 
