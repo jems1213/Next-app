@@ -35,7 +35,7 @@ export default function RegisterPage() {
 
   return (
     <div className={`${pageStyles.page} ${pageStyles.pageCompact}`}>
-      <section className={styles.authSection}>
+      <section className={styles.authSection} style={{ paddingTop: 120 }}>
         <div className={styles.backdrop} />
         <div className={styles.orbit} />
         <span className={styles.spark} />
