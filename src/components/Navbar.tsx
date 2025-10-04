@@ -62,7 +62,7 @@ export default function Navbar() {
               {mounted && typeof totalQuantity === 'number' && totalQuantity > 0 ? <span className={styles.cartBadge}>{totalQuantity}</span> : null}
             </Link>
 
-            {user ? (
+            {mounted && user ? (
               <div className={styles.accountAvatarButton}>
                 <button aria-label="Account" className={`${styles.iconButton} ${styles.accountAvatarBtn}`} onClick={() => setMenuOpen((s) => !s)}>
                   <div className={styles.accountAvatar}>
