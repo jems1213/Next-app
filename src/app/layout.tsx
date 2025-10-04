@@ -33,6 +33,8 @@ export default function RootLayout({
       <body className={`${geistSans.variable} ${geistMono.variable}`}>
         <CartProvider>
 
+          {/* Safe inline fetch wrapper to reduce noisy third-party fetch failures (runs before client JS mounts) */}
+          <script dangerouslySetInnerHTML={{__html: `(function(){try{if(typeof window==='undefined' || !window.fetch) return; var orig = window.fetch; if(orig && !orig.__fetchGuardWrapped){ var w = function(i,u){ try{ var p = orig(i,u); if(p && p.catch) return p.catch(function(){ return new Response(null,{status:503,statusText:'Service Unavailable'}); }); return Promise.resolve(p); }catch(e){ try{ return Promise.resolve(new Response(null,{status:503,statusText:'Service Unavailable'})); }catch(e2){ return Promise.resolve(new Response(null,{status:503,statusText:'Service Unavailable'})); } } }; try{ w.__fetchGuardWrapped = true; }catch(e){} try{ window.fetch = w; }catch(e){} } }catch(e){} })();`}} />
           <AnnouncementBar />
           <Navbar />
           <UnhandledRejectionGuard />
