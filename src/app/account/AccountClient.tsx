@@ -9,7 +9,6 @@ export default function AccountClient() {
   const { savedItems, addItem } = useCart();
 
   const [tab, setTab] = useState<'profile'|'orders'|'wishlist'|'address'|'payment'|'settings'>('profile');
-  const [mounted, setMounted] = useState(false);
   const [collapsed, setCollapsed] = useState(false);
   const [firstName, setFirstName] = useState('javiyajems');
   const [lastName, setLastName] = useState('Jems');
