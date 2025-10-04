@@ -135,7 +135,7 @@ export default function AccountClient() {
       </aside>
 
       <section className={styles.accountContent} ref={accountContentRef}>
-        <div ref={contentInnerRef}>
+        <div ref={contentInnerRef} className={styles.contentInner}>
         {tab === 'profile' && (
           <div>
             <h2 className={styles.panelTitle}>Profile Information</h2>
