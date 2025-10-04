@@ -128,10 +128,14 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
     });
   };
 
+  const removeFromSaved = (id: number) => {
+    setSavedItems((prev) => prev.filter((i) => i.id !== id));
+  };
+
   const totalQuantity = items.reduce((s, i) => s + i.quantity, 0);
 
   return (
-    <CartContext.Provider value={{ items, savedItems, addItem, removeItem, updateItem, clear, totalQuantity, saveForLater, addToSaved, moveToCart }}>
+    <CartContext.Provider value={{ items, savedItems, addItem, removeItem, updateItem, clear, totalQuantity, saveForLater, addToSaved, removeFromSaved, moveToCart }}>
       {children}
     </CartContext.Provider>
   );
