@@ -78,9 +78,38 @@ export default function AccountClient() {
 
         {tab === 'orders' && (
           <div>
-            <h2>My Orders</h2>
+            <h2 style={{ marginTop: 0 }}>My Orders</h2>
             <p style={{ color: 'var(--color-muted)' }}>View your past orders. (Demo: persisted locally)</p>
-            <p style={{ marginTop: 8 }}>Go to <a href="/orders">Orders page</a> to see full order history.</p>
+
+            <div style={{ marginTop: 12 }}>
+              <div style={{ display: 'grid', gap: 12 }}>
+                {orders && orders.length > 0 ? (
+                  orders.slice(0, 3).map((o: any) => (
+                    <div key={o.id} style={{ padding: 12, borderRadius: 8, background: 'linear-gradient(180deg, rgba(255,255,255,0.01), transparent)', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                      <div>
+                        <div style={{ fontWeight: 800 }}>Order #{o.id}</div>
+                        <div style={{ color: 'var(--color-muted)', fontSize: 13 }}>{new Date(o.createdAt).toLocaleString()} • {(o.items||[]).length} items</div>
+                      </div>
+
+                      <div style={{ display: 'flex', gap: 8 }}>
+                        <a href={`/order/${o.id}`} className="btn" style={{ padding: '8px 10px' }}>View</a>
+                        <button onClick={() => reorder(o)} className="btn btn-primary" style={{ padding: '8px 10px', background: '#CFB464', color: '#0b1020', border: 'none' }}>Reorder</button>
+                      </div>
+                    </div>
+                  ))
+                ) : (
+                  <div style={{ padding: 12, borderRadius: 8, background: 'linear-gradient(180deg, rgba(255,255,255,0.01), transparent)' }}>
+                    <div style={{ fontWeight: 700 }}>No orders yet.</div>
+                    <div style={{ color: 'var(--color-muted)', marginTop: 6 }}>Find something you love and place an order.</div>
+                    <div style={{ marginTop: 8 }}><a href="/shop" className="btn btn-primary">Shop products</a></div>
+                  </div>
+                )}
+
+                <div>
+                  <a href="/orders" className="btn" style={{ textDecoration: 'underline' }}>Go to Orders page to see full order history.</a>
+                </div>
+              </div>
+            </div>
           </div>
         )}
 
