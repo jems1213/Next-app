@@ -13,18 +13,21 @@ export default async function CartPage() {
   } catch {}
 
   return (
-    <div className={`${styles.page} ${styles.pageCompact}`} style={{padding: 0, margin: 0}}>
-      <main className={`${styles.main} ${cartPageStyles.noTopPadding}`} style={{padding: '12px 16px'}}>
-        <Link href="/" className={styles.backLink} style={{marginBottom: 4, display: 'inline-block'}}>&larr; Back</Link>
-        <h1 className={styles.title} style={{marginTop: 4}}>Your Cart</h1>
-        <p className={styles.lead} style={{marginTop: 6}}>Review items in your cart and proceed to checkout.</p>
+    <div className={`${styles.page} ${styles.pageCompact}`} style={{ padding: 0, margin: 0 }}>
+      <header className={styles.heroInner} style={{ paddingTop: 120 }}>
+        <h1 className={styles.heroTitle}>Your Cart</h1>
+        <p className={styles.heroLead}>Review items in your cart and proceed to checkout.</p>
+      </header>
 
-        {/* pass server-side snapshot to avoid hydration mismatch */}
-        <CartClient initialItems={items} />
+      <main className={styles.main} style={{ paddingTop: 24, gap: 18 }}>
+        <div style={{ width: '100%', maxWidth: 1100, margin: '0 auto', padding: '0 12px' }}>
+          <Link href="/" className={styles.backLink} style={{ display: 'inline-block', marginBottom: 6 }}>&larr; Back</Link>
+          <CartClient initialItems={items} />
+        </div>
       </main>
 
       <footer className={styles.footer}>
-        <p>Your cart is persisted in local storage for demo purposes.</p>
+        <p style={{ margin: 0 }}>Your cart is persisted in local storage for demo purposes.</p>
       </footer>
     </div>
   );
