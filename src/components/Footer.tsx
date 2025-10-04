@@ -50,16 +50,6 @@ export default function Footer() {
             </ul>
           </div>
 
-          {/* Account */}
-          <div>
-            <h4 className={styles['k-footerColTitle']}>Account</h4>
-            <ul style={{ display: 'flex', flexDirection: 'column', gap: 8, listStyle: 'none', padding: 0, margin: 0 }}>
-              <li><Link href="/account">My Account</Link></li>
-              <li><Link href="/orders">My Orders</Link></li>
-              <li><Link href="/wishlist">Wishlist</Link></li>
-              <li><Link href="/cart">Cart</Link></li>
-            </ul>
-          </div>
 
           {/* Newsletter + Social */}
           <div>
