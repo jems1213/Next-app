@@ -44,6 +44,7 @@
   --container-max: 1400px;
   --radius-md: 12px;
   --announcement-height: 40px;
+  --header-height: 72px;
   --auth-card-bg: linear-gradient(180deg, rgba(255,255,255,0.06), rgba(255,255,255,0.02));
 }
 

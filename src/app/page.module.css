@@ -22,6 +22,12 @@
 }
 
 /* Compact page variant: reduces top spacing (use on pages that have their own hero/header) */
+.accountPageReset{padding:0;margin:0}
+.accountHeroHeader{padding-top:120px;padding-left:24px}
+.accountHeroTitlePadding{padding-left:4px}
+.accountHeroLeadPadding{padding-left:4px}
+.accountMainSpacing{padding-top:24px;gap:18px}
+.accountInnerContainer{width:100%;max-width:1100px;margin:0 auto;padding:0 12px 0 24px}
 .pageCompact {
   /* compact pages still need additional top spacing when announcement/header present */
   padding-top: calc(var(--announcement-height) + 48px);

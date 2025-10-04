@@ -1,5 +1,5 @@
 "use client";
-import React, { useState } from "react";
+import React, { useState, useRef } from "react";
 import Link from "next/link";
 import { useRouter, usePathname } from "next/navigation";
 import { useCart } from "../context/cart";
@@ -28,6 +28,32 @@ export default function Navbar() {
     onScroll();
     window.addEventListener('scroll', onScroll);
     return () => window.removeEventListener('scroll', onScroll);
+  }, []);
+
+  const accountRef = useRef<HTMLDivElement | null>(null);
+
+  React.useEffect(() => {
+    function handlePointer(e: MouseEvent | TouchEvent) {
+      if (!accountRef.current) return;
+      const target = e.target as Node | null;
+      if (!target) return;
+      if (accountRef.current.contains(target)) return;
+      setMenuOpen(false);
+    }
+
+    function handleKey(e: KeyboardEvent) {
+      if (e.key === 'Escape') setMenuOpen(false);
+    }
+
+    document.addEventListener('mousedown', handlePointer);
+    document.addEventListener('touchstart', handlePointer);
+    document.addEventListener('keydown', handleKey);
+
+    return () => {
+      document.removeEventListener('mousedown', handlePointer);
+      document.removeEventListener('touchstart', handlePointer);
+      document.removeEventListener('keydown', handleKey);
+    };
   }, []);
 
   const brandName = BRAND || 'SneakerHub';
@@ -63,7 +89,7 @@ export default function Navbar() {
             </Link>
 
             {mounted && user ? (
-              <div className={styles.accountAvatarButton}>
+              <div ref={accountRef} className={styles.accountAvatarButton}>
                 <button aria-label="Account" className={`${styles.iconButton} ${styles.accountAvatarBtn}`} onClick={() => setMenuOpen((s) => !s)}>
                   <div className={styles.accountAvatar}>
                     {user.avatar ? <img src={user.avatar} alt={user.name} /> : <span aria-hidden>{user.name?.charAt(0)?.toUpperCase()}</span>}
@@ -78,6 +104,7 @@ export default function Navbar() {
                     </div>
 
                     <div className={styles.accountMenuList}>
+
                       <Link href="/account" className={styles.accountMenuItem} onClick={() => setMenuOpen(false)}>
                         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5"><path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4z" /><path d="M6 20v-1c0-2.2 3.134-4 6-4s6 1.8 6 4v1" /></svg>
                         <span>My Account</span>
