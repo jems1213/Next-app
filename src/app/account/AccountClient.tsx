@@ -90,24 +90,47 @@ export default function AccountClient() {
   return (
     <div className={styles.accountContainer}>
       <aside className={styles.accountSidebar}>
-        <div className={styles.accountHeader}>
-          <div className={styles.accountAvatarCircle} aria-hidden>
-            {mounted && (firstName || lastName) ? (firstName || lastName).charAt(0).toUpperCase() : ''}
-          </div>
-          <div>
-            <div className={styles.accountUserName}>{mounted ? (user?.name || `${firstName} ${lastName}`.trim()) : ''}</div>
-            <div className={styles.accountUserEmail}>{mounted ? (user?.email || email) : ''}</div>
-          </div>
+        <div className={styles.userSummary}>
+          <img src={avatar} alt="Avatar" className={styles.userAvatar} />
+          <h3 className={styles.accountUserName}>{mounted ? (user?.name || `${firstName} ${lastName}`.trim()) : `${firstName} ${lastName}`}</h3>
+          <p className={styles.accountUserEmail}>{mounted ? (user?.email || email) : email}</p>
         </div>
 
         <nav className={styles.accountNav}>
-          <button onClick={() => handleTabChange('profile')} className={`${styles.navButton} ${tab==='profile' ? styles.navButtonActive : ''}`}>Profile</button>
-          <button onClick={() => handleTabChange('orders')} className={`${styles.navButton} ${tab==='orders' ? styles.navButtonActive : ''}`}>My Orders</button>
-          <button onClick={() => handleTabChange('wishlist')} className={`${styles.navButton} ${tab==='wishlist' ? styles.navButtonActive : ''}`}>Wishlist {mounted && savedItems?.length ? `(${savedItems.length})` : ''}</button>
-          <button onClick={() => handleTabChange('address')} className={`${styles.navButton} ${tab==='address' ? styles.navButtonActive : ''}`}>Address</button>
-          <button onClick={() => handleTabChange('payment')} className={`${styles.navButton} ${tab==='payment' ? styles.navButtonActive : ''}`}>Payment Methods</button>
-          <button onClick={() => handleTabChange('settings')} className={`${styles.navButton} ${tab==='settings' ? styles.navButtonActive : ''}`}>Account Settings</button>
-          <button onClick={() => { signOut(); try { window.dispatchEvent(new CustomEvent('app-toast', { detail: { message: 'Signed out', type: 'info' } })); } catch(e){} }} className={styles.navButton}>Sign Out</button>
+          <button onClick={() => handleTabChange('profile')} className={`${styles.navItem} ${tab==='profile' ? styles.active : ''}`}>
+            <span className={styles.navIcon}>🏷️</span>
+            Profile
+          </button>
+
+          <button onClick={() => handleTabChange('orders')} className={`${styles.navItem} ${tab==='orders' ? styles.active : ''}`}>
+            <span className={styles.navIcon}>📦</span>
+            My Orders
+          </button>
+
+          <button onClick={() => handleTabChange('wishlist')} className={`${styles.navItem} ${tab==='wishlist' ? styles.active : ''}`}>
+            <span className={styles.navIcon}>💖</span>
+            Wishlist {mounted && savedItems?.length ? `(${savedItems.length})` : ''}
+          </button>
+
+          <button onClick={() => handleTabChange('address')} className={`${styles.navItem} ${tab==='address' ? styles.active : ''}`}>
+            <span className={styles.navIcon}>📍</span>
+            Address
+          </button>
+
+          <button onClick={() => handleTabChange('payment')} className={`${styles.navItem} ${tab==='payment' ? styles.active : ''}`}>
+            <span className={styles.navIcon}>💳</span>
+            Payment Methods
+          </button>
+
+          <button onClick={() => handleTabChange('settings')} className={`${styles.navItem} ${tab==='settings' ? styles.active : ''}`}>
+            <span className={styles.navIcon}>⚙️</span>
+            Account Settings
+          </button>
+
+          <button onClick={() => { signOut(); try { window.dispatchEvent(new CustomEvent('app-toast', { detail: { message: 'Signed out', type: 'info' } })); } catch(e){} }} className={`${styles.navItem} ${styles.logout}`}>
+            <span className={styles.navIcon}>↩️</span>
+            Sign Out
+          </button>
         </nav>
       </aside>
 
