@@ -203,7 +203,7 @@ export default function AccountClient() {
                   <div className={styles.orderCard}>
                     <div className={styles.orderMeta}>No orders yet.</div>
                     <div className={styles.orderMetaSmall}>Find something you love and place an order.</div>
-                    <div style={{ marginTop: 8 }}><a href="/shop" className={`${styles.btn} ${styles.btnPrimary}`}>Shop products</a></div>
+                    <div className={styles.spacedTop}><a href="/shop" className={`${styles.btn} ${styles.btnPrimary}`}>Shop products</a></div>
                   </div>
                 )}
 
