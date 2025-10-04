@@ -13,11 +13,11 @@ export default async function CartPage() {
   } catch {}
 
   return (
-    <div className={`${styles.page} ${styles.pageCompact}`}>
-      <main className={`${styles.main} ${cartPageStyles.noTopPadding}`}>
-        <Link href="/" className={styles.backLink}>&larr; Back</Link>
-        <h1 className={styles.title}>Your Cart</h1>
-        <p className={styles.lead}>Review items in your cart and proceed to checkout.</p>
+    <div className={`${styles.page} ${styles.pageCompact}`} style={{padding: 0, margin: 0}}>
+      <main className={`${styles.main} ${cartPageStyles.noTopPadding}`} style={{padding: '12px 16px'}}>
+        <Link href="/" className={styles.backLink} style={{marginBottom: 4, display: 'inline-block'}}>&larr; Back</Link>
+        <h1 className={styles.title} style={{marginTop: 4}}>Your Cart</h1>
+        <p className={styles.lead} style={{marginTop: 6}}>Review items in your cart and proceed to checkout.</p>
 
         {/* pass server-side snapshot to avoid hydration mismatch */}
         <CartClient initialItems={items} />
