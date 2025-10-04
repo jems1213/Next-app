@@ -1,5 +1,10 @@
 .accountContainer{--account-max-width:1100px;display:flex;gap:24px;width:100%;max-width:var(--account-max-width);margin:0 auto;padding:0 16px;align-items:flex-start}
 .accountContainer{--account-max-width:1100px;display:flex;gap:24px;width:100%;max-width:var(--account-max-width);margin:0 auto;padding:0 16px;align-items:flex-start;position:relative}
+
+/* Reserve space on wide screens so centered content doesn't get overlapped by left sidebar */
+@media (min-width: 1200px) {
+  .accountContainer{padding-left:calc(280px + 48px)}
+}
 /* Fixed sidebar aligned to the centered container */
 .accountSidebar{width:280px;padding:18px 16px;flex:0 0 280px;align-self:flex-start;position:sticky;left:auto;top:calc(var(--announcement-height, 0px) + var(--header-height, 72px) + 12px);z-index:60;background: linear-gradient(180deg, rgba(11,17,32,0.95), rgba(11,17,32,0.9));border-radius:8px;box-shadow: 0 8px 24px rgba(0,0,0,0.35);display:block;overflow:visible}
 
