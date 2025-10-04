@@ -9,7 +9,7 @@ export default async function NewArrivals() {
   const newest = [...products].sort((a, b) => b.id - a.id).slice(0, 12);
 
   return (
-    <div className={styles.page}>
+    <div className={`${styles.page} ${styles.pageCompact}`}>
       <header className={styles.heroInner}>
         <h1 className={styles.heroTitle}>New Arrivals</h1>
         <p className={styles.heroLead}>Fresh styles added recently — curated picks for you.</p>
