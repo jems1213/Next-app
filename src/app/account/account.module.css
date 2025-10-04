@@ -25,4 +25,4 @@
 .orderList{display:grid;gap:12px}
 .btn{padding:8px 10px;border-radius:8px;border:1px solid var(--muted-border);background:transparent;color:var(--foreground);cursor:pointer}
 .btnPrimary{background:#CFB464;color:#0b1020;border:none}
-@media (max-width:900px){.accountContainer{flex-direction:column}.accountSidebar{width:100%;border-right:none;border-bottom:1px solid rgba(255,255,255,0.03);padding-right:0;padding-bottom:12px}.accountContent{padding-left:0}}
+@media (max-width:900px){.accountContainer{flex-direction:column}.accountSidebar{position:static;width:100%;border-right:none;border-bottom:1px solid rgba(255,255,255,0.03);padding-right:0;padding-bottom:12px}.accountContent{margin-left:0;padding-left:0}}
