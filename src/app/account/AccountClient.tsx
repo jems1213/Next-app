@@ -1,5 +1,5 @@
 "use client";
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
 import { useAuth } from '../../context/auth';
 import { useCart } from '../../context/cart';
 import styles from './account.module.css';
@@ -59,6 +59,40 @@ export default function AccountClient() {
     } catch (e) { console.error(e); }
   }
 
+  // Smoothly animate container height when switching tabs to avoid jumps
+  const accountContentRef = useRef<HTMLDivElement | null>(null);
+  const contentInnerRef = useRef<HTMLDivElement | null>(null);
+
+  function handleTabChange(newTab: typeof tab) {
+    const container = accountContentRef.current;
+    const inner = contentInnerRef.current;
+    if (!container || !inner) {
+      setTab(newTab);
+      return;
+    }
+
+    const fromHeight = inner.getBoundingClientRect().height;
+    container.style.height = `${fromHeight}px`;
+    // Force reflow
+    // eslint-disable-next-line @typescript-eslint/no-unused-expressions
+    container.offsetHeight;
+
+    setTab(newTab);
+
+    requestAnimationFrame(() => {
+      const toHeight = contentInnerRef.current?.getBoundingClientRect().height ?? fromHeight;
+      container.style.transition = 'height 260ms ease';
+      container.style.height = `${toHeight}px`;
+
+      const onEnd = () => {
+        container.style.height = '';
+        container.style.transition = '';
+        container.removeEventListener('transitionend', onEnd);
+      };
+      container.addEventListener('transitionend', onEnd);
+    });
+  }
+
   return (
     <div className={styles.accountContainer}>
       <aside className={styles.accountSidebar}>
@@ -73,17 +107,18 @@ export default function AccountClient() {
         </div>
 
         <nav className={styles.accountNav}>
-          <button onClick={() => setTab('profile')} className={`${styles.navButton} ${tab==='profile' ? styles.navButtonActive : ''}`}>Profile</button>
-          <button onClick={() => setTab('orders')} className={`${styles.navButton} ${tab==='orders' ? styles.navButtonActive : ''}`}>My Orders</button>
-          <button onClick={() => setTab('wishlist')} className={`${styles.navButton} ${tab==='wishlist' ? styles.navButtonActive : ''}`}>Wishlist {mounted && savedItems?.length ? `(${savedItems.length})` : ''}</button>
-          <button onClick={() => setTab('address')} className={`${styles.navButton} ${tab==='address' ? styles.navButtonActive : ''}`}>Address</button>
-          <button onClick={() => setTab('payment')} className={`${styles.navButton} ${tab==='payment' ? styles.navButtonActive : ''}`}>Payment Methods</button>
-          <button onClick={() => setTab('settings')} className={`${styles.navButton} ${tab==='settings' ? styles.navButtonActive : ''}`}>Account Settings</button>
+          <button onClick={() => handleTabChange('profile')} className={`${styles.navButton} ${tab==='profile' ? styles.navButtonActive : ''}`}>Profile</button>
+          <button onClick={() => handleTabChange('orders')} className={`${styles.navButton} ${tab==='orders' ? styles.navButtonActive : ''}`}>My Orders</button>
+          <button onClick={() => handleTabChange('wishlist')} className={`${styles.navButton} ${tab==='wishlist' ? styles.navButtonActive : ''}`}>Wishlist {mounted && savedItems?.length ? `(${savedItems.length})` : ''}</button>
+          <button onClick={() => handleTabChange('address')} className={`${styles.navButton} ${tab==='address' ? styles.navButtonActive : ''}`}>Address</button>
+          <button onClick={() => handleTabChange('payment')} className={`${styles.navButton} ${tab==='payment' ? styles.navButtonActive : ''}`}>Payment Methods</button>
+          <button onClick={() => handleTabChange('settings')} className={`${styles.navButton} ${tab==='settings' ? styles.navButtonActive : ''}`}>Account Settings</button>
           <button onClick={() => { signOut(); try { window.dispatchEvent(new CustomEvent('app-toast', { detail: { message: 'Signed out', type: 'info' } })); } catch(e){} }} className={styles.navButton}>Sign Out</button>
         </nav>
       </aside>
 
-      <section className={styles.accountContent}>
+      <section className={styles.accountContent} ref={accountContentRef}>
+        <div ref={contentInnerRef}>
         {tab === 'profile' && (
           <div>
             <h2 className={styles.panelTitle}>Profile Information</h2>
@@ -207,6 +242,7 @@ export default function AccountClient() {
             </div>
           </div>
         )}
+        </div>
       </section>
     </div>
   );
