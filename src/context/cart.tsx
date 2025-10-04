@@ -107,6 +107,15 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
     });
   };
 
+  // add any item directly to saved items (wishlist) without removing from cart
+  const addToSaved = (item: Omit<CartItem, 'quantity'>) => {
+    setSavedItems((s) => {
+      const exists = s.find((x) => x.id === item.id);
+      if (exists) return s;
+      return [...s, { ...item, quantity: 1 }];
+    });
+  };
+
   const moveToCart = (id: number, qty = 1) => {
     setSavedItems((prev) => {
       const idx = prev.findIndex((i) => i.id === id);
