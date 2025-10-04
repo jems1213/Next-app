@@ -255,7 +255,7 @@ export default function AccountClient() {
             <h2>Account settings</h2>
             <p className={styles.mutedText}>Security and preferences.</p>
             <div className={styles.centerPadded}>
-              <label style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
+              <label className={styles.checkboxRow}>
                 <input type="checkbox" /> Receive marketing emails
               </label>
             </div>
