@@ -10,8 +10,13 @@ export default function WishlistButton({ product }: { product: any }) {
   function toggle(e: React.MouseEvent) {
     e.stopPropagation();
     e.preventDefault();
-    if (exists) removeFromSaved(product.id);
-    else addToSaved({ id: product.id, title: product.title, price: product.price, image: product.image });
+    if (exists) {
+      removeFromSaved(product.id);
+      try { window.dispatchEvent(new CustomEvent('app-toast', { detail: { message: `${product.title} removed from wishlist.`, type: 'info' } })); } catch (e) {}
+    } else {
+      addToSaved({ id: product.id, title: product.title, price: product.price, image: product.image });
+      try { window.dispatchEvent(new CustomEvent('app-toast', { detail: { message: `${product.title} added to wishlist.`, type: 'success' } })); } catch (e) {}
+    }
   }
 
   return (
