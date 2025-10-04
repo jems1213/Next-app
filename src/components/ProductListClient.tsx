@@ -4,6 +4,7 @@ import Link from "next/link";
 import Image from "next/image";
 import styles from "../app/page.module.css";
 import { useCart } from "../context/cart";
+import WishlistButton from './WishlistButton';
 
 export default function ProductListClient({ products }: { products: any[] }) {
   const { addItem, totalQuantity } = useCart();
@@ -92,7 +93,10 @@ export default function ProductListClient({ products }: { products: any[] }) {
       <section className={styles.grid}>
         {filtered.map((p) => (
           <article key={p.id} className={styles.card}>
-            <Link href={`/products/${p.id}`} className={styles.cardLink}>
+            {/* wishlist top-right */}
+            <WishlistButton product={p} />
+
+            <Link href={`/products/${p.id}`} prefetch={false} className={styles.cardLink}>
               <div className={styles.imageWrap}>
                 <Image src={p.image} alt={p.title} width={240} height={240} className={styles.productImage} unoptimized loading="lazy" />
               </div>

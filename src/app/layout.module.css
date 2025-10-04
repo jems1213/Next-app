@@ -384,7 +384,7 @@
 }
 
 .navPill {
-  background-color: var(--foreground);
+  background: linear-gradient(90deg, var(--color-accent-600), var(--color-accent));
   color: #ffffff;
   border-radius: 12px;
   padding: 3.2px 8px;
@@ -429,6 +429,22 @@
 }
 
 .cartBadge {
+  display: inline-block;
+  min-width: 20px;
+  height: 20px;
+  padding: 0 6px;
+  border-radius: 999px;
+  background: var(--accent);
+  color: #fff;
+  font-weight: 700;
+  font-size: 12px;
+  line-height: 20px;
+  margin-left: 6px;
+  text-align: center;
+}
+
+/* Wishlist badge styled the same as cart badge */
+.wishlistBadge {
   display: inline-block;
   min-width: 20px;
   height: 20px;

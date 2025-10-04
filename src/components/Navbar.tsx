@@ -10,7 +10,7 @@ import { BRAND } from '../lib/site';
 export default function Navbar() {
   const router = useRouter();
   const pathname = usePathname();
-  const { totalQuantity } = useCart();
+  const { totalQuantity, savedItems } = useCart();
   const [mounted, setMounted] = React.useState(false);
   const [scrolled, setScrolled] = React.useState(false);
 
@@ -34,31 +34,32 @@ export default function Navbar() {
       <FetchGuard />
       <nav className={[styles.navbar, scrolled && styles.navbarScrolled].filter(Boolean).join(' ')} aria-label="Main navigation">
         <div className={styles.navInner}>
-          <Link href="/" className={styles.brandLink} aria-label="Home">
+          <Link href="/" prefetch={false} className={styles.brandLink} aria-label="Home">
             <span className={styles.brandEmoji}>👟</span>
             <span className={styles.brandTitle}>{brandName}</span>
           </Link>
 
           <div className={styles.centerNav}>
             <ul className={styles.navList} role="navigation">
-              <li className={styles.navItem}><Link href="/new-arrivals">New Arrivals <span className={styles.navPill}>New</span></Link></li>
-              <li className={styles.navItem}><Link href="/shop">Shop</Link></li>
-              <li className={styles.navItem}><Link href="/collections">Collections</Link></li>
-              <li className={styles.navItem}><Link href="/help">Help</Link></li>
+              <li className={styles.navItem}><Link href="/new-arrivals" prefetch={false}>New Arrivals <span className={styles.navPill}>New</span></Link></li>
+              <li className={styles.navItem}><Link href="/shop" prefetch={false}>Shop</Link></li>
+              <li className={styles.navItem}><Link href="/collections" prefetch={false}>Collections</Link></li>
+              <li className={styles.navItem}><Link href="/help" prefetch={false}>Help</Link></li>
             </ul>
           </div>
 
           <div className={styles.navActions}>
-            <Link href="/wishlist" aria-label="View wishlist" className={styles.iconButton}>
+            <Link href="/wishlist" prefetch={false} aria-label="View wishlist" className={styles.iconButton}>
               <svg stroke="currentColor" fill="none" strokeWidth="2" viewBox="0 0 24 24" strokeLinecap="round" strokeLinejoin="round" height="1em" width="1em" xmlns="http://www.w3.org/2000/svg"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path></svg>
+              {mounted && savedItems && savedItems.length > 0 ? <span className={styles.wishlistBadge}>{savedItems.length}</span> : null}
             </Link>
 
-            <Link href="/cart" aria-label="View cart" className={styles.iconButton}>
+            <Link href="/cart" prefetch={false} aria-label="View cart" className={styles.iconButton}>
               <svg stroke="currentColor" fill="none" strokeWidth="2" viewBox="0 0 24 24" strokeLinecap="round" strokeLinejoin="round" height="1em" width="1em" xmlns="http://www.w3.org/2000/svg"><path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"></path><line x1="3" y1="6" x2="21" y2="6"></line><path d="M16 10a4 4 0 0 1-8 0"></path></svg>
               {mounted && typeof totalQuantity === 'number' && totalQuantity > 0 ? <span className={styles.cartBadge}>{totalQuantity}</span> : null}
             </Link>
 
-            <Link href="/login" className={styles.signInButton}>Sign In</Link>
+            <Link href="/login" prefetch={false} className={styles.signInButton}>Sign In</Link>
           </div>
         </div>
 

@@ -2,10 +2,13 @@
 
 .productSection {
   position: relative;
-  padding: 36px 18px 64px 18px; /* increased vertical padding */
+  /* Ensure product content is visible below the sticky announcement + header. Increased top spacing. */
+  padding: calc(var(--announcement-height) + 72px + 48px) 18px 64px 18px;
   display: grid;
   place-items: center;
   overflow: visible;
+  /* Make sure the product section is tall enough to avoid content being clipped by sticky header */
+  min-height: calc(100svh - (var(--announcement-height) + 72px));
 }
 
 .backdrop {
@@ -42,7 +45,8 @@
   align-items: start;
   background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(11,17,32,0.02));
   border-radius: 14px;
-  padding: 280px 28px 28px; /* increased padding inside the card */
+  /* reduced top padding to bring content closer while keeping ample breathing room */
+  padding: 160px 28px 28px;
   margin: 18px 0; /* vertical spacing around card */
   border: 1px solid rgba(255,255,255,0.03);
   box-shadow: 0 30px 60px rgba(2,6,23,0.18);
@@ -81,7 +85,35 @@
   color: var(--accent);
 }
 
-.description { color: var(--color-muted); max-height: 5.4em; overflow: hidden; }
+.description { color: var(--color-muted); max-height: 5.4em; overflow: hidden; transition: max-height 220ms ease; position: relative; }
+
+/* When collapsed, add a subtle fade overlay to hide the abrupt cut-off */
+.description:not(.descriptionExpanded)::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 3.2rem; /* covers the bottom area where text would be cut */
+  background: linear-gradient(180deg, rgba(11,17,32,0), var(--surface));
+  pointer-events: none;
+  z-index: 1;
+}
+
+.descriptionExpanded { max-height: 200vh; /* effectively unlimited for practical purposes */ }
+
+.descriptionToggle {
+  margin-top: 8px;
+  display: inline-block;
+  background: transparent;
+  border: none;
+  color: var(--accent);
+  font-weight: 700;
+  cursor: pointer;
+  padding: 6px 8px;
+  position: relative;
+  z-index: 2; /* sit above the overlay */
+}
 
 .controls { display: flex; flex-direction: row; gap: 12px; align-items: center; margin-top: 6px; }
 

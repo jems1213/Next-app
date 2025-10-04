@@ -32,9 +32,9 @@ export default function RootLayout({
     <html lang="en">
       <body className={`${geistSans.variable} ${geistMono.variable}`}>
         <CartProvider>
-          {/* inline guard to prevent noisy failed fetches from external analytics (runs before client JS) */}
-          <script dangerouslySetInnerHTML={{__html: `(function(){try{if(typeof window==='undefined')return;var o=window.fetch.bind(window);window.fetch=function(i,u){try{return o(i,u).catch(function(err){try{var url=typeof i==='string'?i:(i&&i.url?i.url:'');if(url&& (url.indexOf('fullstory')!==-1 || url.indexOf('fullstory.com')!==-1)){return new Response(null,{status:503,statusText:'Service Unavailable'});} }catch(e){} throw err;});}catch(e){return o(i,u);} };}catch(e){} })();`}} />
 
+          {/* Safe inline fetch wrapper to reduce noisy third-party fetch failures (runs before client JS mounts) */}
+          <script dangerouslySetInnerHTML={{__html: `(function(){try{if(typeof window==='undefined' || !window.fetch) return; var orig = window.fetch; if(orig && !orig.__fetchGuardWrapped){ var w = function(i,u){ try{ var p = orig(i,u); if(p && p.catch) return p.catch(function(){ return new Response(null,{status:503,statusText:'Service Unavailable'}); }); return Promise.resolve(p); }catch(e){ try{ return Promise.resolve(new Response(null,{status:503,statusText:'Service Unavailable'})); }catch(e2){ return Promise.resolve(new Response(null,{status:503,statusText:'Service Unavailable'})); } } }; try{ w.__fetchGuardWrapped = true; }catch(e){} try{ window.fetch = w; }catch(e){} } }catch(e){} })();`}} />
           <AnnouncementBar />
           <Navbar />
           <UnhandledRejectionGuard />

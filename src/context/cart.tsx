@@ -18,6 +18,8 @@ type CartContextValue = {
   clear: () => void;
   totalQuantity: number;
   saveForLater: (id: number) => void;
+  addToSaved: (item: Omit<CartItem, "quantity">) => void;
+  removeFromSaved: (id: number) => void;
   moveToCart: (id: number, qty?: number) => void;
 };
 
@@ -107,6 +109,15 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
     });
   };
 
+  // add any item directly to saved items (wishlist) without removing from cart
+  const addToSaved = (item: Omit<CartItem, 'quantity'>) => {
+    setSavedItems((s) => {
+      const exists = s.find((x) => x.id === item.id);
+      if (exists) return s;
+      return [...s, { ...item, quantity: 1 }];
+    });
+  };
+
   const moveToCart = (id: number, qty = 1) => {
     setSavedItems((prev) => {
       const idx = prev.findIndex((i) => i.id === id);
@@ -117,10 +128,14 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
     });
   };
 
+  const removeFromSaved = (id: number) => {
+    setSavedItems((prev) => prev.filter((i) => i.id !== id));
+  };
+
   const totalQuantity = items.reduce((s, i) => s + i.quantity, 0);
 
   return (
-    <CartContext.Provider value={{ items, savedItems, addItem, removeItem, updateItem, clear, totalQuantity, saveForLater, moveToCart }}>
+    <CartContext.Provider value={{ items, savedItems, addItem, removeItem, updateItem, clear, totalQuantity, saveForLater, addToSaved, removeFromSaved, moveToCart }}>
       {children}
     </CartContext.Provider>
   );

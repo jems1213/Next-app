@@ -12,7 +12,8 @@
   justify-items: center;
   min-height: 100svh;
   /* Ensure top spacing to account for sticky announcement and header */
-  padding-top: calc(var(--announcement-height) + 72px + var(--space-lg));
+  /* Increased top padding to give more space for page headers */
+  padding-top: calc(var(--announcement-height) + 72px + var(--space-xl) + 24px);
   padding-right: var(--space-xl);
   padding-left: var(--space-xl);
   padding-bottom: var(--space-xxl);
@@ -22,7 +23,8 @@
 
 /* Compact page variant: reduces top spacing (use on pages that have their own hero/header) */
 .pageCompact {
-  padding-top: var(--space-lg);
+  /* compact pages still need additional top spacing when announcement/header present */
+  padding-top: calc(var(--announcement-height) + 48px);
 }
 
 /* When a page is compact, reduce main top padding too */
@@ -253,6 +255,44 @@ a.secondary {
   display: flex;
   align-items: center;
   justify-content: center;
+  position: relative; /* enable absolute children like wishlist icon */
+}
+
+.wishlistIcon {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  width: 36px;
+  height: 36px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 9999px;
+  background: rgba(0,0,0,0.35);
+  color: white;
+  border: 1px solid rgba(255,255,255,0.04);
+  cursor: pointer;
+  transition: transform 160ms ease, background 160ms ease;
+  z-index: 6;
+}
+
+.wishlistIcon:hover { transform: translateY(-2px); background: rgba(0,0,0,0.45); }
+
+.wishlistIcon.hearted { background: linear-gradient(90deg, var(--color-accent-600), var(--color-accent)); }
+
+.wishlistBadge {
+  display: inline-block;
+  min-width: 18px;
+  height: 18px;
+  padding: 0 6px;
+  border-radius: 999px;
+  background: var(--accent);
+  color: #fff;
+  font-weight: 700;
+  font-size: 12px;
+  line-height: 18px;
+  text-align: center;
+  margin-left: 6px;
 }
 
 .productImage {
@@ -484,6 +524,32 @@ a.secondary {
   align-items: flex-start;
 }
 
+/* Compact page tweaks: reduce hero spacing and tighten layout for list pages */
+.pageCompact .heroInner {
+  padding-top: 12px;
+  gap: 8px;
+}
+
+.pageCompact .heroTitle {
+  padding-top: 0; /* override global heroTitle padding on compact pages */
+  font-size: 36px;
+  margin-bottom: 4px;
+}
+
+.pageCompact .heroLead {
+  margin-bottom: 12px;
+}
+
+/* Tighter product grid for compact pages */
+.pageCompact .main {
+  padding-top: 0 !important;
+  gap: 20px;
+}
+
+.pageCompact .title { margin-top: 0.25rem; }
+
+.pageCompact .grid { gap: 16px; }
+
 /* layout for hero with text + 3d model */
 .heroContentRow {
   display: grid;
@@ -532,6 +598,7 @@ a.secondary {
 }
 
 .heroTitle {
+  padding-top: 100px;
   font-size: 40px;
   line-height: 1.02;
   font-weight: 800;

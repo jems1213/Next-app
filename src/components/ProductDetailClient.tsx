@@ -1,11 +1,15 @@
 "use client";
+"use client";
+"use client";
 import React, { useState } from 'react';
 import Image from 'next/image';
+import { useRouter } from 'next/navigation';
 import { useCart } from '../context/cart';
 import styles from '../app/page.module.css';
 
 export default function ProductDetailClient({ product }: { product: any }) {
-  const { addItem } = useCart();
+  const router = useRouter();
+  const { addItem, addToSaved } = useCart();
   const [qty, setQty] = useState(1);
   const [adding, setAdding] = useState(false);
   const [done, setDone] = useState(false);
@@ -19,6 +23,16 @@ export default function ProductDetailClient({ product }: { product: any }) {
     } finally {
       setAdding(false);
     }
+  }
+
+  function onBuyNow() {
+    // add to cart and navigate to cart/checkout
+    addItem({ id: product.id, title: product.title, price: Number(product.price), image: product.image }, qty);
+    router.push('/cart');
+  }
+
+  function onAddToWishlist() {
+    addToSaved({ id: product.id, title: product.title, price: Number(product.price), image: product.image });
   }
 
   return (
@@ -44,6 +58,11 @@ export default function ProductDetailClient({ product }: { product: any }) {
             {adding ? 'Adding...' : 'Add to cart'}
           </button>
         </div>
+      </div>
+
+      <div style={{ marginTop: 10, display: 'flex', gap: 12 }}>
+        <button className={`btn btn-primary ${styles.animatedButton}`} onClick={onBuyNow}>Buy now</button>
+        <button className={`btn ${styles.ghostButton} ${styles.animatedButton}`} onClick={onAddToWishlist}>Add to wishlist</button>
       </div>
 
       {done && <div className={styles.successBadge}>Added to cart</div>}
