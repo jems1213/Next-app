@@ -14,14 +14,14 @@ export default async function CartPage() {
 
   return (
     <div className={`${styles.page} ${styles.pageCompact}`} style={{ padding: 0, margin: 0 }}>
-      <header className={styles.heroInner} style={{ paddingTop: 120 }}>
-        <h1 className={styles.heroTitle}>Your Cart</h1>
-        <p className={styles.heroLead}>Review items in your cart and proceed to checkout.</p>
+      <header className={styles.heroInner} style={{ paddingTop: 120, paddingLeft: 24 }}>
+        <h1 className={styles.heroTitle} style={{ paddingLeft: 4 }}>Your Cart</h1>
+        <p className={styles.heroLead} style={{ paddingLeft: 4 }}>Review items in your cart and proceed to checkout.</p>
       </header>
 
       <main className={styles.main} style={{ paddingTop: 24, gap: 18 }}>
-        <div style={{ width: '100%', maxWidth: 1100, margin: '0 auto', padding: '0 12px' }}>
-          <Link href="/" className={styles.backLink} style={{ display: 'inline-block', marginBottom: 6 }}>&larr; Back</Link>
+        <div style={{ width: '100%', maxWidth: 1100, margin: '0 auto', padding: '0 12px 0 24px' }}>
+          <Link href="/" className={styles.backLink} style={{ display: 'inline-block', marginBottom: 6, marginTop: 12, paddingLeft: 8 }}>&larr; Back</Link>
           <CartClient initialItems={items} />
         </div>
       </main>
