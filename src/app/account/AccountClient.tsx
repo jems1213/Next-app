@@ -180,8 +180,7 @@ export default function AccountClient() {
 
               <div className={styles.panelGrid}>
                 <div>
-                  {mounted ? (
-                    <form onSubmit={saveProfile} className={styles.profileForm}>
+                  <form onSubmit={saveProfile} className={styles.profileForm}>
                       <label className={styles.formLabel}>
                         User Photo (URL)
                         <input value={avatar} onChange={(e) => setAvatar(e.target.value)} placeholder="https://..." className={styles.input} />
@@ -204,22 +203,19 @@ export default function AccountClient() {
                       </label>
 
                     </form>
-                  ) : (
-                    <div className={styles.placeholderBox} />
-                  )}
                 </div>
 
                 <aside className={styles.summaryCard} aria-hidden>
                   <div className="avatarPreview">
                     <img src={avatar} alt="Avatar preview" />
                     <div>
-                      <div className={styles.summaryName}>{mounted ? (user?.name || `${firstName} ${lastName}`) : `${firstName} ${lastName}`}</div>
-                      <div className={styles.summaryEmail}>{mounted ? (user?.email || email) : email}</div>
+                      <div className={styles.summaryName}>{user?.name || `${firstName} ${lastName}`}</div>
+                      <div className={styles.summaryEmail}>{user?.email || email}</div>
                     </div>
                   </div>
 
                   <div className={styles.statList}>
-                    <div className={styles.statBadge}>Wishlist {mounted && savedItems?.length ? `(${savedItems.length})` : '(0)'}</div>
+                    <div className={styles.statBadge}>Wishlist {savedItems?.length ? `(${savedItems.length})` : '(0)'}</div>
                     <div className={styles.statBadge}>Orders {orders ? orders.length : 0}</div>
                   </div>
 
