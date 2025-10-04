@@ -2,7 +2,8 @@
 
 .productSection {
   position: relative;
-  padding: 36px 18px 64px 18px; /* increased vertical padding */
+  /* Ensure product content is visible below the sticky announcement + header */
+  padding: calc(var(--announcement-height) + 72px + 12px) 18px 64px 18px;
   display: grid;
   place-items: center;
   overflow: visible;
