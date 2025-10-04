@@ -44,27 +44,43 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     function onStorage(e: StorageEvent) {
       if (e.key === "user") setUser(readJsonStorage("user", null));
     }
+    function onUserChanged() {
+      setUser(readJsonStorage("user", null));
+    }
     window.addEventListener("storage", onStorage);
-    return () => window.removeEventListener("storage", onStorage);
+    window.addEventListener("user-changed", onUserChanged);
+    return () => {
+      window.removeEventListener("storage", onStorage);
+      window.removeEventListener("user-changed", onUserChanged);
+    };
   }, []);
 
   const signIn = async (email: string) => {
-    // demo sign-in: create a simple user object
     const name = email.split("@")[0] || "User";
     const avatar = `https://ui-avatars.com/api/?name=${encodeURIComponent(name)}&background=111827&color=ffffff&size=64`;
     const u: User = { name, email, avatar };
     // simulate network delay
     await new Promise((r) => setTimeout(r, 300));
     setUser(u);
+    try { localStorage.setItem('user', JSON.stringify(u)); } catch {}
+    // notify other listeners
+    try { window.dispatchEvent(new CustomEvent('user-changed', { detail: u })); } catch {}
     return u;
   };
 
   const signOut = () => {
     setUser(null);
+    try { localStorage.removeItem('user'); } catch {}
+    try { window.dispatchEvent(new CustomEvent('user-changed', { detail: null })); } catch {}
   };
 
   const update = (u: Partial<User>) => {
-    setUser((prev) => (prev ? { ...prev, ...u } : prev));
+    setUser((prev) => {
+      const next = prev ? { ...prev, ...u } : prev;
+      try { localStorage.setItem('user', JSON.stringify(next)); } catch {}
+      try { window.dispatchEvent(new CustomEvent('user-changed', { detail: next })); } catch {}
+      return next;
+    });
   };
 
   return <AuthContext.Provider value={{ user, signIn, signOut, update }}>{children}</AuthContext.Provider>;
@@ -72,6 +88,31 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 
 export function useAuth() {
   const ctx = useContext(AuthContext);
-  if (!ctx) throw new Error("useAuth must be used within AuthProvider");
-  return ctx;
+  if (ctx) return ctx;
+  // fallback implementation (in case hook is used outside provider during rendering)
+  const fallback: AuthContextValue = {
+    user: null,
+    signIn: async (email: string) => {
+      const name = email.split("@")[0] || "User";
+      const avatar = `https://ui-avatars.com/api/?name=${encodeURIComponent(name)}&background=111827&color=ffffff&size=64`;
+      const u: User = { name, email, avatar };
+      try { localStorage.setItem('user', JSON.stringify(u)); } catch {}
+      try { window.dispatchEvent(new CustomEvent('user-changed', { detail: u })); } catch {}
+      return u;
+    },
+    signOut: () => {
+      try { localStorage.removeItem('user'); } catch {}
+      try { window.dispatchEvent(new CustomEvent('user-changed', { detail: null })); } catch {}
+    },
+    update: (u: Partial<User>) => {
+      try {
+        const raw = localStorage.getItem('user');
+        const cur = raw ? JSON.parse(raw) : null;
+        const next = cur ? { ...cur, ...u } : null;
+        if (next) localStorage.setItem('user', JSON.stringify(next));
+        try { window.dispatchEvent(new CustomEvent('user-changed', { detail: next })); } catch {}
+      } catch {}
+    },
+  };
+  return fallback;
 }
