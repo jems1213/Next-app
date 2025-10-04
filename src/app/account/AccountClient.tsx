@@ -22,7 +22,6 @@ export default function AccountClient() {
 
   // Hydrate client-only state
   useEffect(() => {
-    setMounted(true);
     try {
       const raw = localStorage.getItem('orders') ?? '[]';
       const parsed = JSON.parse(raw);
