@@ -276,7 +276,7 @@
 /* end premium footer */
 
 /* Compact footer variant */
-.k-footer { padding:32px 16px; }
+.k-footer { position: relative; z-index: 20; padding:32px 16px; }
 .k-footerGrid { grid-template-columns: repeat(4, auto); gap:16px; }
 .k-footerColTitle { font-size:13px; margin-bottom:8px; }
 .k-brandIntro { display:none; }
