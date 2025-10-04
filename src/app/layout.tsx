@@ -33,7 +33,7 @@ export default function RootLayout({
       <body className={`${geistSans.variable} ${geistMono.variable}`}>
         <CartProvider>
           {/* inline guard to prevent noisy failed fetches from external analytics (runs before client JS) */}
-          <script dangerouslySetInnerHTML={{__html: `(function(){try{if(typeof window==='undefined')return;var o=window.fetch.bind(window);window.fetch=function(i,u){try{return o(i,u).catch(function(err){try{var url=typeof i==='string'?i:(i&&i.url?i.url:'');if(url&& (url.indexOf('fullstory')!==-1 || url.indexOf('fullstory.com')!==-1)){return new Response(null,{status:503,statusText:'Service Unavailable'});} }catch(e){} throw err;});}catch(e){return o(i,u);} };}catch(e){} })();`}} />
+          <script dangerouslySetInnerHTML={{__html: `(function(){try{if(typeof window==='undefined')return;var o=window.fetch.bind(window);var wrapper=function(i,u){try{return o(i,u).catch(function(err){try{var url=typeof i==='string'?i:(i&&i.url?i.url:'');if(url&& (url.indexOf('fullstory')!==-1 || url.indexOf('fullstory.com')!==-1)){return new Response(null,{status:503,statusText:'Service Unavailable'});} }catch(e){} throw err;});}catch(e){return o(i,u);} }; try{ wrapper.__fetchGuardWrapped=true; }catch(e){} window.fetch=wrapper;}catch(e){} })();`}} />
 
           <AnnouncementBar />
           <Navbar />
