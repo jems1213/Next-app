@@ -63,17 +63,19 @@ export default function AccountClient() {
     <div className={styles.accountContainer}>
       <aside className={styles.accountSidebar}>
         <div className={styles.accountHeader}>
-          <div className={styles.accountAvatarCircle}>{(user?.name || 'U').charAt(0).toUpperCase()}</div>
+          <div className={styles.accountAvatarCircle} aria-hidden>
+            {mounted && (firstName || lastName) ? (firstName || lastName).charAt(0).toUpperCase() : ''}
+          </div>
           <div>
-            <div className={styles.accountUserName}>{user?.name || 'Javiya Jems'}</div>
-            <div className={styles.accountUserEmail}>{user?.email || 'javiyajems@gmail.com'}</div>
+            <div className={styles.accountUserName}>{mounted ? (user?.name || `${firstName} ${lastName}`.trim()) : ''}</div>
+            <div className={styles.accountUserEmail}>{mounted ? (user?.email || email) : ''}</div>
           </div>
         </div>
 
         <nav className={styles.accountNav}>
           <button onClick={() => setTab('profile')} className={`${styles.navButton} ${tab==='profile' ? styles.navButtonActive : ''}`}>Profile</button>
           <button onClick={() => setTab('orders')} className={`${styles.navButton} ${tab==='orders' ? styles.navButtonActive : ''}`}>My Orders</button>
-          <button onClick={() => setTab('wishlist')} className={`${styles.navButton} ${tab==='wishlist' ? styles.navButtonActive : ''}`}>Wishlist {savedItems?.length ? `(${savedItems.length})` : ''}</button>
+          <button onClick={() => setTab('wishlist')} className={`${styles.navButton} ${tab==='wishlist' ? styles.navButtonActive : ''}`}>Wishlist {mounted && savedItems?.length ? `(${savedItems.length})` : ''}</button>
           <button onClick={() => setTab('address')} className={`${styles.navButton} ${tab==='address' ? styles.navButtonActive : ''}`}>Address</button>
           <button onClick={() => setTab('payment')} className={`${styles.navButton} ${tab==='payment' ? styles.navButtonActive : ''}`}>Payment Methods</button>
           <button onClick={() => setTab('settings')} className={`${styles.navButton} ${tab==='settings' ? styles.navButtonActive : ''}`}>Account Settings</button>
