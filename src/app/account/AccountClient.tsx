@@ -96,42 +96,44 @@ export default function AccountClient() {
           <p className={styles.accountUserEmail}>{mounted ? (user?.email || email) : email}</p>
         </div>
 
-        <nav className={styles.accountNav}>
-          <button onClick={() => handleTabChange('profile')} className={`${styles.navItem} ${tab==='profile' ? styles.active : ''}`}>
-            <span className={styles.navIcon}>🏷️</span>
-            Profile
-          </button>
+        <section className={styles.sidebarSection} aria-label="Account navigation">
+          <nav className={styles.accountNav}>
+            <button onClick={() => handleTabChange('profile')} className={`${styles.navItem} ${tab==='profile' ? styles.active : ''}`}>
+              <span className={styles.navIcon}>🏷️</span>
+              Profile
+            </button>
 
-          <button onClick={() => handleTabChange('orders')} className={`${styles.navItem} ${tab==='orders' ? styles.active : ''}`}>
-            <span className={styles.navIcon}>📦</span>
-            My Orders
-          </button>
+            <button onClick={() => handleTabChange('orders')} className={`${styles.navItem} ${tab==='orders' ? styles.active : ''}`}>
+              <span className={styles.navIcon}>📦</span>
+              My Orders
+            </button>
 
-          <button onClick={() => handleTabChange('wishlist')} className={`${styles.navItem} ${tab==='wishlist' ? styles.active : ''}`}>
-            <span className={styles.navIcon}>💖</span>
-            Wishlist {mounted && savedItems?.length ? `(${savedItems.length})` : ''}
-          </button>
+            <button onClick={() => handleTabChange('wishlist')} className={`${styles.navItem} ${tab==='wishlist' ? styles.active : ''}`}>
+              <span className={styles.navIcon}>💖</span>
+              Wishlist {mounted && savedItems?.length ? `(${savedItems.length})` : ''}
+            </button>
 
-          <button onClick={() => handleTabChange('address')} className={`${styles.navItem} ${tab==='address' ? styles.active : ''}`}>
-            <span className={styles.navIcon}>📍</span>
-            Address
-          </button>
+            <button onClick={() => handleTabChange('address')} className={`${styles.navItem} ${tab==='address' ? styles.active : ''}`}>
+              <span className={styles.navIcon}>📍</span>
+              Address
+            </button>
 
-          <button onClick={() => handleTabChange('payment')} className={`${styles.navItem} ${tab==='payment' ? styles.active : ''}`}>
-            <span className={styles.navIcon}>💳</span>
-            Payment Methods
-          </button>
+            <button onClick={() => handleTabChange('payment')} className={`${styles.navItem} ${tab==='payment' ? styles.active : ''}`}>
+              <span className={styles.navIcon}>💳</span>
+              Payment Methods
+            </button>
 
-          <button onClick={() => handleTabChange('settings')} className={`${styles.navItem} ${tab==='settings' ? styles.active : ''}`}>
-            <span className={styles.navIcon}>⚙️</span>
-            Account Settings
-          </button>
+            <button onClick={() => handleTabChange('settings')} className={`${styles.navItem} ${tab==='settings' ? styles.active : ''}`}>
+              <span className={styles.navIcon}>⚙️</span>
+              Account Settings
+            </button>
 
-          <button onClick={() => { signOut(); try { window.dispatchEvent(new CustomEvent('app-toast', { detail: { message: 'Signed out', type: 'info' } })); } catch(e){} }} className={`${styles.navItem} ${styles.logout}`}>
-            <span className={styles.navIcon}>↩️</span>
-            Sign Out
-          </button>
-        </nav>
+            <button onClick={() => { signOut(); try { window.dispatchEvent(new CustomEvent('app-toast', { detail: { message: 'Signed out', type: 'info' } })); } catch(e){} }} className={`${styles.navItem} ${styles.logout}`}>
+              <span className={styles.navIcon}>↩️</span>
+              Sign Out
+            </button>
+          </nav>
+        </section>
       </aside>
 
       <section className={styles.accountContent} ref={accountContentRef}>
