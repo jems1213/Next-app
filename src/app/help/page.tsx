@@ -4,7 +4,7 @@ import css from './help.module.css';
 
 export default function Help() {
   return (
-    <div className={styles.page}>
+    <div className={`${styles.page} ${styles.pageCompact}`}>
       <header className={styles.heroInner}>
         <h1 className={styles.heroTitle}>Help & Support</h1>
         <p className={styles.heroLead}>Find answers to common questions or contact our support team.</p>
