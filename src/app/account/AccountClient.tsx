@@ -8,13 +8,16 @@ export default function AccountClient() {
   const { user, update, signOut } = useAuth();
   const { savedItems, addItem } = useCart();
   const [tab, setTab] = useState<'profile'|'orders'|'wishlist'|'address'|'payment'|'settings'>('profile');
-  const [firstName, setFirstName] = useState(user?.name?.split(' ')?.[0] || 'Javiya');
-  const [lastName, setLastName] = useState(user?.name?.split(' ')?.[1] || 'Jems');
-  const [email, setEmail] = useState(user?.email || 'javiyajems@gmail.com');
-  const [avatar, setAvatar] = useState(user?.avatar || '');
+  // Defer user-dependent state until after client mount to avoid SSR/CSR hydration mismatch
+  const [mounted, setMounted] = useState(false);
+  const [firstName, setFirstName] = useState('');
+  const [lastName, setLastName] = useState('');
+  const [email, setEmail] = useState('');
+  const [avatar, setAvatar] = useState('');
   const [orders, setOrders] = useState<any[] | null>(null);
 
   React.useEffect(() => {
+    // load persisted orders (client-only)
     try {
       const raw = localStorage.getItem('orders') ?? '[]';
       const parsed = JSON.parse(raw);
@@ -22,7 +25,24 @@ export default function AccountClient() {
     } catch {
       setOrders([]);
     }
-  }, []);
+
+    // mark mounted and hydrate form fields from auth user
+    setMounted(true);
+    if (user) {
+      const parts = (user.name || '').split(' ');
+      setFirstName(parts[0] || '');
+      setLastName(parts[1] || '');
+      setEmail(user.email || '');
+      setAvatar(user.avatar || '');
+    } else {
+      // keep same friendly defaults after mount
+      setFirstName('Javiya');
+      setLastName('Jems');
+      setEmail('javiyajems@gmail.com');
+      setAvatar('');
+    }
+  }, [user]);
+
 
   function saveProfile(e: React.FormEvent) {
     e.preventDefault();
