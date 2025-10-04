@@ -144,14 +144,16 @@ export default function CartClient({ initialItems }: { initialItems?: any[] }) {
 
         <div className={styles.shippingRow}>
           <div className={styles.shippingTitle}>Estimate shipping</div>
-          <select className={styles.input} value={shippingCountry} onChange={(e) => setShippingCountry(e.target.value)}>
-            <option value="US">United States</option>
-            <option value="CA">Canada</option>
-            <option value="GB">United Kingdom</option>
-            <option value="IN">India</option>
-            <option value="AU">Australia</option>
-            <option value="OTHER">Other</option>
-          </select>
+          <div className={styles.selectWrap}>
+            <select className={`${styles.input} ${styles.select}`} value={shippingCountry} onChange={(e) => setShippingCountry(e.target.value)}>
+              <option value="US">United States</option>
+              <option value="CA">Canada</option>
+              <option value="GB">United Kingdom</option>
+              <option value="IN">India</option>
+              <option value="AU">Australia</option>
+              <option value="OTHER">Other</option>
+            </select>
+          </div>
           <input className={styles.input} placeholder="Postal code" value={shippingZip} onChange={(e) => setShippingZip(e.target.value)} />
           <button className={styles.estimateButton} onClick={estimateShipping}>Estimate</button>
           {shippingCost !== null && <div className={styles.shippingResult}>Estimated: ${shippingCost.toFixed(2)}</div>}
