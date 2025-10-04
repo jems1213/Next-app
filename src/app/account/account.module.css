@@ -32,7 +32,11 @@
 .navButton{background:transparent;border:none;padding:8px 10px;text-align:left;cursor:pointer;border-radius:6px;color:var(--foreground);font-size:15px}
 .navButton:hover{background:rgba(255,255,255,0.02)}
 .navButtonActive{background:rgba(255,255,255,0.02);font-weight:700}
-.accountContent{flex:1;min-height:420px;margin-left:calc(280px + 24px);padding-left:12px;transition:height 260ms ease;overflow:hidden;position:relative}
+.accountContent{flex:1;min-height:420px;margin-left:0;padding-left:12px;transition:height 260ms ease;overflow:visible;position:relative}
+@media (min-width: 1200px) {
+  /* keep a visual offset so content remains centered while reserving left sidebar */
+  .accountContent{max-width:var(--account-max-width);margin:0 auto;padding-left:12px}
+}
 .contentInner{transition:opacity 180ms ease}
 .panelTitle{margin-top:0}
 .profileForm{display:grid;gap:12px;max-width:660px}
