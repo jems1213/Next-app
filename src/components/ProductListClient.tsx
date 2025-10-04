@@ -4,6 +4,7 @@ import Link from "next/link";
 import Image from "next/image";
 import styles from "../app/page.module.css";
 import { useCart } from "../context/cart";
+import WishlistButton from './WishlistButton';
 
 export default function ProductListClient({ products }: { products: any[] }) {
   const { addItem, totalQuantity } = useCart();
