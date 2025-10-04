@@ -5,17 +5,37 @@ import { useCart } from '../../context/cart';
 
 export default function AccountClient() {
   const { user, update, signOut } = useAuth();
-  const { savedItems } = useCart();
+  const { savedItems, addItem } = useCart();
   const [tab, setTab] = useState<'profile'|'orders'|'wishlist'|'address'|'payment'|'settings'>('profile');
   const [firstName, setFirstName] = useState(user?.name?.split(' ')?.[0] || 'Javiya');
   const [lastName, setLastName] = useState(user?.name?.split(' ')?.[1] || 'Jems');
   const [email, setEmail] = useState(user?.email || 'javiyajems@gmail.com');
   const [avatar, setAvatar] = useState(user?.avatar || '');
+  const [orders, setOrders] = useState<any[] | null>(null);
+
+  React.useEffect(() => {
+    try {
+      const raw = localStorage.getItem('orders') ?? '[]';
+      const parsed = JSON.parse(raw);
+      setOrders(Array.isArray(parsed) ? parsed.slice().reverse() : []);
+    } catch {
+      setOrders([]);
+    }
+  }, []);
 
   function saveProfile(e: React.FormEvent) {
     e.preventDefault();
     update({ name: `${firstName} ${lastName}`.trim(), avatar });
     try { window.dispatchEvent(new CustomEvent('app-toast', { detail: { message: 'Profile updated', type: 'success' } })); } catch (e) {}
+  }
+
+  function reorder(order: any) {
+    try {
+      (order.items || []).forEach((it: any) => {
+        addItem({ id: Number(it.id), title: it.title, price: Number(it.price), image: it.image || '' }, it.quantity || 1);
+      });
+      try { window.dispatchEvent(new CustomEvent('app-toast', { detail: { message: 'Items added to cart from order', type: 'success' } })); } catch (e) {}
+    } catch (e) { console.error(e); }
   }
 
   return (
