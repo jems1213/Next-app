@@ -3,13 +3,31 @@
   width: 100%;
   display: grid;
   gap: 16px;
+  align-items: start;
+  padding-top: 24px;
+}
+
+.faqWrap details {
+  background: linear-gradient(180deg, rgba(255,255,255,0.02), transparent);
+  border: 1px solid var(--muted-border);
+  padding: 14px 18px;
+  border-radius: 10px;
 }
 
 .faqSummary {
   font-weight: 700;
   cursor: pointer;
+  padding: 6px 0;
+  font-size: 16px;
 }
 
 .faqText {
   color: var(--gray-alpha-100, rgba(0,0,0,0.06));
+  margin-top: 8px;
+  line-height: 1.5;
+}
+
+@media (max-width: 600px) {
+  .faqWrap { padding-top: 18px; gap: 12px; }
+  .faqSummary { font-size: 15px; }
 }
