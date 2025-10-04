@@ -13,7 +13,7 @@ export default function AccountClient() {
   const [firstName, setFirstName] = useState('javiyajems');
   const [lastName, setLastName] = useState('Jems');
   const [email, setEmail] = useState('javiyajems@gmail.com');
-  const [avatar, setAvatar] = useState('https://ui-avatars.com/api/?name=javiyajems&background=111827&color=ffffff&size=64');
+  const [avatar, setAvatar] = useState('https://www.gravatar.com/avatar/?d=mp');
   const [orders, setOrders] = useState<any[] | null>(null);
 
   React.useEffect(() => {
