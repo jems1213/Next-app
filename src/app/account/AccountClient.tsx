@@ -180,109 +180,193 @@ export default function AccountClient() {
                 </div>
               </div>
 
-              {mounted ? (
-                <form onSubmit={saveProfile} className={styles.profileForm}>
-                  <label className={styles.formLabel}>
-                    User Photo (URL)
-                    <input value={avatar} onChange={(e) => setAvatar(e.target.value)} placeholder="https://..." className={styles.input} />
-                  </label>
+              <div className={styles.panelGrid}>
+                <div>
+                  {mounted ? (
+                    <form onSubmit={saveProfile} className={styles.profileForm}>
+                      <label className={styles.formLabel}>
+                        User Photo (URL)
+                        <input value={avatar} onChange={(e) => setAvatar(e.target.value)} placeholder="https://..." className={styles.input} />
+                      </label>
 
-                  <div className={styles.formRow}>
-                    <label className={`${styles.formLabel} ${styles.formLabelHalf}`}>
-                      First Name
-                      <input value={firstName} onChange={(e)=>setFirstName(e.target.value)} className={styles.input} />
-                    </label>
-                    <label className={`${styles.formLabel} ${styles.formLabelHalf}`}>
-                      Last Name
-                      <input value={lastName} onChange={(e)=>setLastName(e.target.value)} className={styles.input} />
-                    </label>
+                      <div className={styles.formRow}>
+                        <label className={`${styles.formLabel} ${styles.formLabelHalf}`}>
+                          First Name
+                          <input value={firstName} onChange={(e)=>setFirstName(e.target.value)} className={styles.input} />
+                        </label>
+                        <label className={`${styles.formLabel} ${styles.formLabelHalf}`}>
+                          Last Name
+                          <input value={lastName} onChange={(e)=>setLastName(e.target.value)} className={styles.input} />
+                        </label>
+                      </div>
+
+                      <label className={styles.formLabel}>
+                        Email
+                        <input value={email} onChange={(e)=>setEmail(e.target.value)} className={styles.input} />
+                      </label>
+
+                    </form>
+                  ) : (
+                    <div className={styles.placeholderBox} />
+                  )}
+                </div>
+
+                <aside className={styles.summaryCard} aria-hidden>
+                  <div className="avatarPreview">
+                    <img src={avatar} alt="Avatar preview" />
+                    <div>
+                      <div className={styles.summaryName}>{mounted ? (user?.name || `${firstName} ${lastName}`) : `${firstName} ${lastName}`}</div>
+                      <div className={styles.summaryEmail}>{mounted ? (user?.email || email) : email}</div>
+                    </div>
                   </div>
 
-                  <label className={styles.formLabel}>
-                    Email
-                    <input value={email} onChange={(e)=>setEmail(e.target.value)} className={styles.input} />
-                  </label>
+                  <div className={styles.statList}>
+                    <div className={styles.statBadge}>Wishlist {mounted && savedItems?.length ? `(${savedItems.length})` : '(0)'}</div>
+                    <div className={styles.statBadge}>Orders {orders ? orders.length : 0}</div>
+                  </div>
 
-                </form>
-              ) : (
-                <div className={styles.placeholderBox} />
-              )}
+                  <div className={styles.quickLinks}>
+                    <button className={styles.quickLink} onClick={() => handleTabChange('orders')}>View Orders</button>
+                    <button className={styles.quickLink} onClick={() => handleTabChange('wishlist')}>Open Wishlist</button>
+                    <button className={styles.quickLink} onClick={() => handleTabChange('settings')}>Account Settings</button>
+                  </div>
+                </aside>
+              </div>
             </div>
           )}
 
           {tab === 'orders' && (
             <div className={styles.panelCard}>
-              <h2 className={styles.panelTitle}>My Orders</h2>
-              <p className={styles.mutedText}>View your past orders. (Demo stored locally)</p>
+              <div className={styles.panelHeader}>
+                <h2 className={styles.panelTitle}>My Orders</h2>
+                <div className={styles.panelActions}><button className={styles.btn}>View all</button></div>
+              </div>
 
-              <div className={styles.orderList}>
-                {orders && orders.length > 0 ? (
-                  orders.map((o: any) => (
-                    <div key={o.id} className={styles.orderCard}>
-                      <div>
-                        <div className={styles.orderMeta}>Order #{o.id}</div>
-                        <div className={styles.orderMetaSmall}>{new Date(o.createdAt).toLocaleString()} • {(o.items||[]).length} items</div>
-                      </div>
-                      <div className={styles.orderActions}>
-                        <a href={`/order/${o.id}`} className={`${styles.btn} ${styles.smallUnderlineLink}`}>View</a>
-                        <button onClick={() => reorder(o)} className={`${styles.btn} ${styles.btnPrimary}`}>Reorder</button>
-                      </div>
+              <div className={styles.panelGrid}>
+                <div>
+                  {orders && orders.length > 0 ? (
+                    <div className={styles.ordersGrid}>
+                      {orders.map((o: any) => (
+                        <div key={o.id} className={styles.orderCard}>
+                          <div>
+                            <div className={styles.orderMeta}>Order #{o.id}</div>
+                            <div className={styles.orderMetaSmall}>{new Date(o.createdAt).toLocaleString()} • {(o.items||[]).length} items</div>
+                          </div>
+                          <div className={styles.orderActions}>
+                            <a href={`/order/${o.id}`} className={`${styles.btn} ${styles.smallUnderlineLink}`}>View</a>
+                            <button onClick={() => reorder(o)} className={`${styles.btn} ${styles.btnPrimary}`}>Reorder</button>
+                          </div>
+                        </div>
+                      ))}
                     </div>
-                  ))
-                ) : (
-                  <div className={styles.orderCard}>
-                    <div className={styles.orderMeta}>No orders yet.</div>
-                    <div className={styles.orderMetaSmall}>Find something you love and place an order.</div>
-                    <div className={styles.spacedTop}><a href="/shop" className={`${styles.btn} ${styles.btnPrimary}`}>Shop products</a></div>
+                  ) : (
+                    <div className={styles.orderCard}>
+                      <div className={styles.orderMeta}>No orders yet.</div>
+                      <div className={styles.orderMetaSmall}>Find something you love and place an order.</div>
+                      <div className={styles.spacedTop}><a href="/shop" className={`${styles.btn} ${styles.btnPrimary}`}>Shop products</a></div>
+                    </div>
+                  )}
+                </div>
+
+                <aside className={styles.summaryCard}>
+                  <div className={styles.summaryName}>Order quick actions</div>
+                  <div className={styles.quickLinks}>
+                    <button className={styles.quickLink} onClick={() => window.location.href = '/shop'}>Shop now</button>
+                    <button className={styles.quickLink} onClick={() => window.location.href = '/orders'}>Order history</button>
                   </div>
-                )}
+                </aside>
               </div>
             </div>
           )}
 
           {tab === 'wishlist' && (
             <div className={styles.panelCard}>
-              <h2 className={styles.panelTitle}>Wishlist</h2>
-              <p className={styles.mutedText}>Items you've saved for later.</p>
-              <div className={styles.centerPadded}><a href="/wishlist" className={`${styles.btn} ${styles.btnPrimary}`}>Open wishlist</a></div>
+              <div className={styles.panelHeader}><h2 className={styles.panelTitle}>Wishlist</h2></div>
+              <div className={styles.panelGrid}>
+                <div>
+                  <p className={styles.mutedText}>Items you've saved for later.</p>
+                  <div className={styles.centerPadded}><a href="/wishlist" className={`${styles.btn} ${styles.btnPrimary}`}>Open wishlist</a></div>
+                </div>
+
+                <aside className={styles.summaryCard}>
+                  <div className={styles.summaryName}>Tips</div>
+                  <div className={styles.smallMuted}>Move items to cart quickly or save for later</div>
+                  <div className={styles.quickLinks}>
+                    <button className={styles.quickLink} onClick={() => handleTabChange('orders')}>Check orders</button>
+                  </div>
+                </aside>
+              </div>
             </div>
           )}
 
           {tab === 'address' && (
             <div className={styles.panelCard}>
-              <h2 className={styles.panelTitle}>Addresses</h2>
-              <p className={styles.mutedText}>Manage your shipping addresses.</p>
-              <div className={styles.centerPadded}>
-                <div className={styles.orderCard}>
-                  <div className={styles.orderMeta}>Home</div>
-                  <div className={styles.orderMetaSmall}>No addresses yet.</div>
-                  <div className={styles.orderActions}><button className={`${styles.btn} ${styles.btnPrimary}`}>Add address</button></div>
+              <div className={styles.panelHeader}><h2 className={styles.panelTitle}>Addresses</h2></div>
+              <div className={styles.panelGrid}>
+                <div>
+                  <p className={styles.mutedText}>Manage your shipping addresses.</p>
+                  <div className={styles.centerPadded}>
+                    <div className={styles.orderCard}>
+                      <div className={styles.orderMeta}>Home</div>
+                      <div className={styles.orderMetaSmall}>No addresses yet.</div>
+                      <div className={styles.orderActions}><button className={`${styles.btn} ${styles.btnPrimary}`}>Add address</button></div>
+                    </div>
+                  </div>
                 </div>
+
+                <aside className={styles.summaryCard}>
+                  <div className={styles.summaryName}>Address tips</div>
+                  <div className={styles.smallMuted}>Set a default address to speed up checkout</div>
+                  <div className={styles.quickLinks}><button className={styles.quickLink}>Add new address</button></div>
+                </aside>
               </div>
             </div>
           )}
 
           {tab === 'payment' && (
             <div className={styles.panelCard}>
-              <h2 className={styles.panelTitle}>Payment methods</h2>
-              <p className={styles.mutedText}>Add or remove payment methods.</p>
-              <div className={styles.centerPadded}>
-                <div className={styles.orderCard}>
-                  <div className={styles.orderMeta}>No saved cards</div>
-                  <div className={styles.orderActions}><button className={`${styles.btn} ${styles.btnPrimary}`}>Add payment method</button></div>
+              <div className={styles.panelHeader}><h2 className={styles.panelTitle}>Payment methods</h2></div>
+              <div className={styles.panelGrid}>
+                <div>
+                  <p className={styles.mutedText}>Add or remove payment methods.</p>
+                  <div className={styles.centerPadded}>
+                    <div className={styles.orderCard}>
+                      <div className={styles.orderMeta}>No saved cards</div>
+                      <div className={styles.orderActions}><button className={`${styles.btn} ${styles.btnPrimary}`}>Add payment method</button></div>
+                    </div>
+                  </div>
                 </div>
+
+                <aside className={styles.summaryCard}>
+                  <div className={styles.summaryName}>Secure payments</div>
+                  <div className={styles.smallMuted}>We never store full card numbers</div>
+                  <div className={styles.quickLinks}><button className={styles.quickLink}>Add card</button></div>
+                </aside>
               </div>
             </div>
           )}
 
           {tab === 'settings' && (
             <div className={styles.panelCard}>
-              <h2 className={styles.panelTitle}>Account settings</h2>
-              <p className={styles.mutedText}>Security and preferences.</p>
-              <div className={styles.centerPadded}>
-                <label className={styles.checkboxRow}>
-                  <input type="checkbox" /> Receive marketing emails
-                </label>
+              <div className={styles.panelHeader}><h2 className={styles.panelTitle}>Account settings</h2></div>
+              <div className={styles.panelGrid}>
+                <div>
+                  <p className={styles.mutedText}>Security and preferences.</p>
+                  <div className={styles.centerPadded}>
+                    <label className={styles.checkboxRow}>
+                      <input type="checkbox" /> Receive marketing emails
+                    </label>
+                    <label className={styles.checkboxRow}>
+                      <input type="checkbox" /> Two-factor authentication
+                    </label>
+                  </div>
+                </div>
+
+                <aside className={styles.summaryCard}>
+                  <div className={styles.summaryName}>Privacy</div>
+                  <div className={styles.smallMuted}>Manage connected apps and sessions</div>
+                  <div className={styles.quickLinks}><button className={styles.quickLink}>View sessions</button></div>
+                </aside>
               </div>
             </div>
           )}
