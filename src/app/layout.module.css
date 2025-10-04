@@ -200,6 +200,8 @@
 /* --- Premium footer additions (Kharido) --- */
 
 .k-footer {
+  position: relative;
+  z-index: 20;
   background: var(--brand-dark, #101428);
   color: #ffffff;
   padding: 64px 20px;
