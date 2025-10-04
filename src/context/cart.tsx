@@ -18,6 +18,7 @@ type CartContextValue = {
   clear: () => void;
   totalQuantity: number;
   saveForLater: (id: number) => void;
+  addToSaved: (item: Omit<CartItem, "quantity">) => void;
   moveToCart: (id: number, qty?: number) => void;
 };
 
@@ -129,7 +130,7 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
   const totalQuantity = items.reduce((s, i) => s + i.quantity, 0);
 
   return (
-    <CartContext.Provider value={{ items, savedItems, addItem, removeItem, updateItem, clear, totalQuantity, saveForLater, moveToCart }}>
+    <CartContext.Provider value={{ items, savedItems, addItem, removeItem, updateItem, clear, totalQuantity, saveForLater, addToSaved, moveToCart }}>
       {children}
     </CartContext.Provider>
   );
