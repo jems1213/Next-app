@@ -255,6 +255,44 @@ a.secondary {
   display: flex;
   align-items: center;
   justify-content: center;
+  position: relative; /* enable absolute children like wishlist icon */
+}
+
+.wishlistIcon {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  width: 36px;
+  height: 36px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 9999px;
+  background: rgba(0,0,0,0.35);
+  color: white;
+  border: 1px solid rgba(255,255,255,0.04);
+  cursor: pointer;
+  transition: transform 160ms ease, background 160ms ease;
+  z-index: 6;
+}
+
+.wishlistIcon:hover { transform: translateY(-2px); background: rgba(0,0,0,0.45); }
+
+.wishlistIcon.hearted { background: linear-gradient(90deg, var(--color-accent-600), var(--color-accent)); }
+
+.wishlistBadge {
+  display: inline-block;
+  min-width: 18px;
+  height: 18px;
+  padding: 0 6px;
+  border-radius: 999px;
+  background: var(--accent);
+  color: #fff;
+  font-weight: 700;
+  font-size: 12px;
+  line-height: 18px;
+  text-align: center;
+  margin-left: 6px;
 }
 
 .productImage {
