@@ -15,6 +15,9 @@
 .itemRow { display:flex; gap:12px; align-items:center; background:linear-gradient(180deg, rgba(255,255,255,0.01), transparent); border-radius:12px; padding:12px; border:1px solid rgba(255,255,255,0.03); }
 @media (max-width:900px) { .itemRow { flex-direction:row; } }
 
+/* Ensure the right column stays visible and aligned like a payment panel */
+.rightColumn { background:linear-gradient(180deg, rgba(255,255,255,0.02), transparent); padding:12px; border-radius:12px; border:1px solid rgba(255,255,255,0.03); position:sticky; top:120px; align-self:start; }
+
 .itemMedia { width:72px; height:72px; flex:0 0 72px; display:flex; align-items:center; justify-content:center; }
 .itemImage { width:72px; height:72px; object-fit:cover; border-radius:8px; }
 .fallbackImage { width:72px; height:72px; border-radius:8px; background:linear-gradient(180deg,var(--muted-border),transparent); }
