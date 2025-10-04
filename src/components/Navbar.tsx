@@ -36,7 +36,7 @@ export default function Navbar() {
     <header className={styles.header}>
       <FetchGuard />
       <nav className={[styles.navbar, scrolled && styles.navbarScrolled].filter(Boolean).join(' ')} aria-label="Main navigation" style={{padding: '6px 12px'}}>
-        <div className={styles.navInner}>
+        <div className={styles.navInner} style={{padding: '0 12px', gap: 8}}>
           <Link href="/" prefetch={false} className={styles.brandLink} aria-label="Home">
             <span className={styles.brandEmoji}>👟</span>
             <span className={styles.brandTitle}>{brandName}</span>
