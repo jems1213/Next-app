@@ -1,6 +1,7 @@
 "use client";
 import React, { useState } from "react";
 import { useAuth } from "../../context/auth";
+import OrdersClient from "../orders/OrdersClient";
 import styles from "./profile.module.css";
 
 const MENU = [
