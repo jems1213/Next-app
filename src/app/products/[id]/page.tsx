@@ -4,7 +4,8 @@ import ProductDetailClient from '../../../components/ProductDetailClient';
 import ProductDescriptionClient from '../../../components/ProductDescriptionClient';
 import styles from "../../page.module.css";
 import productStyles from "../product.module.css";
-import { getProduct } from "../../../lib/fakeStore";
+import { getProduct, getProducts } from "../../../lib/fakeStore";
+import RelatedProducts from '../../../components/RelatedProducts';
 
 export default async function ProductPage(props: { params: { id: string } }) {
   // await params (Next may pass a thenable)
