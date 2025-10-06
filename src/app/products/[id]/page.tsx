@@ -17,7 +17,7 @@ export default async function ProductPage(props: { params: { id: string } }) {
     return (
       <div className={`${styles.page}`}>
         <main className={styles.main}>
-          <Link href="/" prefetch={false} className={styles.backLink}>&larr; Back to products</Link>
+          <Link href="/" prefetch={false} className={`${styles.backLink} ${productStyles.backLinkTopLeft}`}>&larr; Back to products</Link>
           <div style={{ padding: 20 }}>
             <h1 className={styles.title}>Product not found</h1>
             <p className={styles.lead}>We couldn't load that product. It may not exist or the external API failed. Try again later.</p>
