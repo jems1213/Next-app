@@ -55,7 +55,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   };
 
   const signOut = async () => {
-    try { await fetch('/api/auth/logout', { method: 'POST' }); } catch {}
+    try { await fetch('/api/auth/logout', { method: 'POST', credentials: 'include' }); } catch {}
     setUser(null);
     try { window.dispatchEvent(new CustomEvent('user-changed', { detail: null })); } catch {}
     try { window.dispatchEvent(new CustomEvent('app-toast', { detail: { message: 'Signed out', type: 'info' } })); } catch {}
