@@ -161,17 +161,17 @@ export default function ProfilePage() {
                 {/* Account stats */}
                 <div className={styles.infoRow}>
                   <div className={styles.infoLabel}>Account created</div>
-                  <div className={styles.infoValue}>{readJson<string>("account_created", "7/1/2025")}</div>
+                  <div className={styles.infoValue}>{mounted ? readJson<string>("account_created", "7/1/2025") : "—"}</div>
                 </div>
 
                 <div className={styles.infoRow}>
                   <div className={styles.infoLabel}>Total orders</div>
-                  <div className={styles.infoValue}>{readJson<any[]>("orders", []).length}</div>
+                  <div className={styles.infoValue}>{mounted ? readJson<any[]>("orders", []).length : 0}</div>
                 </div>
 
                 <div className={styles.infoRow}>
                   <div className={styles.infoLabel}>Total wishlisted</div>
-                  <div className={styles.infoValue}>{savedItems ? savedItems.length : 0}</div>
+                  <div className={styles.infoValue}>{mounted ? (savedItems ? savedItems.length : 0) : 0}</div>
                 </div>
               </>
             )}
