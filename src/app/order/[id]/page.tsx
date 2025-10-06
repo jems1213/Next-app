@@ -1,6 +1,5 @@
 import Link from "next/link";
 import styles from "../../page.module.css";
-import Link from "next/link";
 
 export default async function OrderPage({ params }: { params: { id: string } | Promise<{ id: string }> }) {
   const p = await params as { id: string };
