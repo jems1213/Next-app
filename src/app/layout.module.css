@@ -357,6 +357,12 @@
   opacity: 1;
 }
 
+/* Support specific generated class name requested by user */
+.layout_navItem__MJcTN a:hover::after, .layout_navItem__MJcTN a:focus::after {
+  transform: translateX(-70%) scaleX(1);
+  opacity: 1;
+}
+
 /* Nav pill subtle pulse on hover */
 .navPill { transition: transform 220ms ease, box-shadow 220ms ease; }
 .navPill:hover { transform: translateY(-2px) scale(1.02); box-shadow: 0 6px 20px rgba(191,164,106,0.08); }
