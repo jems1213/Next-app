@@ -12,6 +12,11 @@ export default function WishlistButton({ product }: { product: any }) {
     setMounted(true);
   }, []);
 
+  // hide floating wishlist icon on standalone product detail pages
+  if (mounted && typeof window !== 'undefined' && window.location.pathname.startsWith('/products/')) {
+    return null;
+  }
+
   const renderedExists = mounted ? exists : false;
 
   function toggle(e: React.MouseEvent) {
