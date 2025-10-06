@@ -42,7 +42,7 @@ export default function Footer() {
           {/* Explore */}
           <div>
             <h4 className={styles['k-footerColTitle']}>Explore</h4>
-            <ul aria-label="Explore links" style={{ display: 'flex', flexDirection: 'column', gap: 8, listStyle: 'none', padding: 0, margin: 0 }}>
+            <ul aria-label="Explore links" className={styles['k-footerLinks']} style={{ display: 'flex', flexDirection: 'column', gap: 8, listStyle: 'none', padding: 0, margin: 0 }}>
               <li><Link href="/new-arrivals">New Arrivals</Link></li>
               <li><Link href="/shop">Shop</Link></li>
               <li><Link href="/collections">Collections</Link></li>
