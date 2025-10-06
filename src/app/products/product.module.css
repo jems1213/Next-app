@@ -175,6 +175,9 @@
 
 @keyframes fadeUp { from { opacity: 0; transform: translateY(8px);} to { opacity:1; transform: translateY(0);} }
 
+/* Hide the floating wishlist heart icon on the main product detail page */
+.productSection .wishlistIcon { display: none !important; }
+
 /* Related products spacing and layout (keeps card style unchanged) */
 .relatedWrapper {
   clear: both; /* ensure it sits below earlier content */
