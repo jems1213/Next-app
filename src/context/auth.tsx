@@ -10,86 +10,50 @@ type User = {
 type AuthContextValue = {
   user: User | null;
   signIn: (email: string, password?: string) => Promise<User>;
-  signOut: () => void;
+  signOut: () => Promise<void>;
   update: (u: Partial<User>) => void;
 };
 
 const AuthContext = createContext<AuthContextValue | undefined>(undefined);
 
-function readJsonStorage<T>(key: string, fallback: T): T {
-  try {
-    if (typeof window === "undefined") return fallback;
-    const raw = localStorage.getItem(key);
-    if (!raw) return fallback;
-    return JSON.parse(raw) as T;
-  } catch {
-    return fallback;
-  }
-}
-
-function writeJsonStorage<T>(key: string, value: T) {
-  try {
-    localStorage.setItem(key, JSON.stringify(value));
-  } catch {}
-}
-
 export function AuthProvider({ children }: { children: React.ReactNode }) {
-  const [user, setUser] = useState<User | null>(() => readJsonStorage<User | null>("user", null));
+  const [user, setUser] = useState<User | null>(null);
 
+  // on mount, fetch current user from server (cookie-based session)
   useEffect(() => {
-    writeJsonStorage("user", user);
-  }, [user]);
-
-  useEffect(() => {
-    function onStorage(e: StorageEvent) {
-      if (e.key === "user") setUser(readJsonStorage("user", null));
-    }
-    function onUserChanged() {
-      setUser(readJsonStorage("user", null));
-    }
-    window.addEventListener("storage", onStorage);
-    window.addEventListener("user-changed", onUserChanged);
-    return () => {
-      window.removeEventListener("storage", onStorage);
-      window.removeEventListener("user-changed", onUserChanged);
-    };
+    let mounted = true;
+    (async () => {
+      try {
+        const res = await fetch('/api/auth/me');
+        if (!res.ok) return;
+        const json = await res.json();
+        if (mounted && json && json.user) {
+          const u: User = { name: json.user.name || (json.user.email.split('@')[0] || 'User'), email: json.user.email, avatar: `https://ui-avatars.com/api/?name=${encodeURIComponent(json.user.name || (json.user.email.split('@')[0] || 'User'))}&background=111827&color=ffffff&size=64` };
+          setUser(u);
+        }
+      } catch {}
+    })();
+    return () => { mounted = false; };
   }, []);
 
   const signIn = async (email: string, password?: string) => {
-    // try server login first
-    try {
-      const res = await fetch('/api/auth/login', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ email, password })
-      });
-      const json = await res.json();
-      if (!res.ok) throw new Error(json?.error || 'Sign in failed');
-      const u: User = { name: json.name || (email.split('@')[0] || 'User'), email, avatar: `https://ui-avatars.com/api/?name=${encodeURIComponent(json.name || (email.split('@')[0] || 'User'))}&background=111827&color=ffffff&size=64` };
-      setUser(u);
-      try { localStorage.setItem('user', JSON.stringify(u)); } catch {}
-      try { window.dispatchEvent(new CustomEvent('user-changed', { detail: u })); } catch {}
-      try { window.dispatchEvent(new CustomEvent('app-toast', { detail: { message: `Signed in as ${u.name}`, type: 'success' } })); } catch {}
-      return u;
-    } catch (e) {
-      // fallback demo behavior
-      const name = email.split("@")[0] || "User";
-      const avatar = `https://ui-avatars.com/api/?name=${encodeURIComponent(name)}&background=111827&color=ffffff&size=64`;
-      const u: User = { name, email, avatar };
-      setUser(u);
-      try { localStorage.setItem('user', JSON.stringify(u)); } catch {}
-      try { window.dispatchEvent(new CustomEvent('user-changed', { detail: u })); } catch {}
-      try { window.dispatchEvent(new CustomEvent('app-toast', { detail: { message: `Signed in as ${u.name}`, type: 'success' } })); } catch {}
-      return u;
-    }
+    const res = await fetch('/api/auth/login', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ email, password })
+    });
+    const json = await res.json();
+    if (!res.ok) throw new Error(json?.error || 'Sign in failed');
+    const u: User = { name: json.name || (email.split('@')[0] || 'User'), email, avatar: `https://ui-avatars.com/api/?name=${encodeURIComponent(json.name || (email.split('@')[0] || 'User'))}&background=111827&color=ffffff&size=64` };
+    setUser(u);
+    try { window.dispatchEvent(new CustomEvent('user-changed', { detail: u })); } catch {}
+    try { window.dispatchEvent(new CustomEvent('app-toast', { detail: { message: `Signed in as ${u.name}`, type: 'success' } })); } catch {}
+    return u;
   };
 
   const signOut = async () => {
-    try {
-      await fetch('/api/auth/logout', { method: 'POST' });
-    } catch {}
+    try { await fetch('/api/auth/logout', { method: 'POST' }); } catch {}
     setUser(null);
-    try { localStorage.removeItem('user'); } catch {}
     try { window.dispatchEvent(new CustomEvent('user-changed', { detail: null })); } catch {}
     try { window.dispatchEvent(new CustomEvent('app-toast', { detail: { message: 'Signed out', type: 'info' } })); } catch {}
   };
@@ -97,7 +61,6 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   const update = (u: Partial<User>) => {
     setUser((prev) => {
       const next = prev ? { ...prev, ...u } : prev;
-      try { localStorage.setItem('user', JSON.stringify(next)); } catch {}
       try { window.dispatchEvent(new CustomEvent('user-changed', { detail: next })); } catch {}
       return next;
     });
@@ -109,32 +72,5 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 export function useAuth() {
   const ctx = useContext(AuthContext);
   if (ctx) return ctx;
-  // fallback implementation (in case hook is used outside provider during rendering)
-  const fallback: AuthContextValue = {
-    user: null,
-    signIn: async (email: string) => {
-      const name = email.split("@")[0] || "User";
-      const avatar = `https://ui-avatars.com/api/?name=${encodeURIComponent(name)}&background=111827&color=ffffff&size=64`;
-      const u: User = { name, email, avatar };
-      try { localStorage.setItem('user', JSON.stringify(u)); } catch {}
-      try { window.dispatchEvent(new CustomEvent('user-changed', { detail: u })); } catch {}
-      try { window.dispatchEvent(new CustomEvent('app-toast', { detail: { message: `Signed in as ${u.name}`, type: 'success' } })); } catch {}
-      return u;
-    },
-    signOut: () => {
-      try { localStorage.removeItem('user'); } catch {}
-      try { window.dispatchEvent(new CustomEvent('user-changed', { detail: null })); } catch {}
-      try { window.dispatchEvent(new CustomEvent('app-toast', { detail: { message: 'Signed out', type: 'info' } })); } catch {}
-    },
-    update: (u: Partial<User>) => {
-      try {
-        const raw = localStorage.getItem('user');
-        const cur = raw ? JSON.parse(raw) : null;
-        const next = cur ? { ...cur, ...u } : null;
-        if (next) localStorage.setItem('user', JSON.stringify(next));
-        try { window.dispatchEvent(new CustomEvent('user-changed', { detail: next })); } catch {}
-      } catch {}
-    },
-  };
-  return fallback;
+  throw new Error('useAuth must be used within AuthProvider');
 }
