@@ -55,6 +55,10 @@ export default function ProfilePage() {
   useEffect(() => writeJson("preferences", prefs), [prefs]);
   useEffect(() => writeJson("connected_accounts", connected), [connected]);
 
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+
   function addAddress(e?: React.FormEvent) {
     e?.preventDefault();
     const id = Date.now().toString(36);
