@@ -55,21 +55,39 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     };
   }, []);
 
-  const signIn = async (email: string) => {
-    const name = email.split("@")[0] || "User";
-    const avatar = `https://ui-avatars.com/api/?name=${encodeURIComponent(name)}&background=111827&color=ffffff&size=64`;
-    const u: User = { name, email, avatar };
-    // simulate network delay
-    await new Promise((r) => setTimeout(r, 300));
-    setUser(u);
-    try { localStorage.setItem('user', JSON.stringify(u)); } catch {}
-    // notify other listeners
-    try { window.dispatchEvent(new CustomEvent('user-changed', { detail: u })); } catch {}
-    try { window.dispatchEvent(new CustomEvent('app-toast', { detail: { message: `Signed in as ${u.name}`, type: 'success' } })); } catch {}
-    return u;
+  const signIn = async (email: string, password?: string) => {
+    // try server login first
+    try {
+      const res = await fetch('/api/auth/login', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email, password })
+      });
+      const json = await res.json();
+      if (!res.ok) throw new Error(json?.error || 'Sign in failed');
+      const u: User = { name: json.name || (email.split('@')[0] || 'User'), email, avatar: `https://ui-avatars.com/api/?name=${encodeURIComponent(json.name || (email.split('@')[0] || 'User'))}&background=111827&color=ffffff&size=64` };
+      setUser(u);
+      try { localStorage.setItem('user', JSON.stringify(u)); } catch {}
+      try { window.dispatchEvent(new CustomEvent('user-changed', { detail: u })); } catch {}
+      try { window.dispatchEvent(new CustomEvent('app-toast', { detail: { message: `Signed in as ${u.name}`, type: 'success' } })); } catch {}
+      return u;
+    } catch (e) {
+      // fallback demo behavior
+      const name = email.split("@")[0] || "User";
+      const avatar = `https://ui-avatars.com/api/?name=${encodeURIComponent(name)}&background=111827&color=ffffff&size=64`;
+      const u: User = { name, email, avatar };
+      setUser(u);
+      try { localStorage.setItem('user', JSON.stringify(u)); } catch {}
+      try { window.dispatchEvent(new CustomEvent('user-changed', { detail: u })); } catch {}
+      try { window.dispatchEvent(new CustomEvent('app-toast', { detail: { message: `Signed in as ${u.name}`, type: 'success' } })); } catch {}
+      return u;
+    }
   };
 
-  const signOut = () => {
+  const signOut = async () => {
+    try {
+      await fetch('/api/auth/logout', { method: 'POST' });
+    } catch {}
     setUser(null);
     try { localStorage.removeItem('user'); } catch {}
     try { window.dispatchEvent(new CustomEvent('user-changed', { detail: null })); } catch {}
