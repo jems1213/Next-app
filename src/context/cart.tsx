@@ -7,6 +7,7 @@ type CartItem = {
   price: number;
   image?: string;
   quantity: number;
+  options?: Record<string, string>;
 };
 
 type CartContextValue = {
@@ -79,7 +80,8 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
   const addItem = (item: Omit<CartItem, "quantity">, qty = 1) => {
     setItems((prev) => {
       const copy = [...prev];
-      const idx = copy.findIndex((i) => i.id === item.id);
+      const normalize = (o?: Record<string, string>) => JSON.stringify(o || {});
+      const idx = copy.findIndex((i) => i.id === item.id && normalize(i.options) === normalize((item as any).options));
       if (idx >= 0) {
         copy[idx].quantity += qty;
       } else {
@@ -120,7 +122,8 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
   // add any item directly to saved items (wishlist) without removing from cart
   const addToSaved = (item: Omit<CartItem, 'quantity'>) => {
     setSavedItems((s) => {
-      const exists = s.find((x) => x.id === item.id);
+      const normalize = (o?: Record<string, string>) => JSON.stringify(o || {});
+      const exists = s.find((x) => x.id === item.id && normalize(x.options) === normalize((item as any).options));
       if (exists) return s;
       return [...s, { ...item, quantity: 1 }];
     });

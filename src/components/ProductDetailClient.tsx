@@ -12,10 +12,16 @@ export default function ProductDetailClient({ product }: { product: any }) {
   const [adding, setAdding] = useState(false);
   const [done, setDone] = useState(false);
 
+  // size & color UI (falls back to sensible defaults when product has none)
+  const sizes = product?.sizes ?? ['S', 'M', 'L', 'XL'];
+  const colors = product?.colors ?? ['Black', 'White', 'Gray', 'Blue'];
+  const [size, setSize] = useState<string>(sizes[0]);
+  const [color, setColor] = useState<string>(colors[0]);
+
   function onAdd() {
     setAdding(true);
     try {
-      addItem({ id: product.id, title: product.title, price: Number(product.price), image: product.image }, qty);
+      addItem({ id: product.id, title: product.title, price: Number(product.price), image: product.image, options: { size, color } }, qty);
       setDone(true);
       setTimeout(() => setDone(false), 1500);
     } finally {
@@ -25,12 +31,12 @@ export default function ProductDetailClient({ product }: { product: any }) {
 
   function onBuyNow() {
     // add to cart and navigate to cart/checkout
-    addItem({ id: product.id, title: product.title, price: Number(product.price), image: product.image }, qty);
+    addItem({ id: product.id, title: product.title, price: Number(product.price), image: product.image, options: { size, color } }, qty);
     router.push('/cart');
   }
 
   function onAddToWishlist() {
-    addToSaved({ id: product.id, title: product.title, price: Number(product.price), image: product.image });
+    addToSaved({ id: product.id, title: product.title, price: Number(product.price), image: product.image, options: { size, color } });
   }
 
   return (
@@ -40,9 +46,46 @@ export default function ProductDetailClient({ product }: { product: any }) {
         <div className={styles.ratingBadge}>{product.rating?.rate ?? 4.5} ★</div>
       </div>
 
+      <div className={styles.optionRow}>
+        <div className={styles.optionLabel}>Size</div>
+        <div className={styles.sizeList} role="list">
+          {sizes.map((s: string) => (
+            <button
+              key={s}
+              type="button"
+              role="listitem"
+              aria-pressed={size === s}
+              className={`${styles.sizeOption} ${size === s ? styles.sizeSelected : ''}`}
+              onClick={() => setSize(s)}
+            >
+              {s}
+            </button>
+          ))}
+        </div>
+      </div>
+
+      <div className={styles.optionRow}>
+        <div className={styles.optionLabel}>Color</div>
+        <div className={styles.swatchList} role="list">
+          {colors.map((c: string) => (
+            <button
+              key={c}
+              type="button"
+              role="listitem"
+              aria-pressed={color === c}
+              className={`${styles.swatch} ${color === c ? styles.swatchSelected : ''}`}
+              onClick={() => setColor(c)}
+              aria-label={c}
+            >
+              <span className={styles.swatchInner} />
+            </button>
+          ))}
+        </div>
+      </div>
+
       <div className={styles.controlsGroup}>
         <label className={styles.label}>Quantity</label>
-        <div style={{ display: 'flex', gap: 8, alignItems: 'center' }}>
+        <div className={styles.qtyRow}>
           <input
             aria-label="Quantity"
             type="number"
@@ -58,26 +101,13 @@ export default function ProductDetailClient({ product }: { product: any }) {
         </div>
       </div>
 
-      <div style={{ marginTop: 10, display: 'flex', gap: 12 }}>
+      <div className={styles.buttonRow}>
         <button className={`btn btn-primary ${styles.animatedButton}`} onClick={onBuyNow}>Buy now</button>
         <button className={`btn ${styles.ghostButton} ${styles.animatedButton}`} onClick={onAddToWishlist}>Add to wishlist</button>
       </div>
 
       {done && <div className={styles.successBadge}>Added to cart</div>}
 
-      <div style={{ marginTop: 12 }}>
-        <LinkBar />
-      </div>
-    </div>
-  );
-}
-
-function LinkBar() {
-  return (
-    <div style={{ display: 'flex', gap: 12 }}>
-      {/* eslint-disable-next-line @next/next/no-html-link-for-pages */}
-      <a href="/" className="link">← Back to products</a>
-      <a href="/cart" className="link">View cart</a>
     </div>
   );
 }
