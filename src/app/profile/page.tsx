@@ -176,7 +176,7 @@ export default function ProfilePage() {
                       </div>
                       <div className={styles.wishlistInfo}>
                         <div className={styles.wishlistTitle}>{it.title}</div>
-                        <div className={styles.textMuted}>${Number(it.price).toFixed(2)}</div>
+                        <div className="text-muted">${Number(it.price).toFixed(2)}</div>
                       </div>
                       <div className={styles.wishlistActions}>
                         <button className="btn" onClick={() => moveToCart(it.id)}>Add to cart</button>
@@ -237,8 +237,8 @@ export default function ProfilePage() {
                       <div key={a.id} className={styles.addressRow}>
                         <div>
                           <div style={{ fontWeight: 700 }}>{a.label}</div>
-                          <div className={styles.textMuted}>{a.fullName} · {a.phone}</div>
-                          <div className={styles.textMuted}>{a.street}, {a.city}, {a.state} {a.zip}, {a.country}</div>
+                          <div className="text-muted">{a.fullName} · {a.phone}</div>
+                          <div className="text-muted">{a.street}, {a.city}, {a.state} {a.zip}, {a.country}</div>
                         </div>
                         <div>
                           <button className="btn" onClick={() => removeAddress(a.id)}>Remove</button>
@@ -259,7 +259,7 @@ export default function ProfilePage() {
                   </label>
                   <label>
                     Card number
-                    <input value={cardForm.number} onChange={(e) => setCardForm((s) => ({ ...s, number: e.target.value }))} placeholder="•••• •••• •••• 4242" />
+                    <input value={cardForm.number} onChange={(e) => setCardForm((s) => ({ ...s, number: e.target.value }))} placeholder="•••• •••• ��••• 4242" />
                   </label>
                   <label>
                     Expiry
@@ -277,7 +277,7 @@ export default function ProfilePage() {
                       <div key={c.id} className={styles.addressRow}>
                         <div>
                           <div style={{ fontWeight: 700 }}>{c.name} •••• {c.last4}</div>
-                          <div className={styles.textMuted}>Expires {c.expiry}</div>
+                          <div className="text-muted">Expires {c.expiry}</div>
                         </div>
                         <div>
                           <button className="btn" onClick={() => removeCard(c.id)}>Remove</button>
