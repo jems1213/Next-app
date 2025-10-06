@@ -42,7 +42,7 @@ export default function OrdersClient() {
 
   async function removeOne(id: string) {
     try {
-      await fetch('/api/orders', { method: 'DELETE', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ id }) });
+      await fetch('/api/orders', { method: 'DELETE', credentials: 'include', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ id }) });
       setOrders((prev) => (prev || []).filter((o) => o.id !== id));
     } catch (e) {
       console.error(e);
