@@ -1,26 +1,20 @@
 "use client";
-import Link from "next/link";
-import { usePathname } from "next/navigation";
+import React, { useState } from "react";
 import { useAuth } from "../../context/auth";
 import styles from "./profile.module.css";
 
 const MENU = [
-  { label: "Profile", href: "/profile" },
-  { label: "My Orders", href: "/orders" },
-  { label: "Wishlist", href: "/wishlist" },
-  { label: "Addresses", href: "/addresses" },
-  { label: "Payment Methods", href: "/payment-methods" },
-  { label: "Account Settings", href: "/account-settings" },
+  "Profile",
+  "My Orders",
+  "Wishlist",
+  "Addresses",
+  "Payment Methods",
+  "Account Settings",
 ];
 
 export default function ProfilePage() {
-  const pathname = usePathname();
   const { signOut } = useAuth();
-
-  const isActive = (href: string) => {
-    if (href === "/profile") return pathname === "/profile";
-    return pathname?.startsWith(href);
-  };
+  const [active, setActive] = useState<string>("Profile");
 
   return (
     <section className={styles.profileSection}>
@@ -36,18 +30,19 @@ export default function ProfilePage() {
             </div>
           </div>
 
-          <nav className={styles.menu}>
-            {MENU.map((item) => (
-              <Link
-                key={item.href}
-                href={item.href}
-                prefetch={false}
-                className={`${styles.menuItem} ${isActive(item.href) ? styles.menuItemActive : ""}`}
-                aria-current={isActive(item.href) ? "page" : undefined}
+          <nav className={styles.menu} role="tablist" aria-orientation="vertical">
+            {MENU.map((label) => (
+              <button
+                key={label}
+                type="button"
+                role="tab"
+                aria-selected={active === label}
+                className={`${styles.menuItem} ${active === label ? styles.menuItemActive : ""}`}
+                onClick={() => setActive(label)}
               >
                 <span className={styles.menuBullet} />
-                <span className={styles.menuLabel}>{item.label}</span>
-              </Link>
+                <span className={styles.menuLabel}>{label}</span>
+              </button>
             ))}
 
             <button
@@ -67,16 +62,51 @@ export default function ProfilePage() {
         </aside>
 
         <div className={styles.content}>
-          <h1 className={styles.pageTitle}>Profile</h1>
+          <h1 className={styles.pageTitle}>{active}</h1>
+
           <div className={styles.card}>
-            <div className={styles.infoRow}>
-              <div className={styles.infoLabel}>Username</div>
-              <div className={styles.infoValue}>javiyajems</div>
-            </div>
-            <div className={styles.infoRow}>
-              <div className={styles.infoLabel}>Email</div>
-              <div className={styles.infoValue}>javiyajems@gmail.com</div>
-            </div>
+            {active === "Profile" && (
+              <>
+                <div className={styles.infoRow}>
+                  <div className={styles.infoLabel}>Username</div>
+                  <div className={styles.infoValue}>javiyajems</div>
+                </div>
+                <div className={styles.infoRow}>
+                  <div className={styles.infoLabel}>Email</div>
+                  <div className={styles.infoValue}>javiyajems@gmail.com</div>
+                </div>
+              </>
+            )}
+
+            {active === "My Orders" && (
+              <div>
+                <p className="text-muted">You have no orders yet. Orders will appear here.</p>
+              </div>
+            )}
+
+            {active === "Wishlist" && (
+              <div>
+                <p className="text-muted">Your wishlist items will be shown here.</p>
+              </div>
+            )}
+
+            {active === "Addresses" && (
+              <div>
+                <p className="text-muted">Manage your shipping and billing addresses.</p>
+              </div>
+            )}
+
+            {active === "Payment Methods" && (
+              <div>
+                <p className="text-muted">Add, remove and manage saved payment cards.</p>
+              </div>
+            )}
+
+            {active === "Account Settings" && (
+              <div>
+                <p className="text-muted">Update password, preferences and connected accounts.</p>
+              </div>
+            )}
           </div>
         </div>
       </div>
