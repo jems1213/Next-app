@@ -4,6 +4,7 @@ import { useAuth } from "../../context/auth";
 import OrdersClient from "../orders/OrdersClient";
 import { useCart } from "../../context/cart";
 import styles from "./profile.module.css";
+import ConfirmDialog from "../../components/ConfirmDialog";
 
 const MENU = [
   "Profile",
@@ -36,6 +37,7 @@ export default function ProfilePage() {
   const { savedItems, moveToCart, removeFromSaved } = useCart();
   const [active, setActive] = useState<string>("Profile");
   const [mounted, setMounted] = useState(false);
+  const [confirmSignOutOpen, setConfirmSignOutOpen] = useState(false);
 
   // Addresses state
   const [addresses, setAddresses] = useState<any[]>(() => readJson<any[]>("addresses", []));
@@ -102,7 +104,7 @@ export default function ProfilePage() {
     window.alert("Password updated");
   }
 
-  return (
+  return (<>
     <section className={styles.profileSection}>
       <div className={styles.profileContainer}>
         <aside className={styles.sidebar} aria-label="Profile navigation">
@@ -134,7 +136,7 @@ export default function ProfilePage() {
             <button
               type="button"
               className={`${styles.menuItem} ${styles.signOut}`}
-              onClick={signOut}
+              onClick={() => setConfirmSignOutOpen(true)}
             >
               <span className={styles.menuBullet} />
               <span className={styles.menuLabel}>Sign Out</span>
@@ -359,5 +361,15 @@ export default function ProfilePage() {
         </div>
       </div>
     </section>
+    <ConfirmDialog
+      open={confirmSignOutOpen}
+      title="Sign out"
+      message="Are you sure you want to sign out?"
+      confirmLabel="Sign out"
+      cancelLabel="Cancel"
+      onCancel={() => setConfirmSignOutOpen(false)}
+      onConfirm={() => { setConfirmSignOutOpen(false); signOut(); }}
+    />
+  </>
   );
 }
