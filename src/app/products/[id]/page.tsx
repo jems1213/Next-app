@@ -32,7 +32,7 @@ export default async function ProductPage(props: { params: { id: string } }) {
       <section className={productStyles.productSection}>
         <div className={productStyles.backdrop} />
         <div className={productStyles.container}>
-          <Link href="/" prefetch={false} className={styles.backLink}>&larr; Back to products</Link>
+          <Link href="/" prefetch={false} className={`${styles.backLink} ${productStyles.backLinkTopLeft}`}>&larr; Back to products</Link>
 
           <div className={productStyles.card}>
             <div className={productStyles.media}>
