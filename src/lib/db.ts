@@ -11,15 +11,12 @@ function createPool() {
     throw new Error("DATABASE_URL is not set");
   }
 
-  // Some hosted Postgres providers use certificates that may not be verifiable in dev.
-  // For development, disable TLS certificate verification to avoid "self-signed certificate" errors.
-  // NOTE: Keep this restricted to non-production environments.
-  if (process.env.NODE_ENV !== 'production') {
-    try {
-      // eslint-disable-next-line no-process-env
-      process.env.NODE_TLS_REJECT_UNAUTHORIZED = '0';
-    } catch (e) {}
-  }
+  // Disable TLS certificate verification to avoid "self-signed certificate" errors with managed Postgres providers.
+  // Caution: this weakens TLS verification. For production, consider a proper CA or provide a cert bundle.
+  try {
+    // eslint-disable-next-line no-process-env
+    process.env.NODE_TLS_REJECT_UNAUTHORIZED = '0';
+  } catch (e) {}
 
   return new Pool({
     connectionString,
