@@ -41,6 +41,7 @@ export default function RootLayout({
           <AnnouncementBar />
           <AuthProvider>
             <Navbar />
+            <GlobalSignOutConfirm />
             <UnhandledRejectionGuard />
             <main>{children}</main>
 
