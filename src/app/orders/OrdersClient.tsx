@@ -13,7 +13,7 @@ export default function OrdersClient() {
     let mounted = true;
     (async () => {
       try {
-        const res = await fetch('/api/orders');
+        const res = await fetch('/api/orders', { credentials: 'include' });
         if (!res.ok) {
           if (mounted) setOrders([]);
           return;
