@@ -35,6 +35,7 @@ export default function ProfilePage() {
   const { signOut } = useAuth();
   const { savedItems, moveToCart, removeFromSaved } = useCart();
   const [active, setActive] = useState<string>("Profile");
+  const [mounted, setMounted] = useState(false);
 
   // Addresses state
   const [addresses, setAddresses] = useState<any[]>(() => readJson<any[]>("addresses", []));
