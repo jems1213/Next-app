@@ -80,7 +80,8 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
   const addItem = (item: Omit<CartItem, "quantity">, qty = 1) => {
     setItems((prev) => {
       const copy = [...prev];
-      const idx = copy.findIndex((i) => i.id === item.id);
+      const normalize = (o?: Record<string, string>) => JSON.stringify(o || {});
+      const idx = copy.findIndex((i) => i.id === item.id && normalize(i.options) === normalize((item as any).options));
       if (idx >= 0) {
         copy[idx].quantity += qty;
       } else {
