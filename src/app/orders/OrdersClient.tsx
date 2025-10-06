@@ -35,7 +35,7 @@ export default function OrdersClient() {
 
   async function clearAll() {
     try {
-      await fetch('/api/orders', { method: 'DELETE' });
+      await fetch('/api/orders', { method: 'DELETE', credentials: 'include' });
     } catch {}
     setOrders([]);
   }
