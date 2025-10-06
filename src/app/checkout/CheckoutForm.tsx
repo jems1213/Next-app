@@ -35,19 +35,13 @@ export default function CheckoutForm({ items, total }: { items: any[]; total: nu
       const payload = { items, total, customer: { ...form } };
       const res = await fetch('/api/orders', {
         method: 'POST',
+        credentials: 'include',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(payload),
       });
       if (!res.ok) throw new Error('Failed to place order');
       const data = await res.json();
 
-      // persist order locally so /orders can list it
-      try {
-        const raw = localStorage.getItem('orders');
-        const arr = raw ? JSON.parse(raw) : [];
-        arr.unshift(data);
-        localStorage.setItem('orders', JSON.stringify(arr));
-      } catch {}
 
       // clear cart storage and cookie (client-side)
       try {

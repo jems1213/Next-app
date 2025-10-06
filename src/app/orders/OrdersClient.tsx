@@ -10,34 +10,43 @@ export default function OrdersClient() {
   const { addItem } = useCart();
 
   useEffect(() => {
-    try {
-      const raw = localStorage.getItem("orders") ?? "[]";
-      const parsed = JSON.parse(raw);
-      // show latest orders first
-      const arr = Array.isArray(parsed) ? parsed.slice().reverse() : [];
-      setOrders(arr);
-    } catch {
-      setOrders([]);
-    }
+    let mounted = true;
+    (async () => {
+      try {
+        const res = await fetch('/api/orders', { credentials: 'include' });
+        if (!res.ok) {
+          if (mounted) setOrders([]);
+          return;
+        }
+        const rows = await res.json();
+        const arr = Array.isArray(rows) ? rows.map((r: any) => ({
+          id: r.id,
+          items: (r.items && r.items.items) ? r.items.items : (r.items || []),
+          total: Number(r.total || 0),
+          createdAt: r.created_at || r.createdAt || new Date().toISOString(),
+        })) : [];
+        if (mounted) setOrders(arr);
+      } catch (e) {
+        if (mounted) setOrders([]);
+      }
+    })();
+    return () => { mounted = false; };
   }, []);
 
-  function persist(next: any[]) {
+  async function clearAll() {
     try {
-      localStorage.setItem("orders", JSON.stringify(next.slice().reverse()));
-    } catch {}
-  }
-
-  function clearAll() {
-    try {
-      localStorage.removeItem("orders");
+      await fetch('/api/orders', { method: 'DELETE', credentials: 'include' });
     } catch {}
     setOrders([]);
   }
 
-  function removeOne(id: string) {
-    const next = (orders || []).filter((o) => o.id !== id);
-    persist(next);
-    setOrders(next);
+  async function removeOne(id: string) {
+    try {
+      await fetch('/api/orders', { method: 'DELETE', credentials: 'include', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ id }) });
+      setOrders((prev) => (prev || []).filter((o) => o.id !== id));
+    } catch (e) {
+      console.error(e);
+    }
   }
 
   function toggle(id: string) {
