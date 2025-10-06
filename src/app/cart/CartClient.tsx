@@ -1,11 +1,14 @@
 "use client";
+
 import React, { useMemo, useState, useEffect } from "react";
 import Link from "next/link";
 import { useCart } from "../../context/cart";
+import { useAuth } from "../../context/auth";
 import styles from "./cart.module.css";
 
 export default function CartClient({ initialItems }: { initialItems?: any[] }) {
   const { items, savedItems, addItem, removeItem, updateItem, clear, totalQuantity, saveForLater, moveToCart } = useCart();
+  const { user } = useAuth();
 
   const [mounted, setMounted] = useState(false);
   useEffect(() => { setMounted(true); }, []);
@@ -65,6 +68,20 @@ export default function CartClient({ initialItems }: { initialItems?: any[] }) {
     // simple zipcode modifier
     if (shippingZip && shippingZip.match(/\d{5}/)) cost = Math.max(0, cost - 2);
     setShippingCost(cost);
+  }
+
+  // If the client has mounted and there's no authenticated user, prompt to sign in
+  if (mounted && !user) {
+    return (
+      <div className={styles.emptyCard}>
+        <h3 className={styles.emptyTitle}>Please sign in to view your cart</h3>
+        <p className={styles.emptyLead}>You must be logged in to access your cart and proceed to checkout.</p>
+        <div style={{ display: 'flex', gap: 12, marginTop: 12 }}>
+          <Link href="/login" className={styles.primaryButton}>Sign In</Link>
+          <Link href="/register" className={styles.linkButton}>Create account</Link>
+        </div>
+      </div>
+    );
   }
 
   if (!displayItems || displayItems.length === 0) {
