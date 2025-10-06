@@ -25,9 +25,9 @@ export default function RelatedProducts({ products }: { products: any[] }) {
   if (!products || products.length === 0) return null;
 
   return (
-    <section>
+    <section className={productStyles.relatedWrapper}>
       <h2 style={{ margin: '12px 0 8px' }}>Related products</h2>
-      <section className={styles.grid}>
+      <section className={productStyles.relatedGrid}>
         {products.map((p) => (
           <article key={p.id} className={styles.card}>
             <WishlistButton product={p} />
