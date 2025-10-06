@@ -56,9 +56,6 @@ export default async function ProductPage(props: { params: { id: string } }) {
         </div>
       </section>
 
-      <footer className={styles.footer}>
-        <p className={styles.lead}>Product details fetched with ISR (60s).</p>
-      </footer>
     </div>
   );
 }
