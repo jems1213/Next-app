@@ -178,12 +178,12 @@
 /* Related products spacing and layout (keeps card style unchanged) */
 .relatedWrapper {
   clear: both; /* ensure it sits below earlier content */
-  margin-top: 60px;
+  margin-top: 80px;
   width: 100%;
   max-width: 1100px;
   margin-left: auto;
   margin-right: auto;
-  padding: 160px 12px 48px 12px; /* more top padding so related products sit well below the product card */
+  padding: 220px 12px 64px 12px; /* increased top padding so related products sit well below the product card */
   position: relative;
   z-index: 3; /* sit above the backdrop */
 }
@@ -204,15 +204,18 @@
 }
 
 /* Responsive padding adjustments for related products wrapper */
-@media (min-width: 1200px) {
-  .relatedWrapper { padding-top: 160px; }
+@media (min-width: 1400px) {
+  .relatedWrapper { padding-top: 240px; }
+}
+@media (min-width: 1200px) and (max-width: 1399px) {
+  .relatedWrapper { padding-top: 200px; }
 }
 @media (min-width: 901px) and (max-width: 1199px) {
-  .relatedWrapper { padding-top: 120px; }
+  .relatedWrapper { padding-top: 160px; }
 }
 @media (max-width: 900px) {
-  .relatedWrapper { padding-top: 80px; }
+  .relatedWrapper { padding-top: 120px; }
 }
 @media (max-width: 600px) {
-  .relatedWrapper { padding-top: 48px; }
+  .relatedWrapper { padding-top: 64px; }
 }
