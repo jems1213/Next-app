@@ -5,6 +5,7 @@ async function ensureOrdersTable() {
   await query(`
     CREATE TABLE IF NOT EXISTS orders (
       id TEXT PRIMARY KEY,
+      user_id TEXT,
       items JSONB NOT NULL,
       total NUMERIC NOT NULL,
       created_at TIMESTAMPTZ NOT NULL DEFAULT NOW()
