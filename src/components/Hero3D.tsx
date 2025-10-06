@@ -24,7 +24,12 @@ export default function Hero3D({ src, fallbackImage }: { src: string, fallbackIm
         else setFailed(true);
       };
       s.onerror = () => setFailed(true);
-      document.head.appendChild(s);
+      try {
+        const head = document.head || document.getElementsByTagName('head')[0];
+        if (head && typeof head.appendChild === 'function') head.appendChild(s);
+      } catch (err) {
+        // ignore DOM insertion errors
+      }
     } else {
       // script exists but maybe not registered yet; wait briefly
       const t = setTimeout(() => {
