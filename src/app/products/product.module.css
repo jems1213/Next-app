@@ -25,6 +25,16 @@
   width: 100%;
   max-width: 1100px;
   z-index: 1;
+  position: relative;
+}
+
+/* Position the back link at the top-left of the product container */
+.backLinkTopLeft {
+  position: absolute;
+  top: 18px;
+  left: 18px;
+  z-index: 12;
+  display: inline-block;
 }
 
 .grid {
