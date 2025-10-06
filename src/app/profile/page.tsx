@@ -80,7 +80,8 @@ export default function ProfilePage() {
 
             {active === "My Orders" && (
               <div>
-                <p className="text-muted">You have no orders yet. Orders will appear here.</p>
+                {/* Reuse OrdersClient to show stored orders */}
+                <OrdersClient />
               </div>
             )}
 
