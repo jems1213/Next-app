@@ -156,6 +156,22 @@ export default function ProfilePage() {
                   <div className={styles.infoLabel}>Email</div>
                   <div className={styles.infoValue}>javiyajems@gmail.com</div>
                 </div>
+
+                {/* Account stats */}
+                <div className={styles.infoRow}>
+                  <div className={styles.infoLabel}>Account created</div>
+                  <div className={styles.infoValue}>{readJson<string>("account_created", "7/1/2025")}</div>
+                </div>
+
+                <div className={styles.infoRow}>
+                  <div className={styles.infoLabel}>Total orders</div>
+                  <div className={styles.infoValue}>{readJson<any[]>("orders", []).length}</div>
+                </div>
+
+                <div className={styles.infoRow}>
+                  <div className={styles.infoLabel}>Total wishlisted</div>
+                  <div className={styles.infoValue}>{savedItems ? savedItems.length : 0}</div>
+                </div>
               </>
             )}
 
@@ -259,7 +275,7 @@ export default function ProfilePage() {
                   </label>
                   <label>
                     Card number
-                    <input value={cardForm.number} onChange={(e) => setCardForm((s) => ({ ...s, number: e.target.value }))} placeholder="•••• •••• ��••• 4242" />
+                    <input value={cardForm.number} onChange={(e) => setCardForm((s) => ({ ...s, number: e.target.value }))} placeholder="•••• •••• •••• 4242" />
                   </label>
                   <label>
                     Expiry
