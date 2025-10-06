@@ -65,6 +65,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     try { localStorage.setItem('user', JSON.stringify(u)); } catch {}
     // notify other listeners
     try { window.dispatchEvent(new CustomEvent('user-changed', { detail: u })); } catch {}
+    try { window.dispatchEvent(new CustomEvent('app-toast', { detail: { message: `Signed in as ${u.name}`, type: 'success' } })); } catch {}
     return u;
   };
 
@@ -72,6 +73,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     setUser(null);
     try { localStorage.removeItem('user'); } catch {}
     try { window.dispatchEvent(new CustomEvent('user-changed', { detail: null })); } catch {}
+    try { window.dispatchEvent(new CustomEvent('app-toast', { detail: { message: 'Signed out', type: 'info' } })); } catch {}
   };
 
   const update = (u: Partial<User>) => {
@@ -98,11 +100,13 @@ export function useAuth() {
       const u: User = { name, email, avatar };
       try { localStorage.setItem('user', JSON.stringify(u)); } catch {}
       try { window.dispatchEvent(new CustomEvent('user-changed', { detail: u })); } catch {}
+      try { window.dispatchEvent(new CustomEvent('app-toast', { detail: { message: `Signed in as ${u.name}`, type: 'success' } })); } catch {}
       return u;
     },
     signOut: () => {
       try { localStorage.removeItem('user'); } catch {}
       try { window.dispatchEvent(new CustomEvent('user-changed', { detail: null })); } catch {}
+      try { window.dispatchEvent(new CustomEvent('app-toast', { detail: { message: 'Signed out', type: 'info' } })); } catch {}
     },
     update: (u: Partial<User>) => {
       try {
