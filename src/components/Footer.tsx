@@ -87,7 +87,7 @@ export default function Footer() {
             <span>{" \u2014 All rights reserved."}</span>
           </div>
 
-          <div style={{ display: 'flex', gap: 12 }}>
+          <div className={styles['k-footerLinks']} style={{ display: 'flex', gap: 12 }}>
             <Link href="/terms">Terms</Link>
             <Link href="/privacy">Privacy</Link>
             <Link href="/sitemap">Sitemap</Link>
