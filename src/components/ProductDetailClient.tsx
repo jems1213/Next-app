@@ -65,17 +65,6 @@ export default function ProductDetailClient({ product }: { product: any }) {
 
       {done && <div className={styles.successBadge}>Added to cart</div>}
 
-      <div style={{ marginTop: 12 }}>
-        <LinkBar />
-      </div>
-    </div>
-  );
-}
-
-function LinkBar() {
-  return (
-    <div style={{ display: 'flex', gap: 12 }}>
-      <a href="/cart" className="link">View cart</a>
     </div>
   );
 }
