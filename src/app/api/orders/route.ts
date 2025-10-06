@@ -6,11 +6,18 @@ async function ensureOrdersTable() {
     CREATE TABLE IF NOT EXISTS orders (
       id TEXT PRIMARY KEY,
       user_id TEXT,
-      items JSONB NOT NULL,
+      items JSONB,
+      shipping JSONB,
+      raw JSONB,
       total NUMERIC NOT NULL,
       created_at TIMESTAMPTZ NOT NULL DEFAULT NOW()
     )
   `);
+
+  // for existing tables, ensure columns exist
+  await query(`ALTER TABLE orders ADD COLUMN IF NOT EXISTS shipping JSONB`);
+  await query(`ALTER TABLE orders ADD COLUMN IF NOT EXISTS raw JSONB`);
+  await query(`ALTER TABLE orders ALTER COLUMN items TYPE JSONB USING items::jsonb`);
 }
 
 export async function GET(request: Request) {
@@ -25,11 +32,14 @@ export async function GET(request: Request) {
       return NextResponse.json([]);
     }
 
-    const { rows } = await query<{ id: string; items: any; total: string; created_at: string }>(
-      `SELECT id, items, total, created_at FROM orders WHERE user_id = $1 ORDER BY created_at DESC LIMIT 50`,
+    const { rows } = await query<{ id: string; items: any; shipping: any; total: string; created_at: string }>(
+      `SELECT id, items, shipping, total, created_at FROM orders WHERE user_id = $1 ORDER BY created_at DESC LIMIT 50`,
       [userId]
     );
-    return NextResponse.json(rows);
+
+    // normalize rows
+    const out = rows.map((r: any) => ({ id: r.id, items: r.items || (r.raw && r.raw.items) || [], customer: r.shipping || (r.raw && r.raw.customer) || null, total: Number(r.total || 0), created_at: r.created_at }));
+    return NextResponse.json(out);
   } catch (err) {
     return NextResponse.json({ error: "Server error" }, { status: 500 });
   }
