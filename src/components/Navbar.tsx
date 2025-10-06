@@ -7,7 +7,6 @@ import { useAuth } from "../context/auth";
 import styles from "../app/layout.module.css";
 import FetchGuard from "./FetchGuard";
 import { BRAND } from '../lib/site';
-import ConfirmDialog from "./ConfirmDialog";
 
 export default function Navbar() {
   const router = useRouter();
@@ -15,7 +14,6 @@ export default function Navbar() {
   const { totalQuantity, savedItems } = useCart();
   const { user, signOut } = useAuth();
   const [menuOpen, setMenuOpen] = useState(false);
-  const [confirmSignOutOpen, setConfirmSignOutOpen] = useState(false);
   const [mounted, setMounted] = React.useState(false);
   const [scrolled, setScrolled] = React.useState(false);
 
@@ -128,7 +126,7 @@ export default function Navbar() {
                         <span>Cart</span>
                       </Link>
 
-                      <button onClick={() => { setConfirmSignOutOpen(true); setMenuOpen(false); }} className={styles.accountMenuItem}>
+                      <button onClick={() => { try { window.dispatchEvent(new CustomEvent('open-signout-confirm')); } catch(e){}; setMenuOpen(false); }} className={styles.accountMenuItem}>
                         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5"><path d="M17 16l4-4m0 0l-4-4m4 4H7" /><path d="M7 8v8" /></svg>
                         <span>Sign Out</span>
                       </button>
@@ -146,15 +144,6 @@ export default function Navbar() {
           <svg stroke="currentColor" fill="none" strokeWidth="2" viewBox="0 0 24 24" strokeLinecap="round" strokeLinejoin="round" height="24" width="24" xmlns="http://www.w3.org/2000/svg"><line x1="3" y1="12" x2="21" y2="12"></line><line x1="3" y1="6" x2="21" y2="6"></line><line x1="3" y1="18" x2="21" y2="18"></line></svg>
         </button>
       </nav>
-      <ConfirmDialog
-        open={confirmSignOutOpen}
-        title="Sign out"
-        message="Are you sure you want to sign out?"
-        confirmLabel="Sign out"
-        cancelLabel="Cancel"
-        onCancel={() => setConfirmSignOutOpen(false)}
-        onConfirm={() => { setConfirmSignOutOpen(false); signOut(); }}
-      />
     </header>
   );
 }
