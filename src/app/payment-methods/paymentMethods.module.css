@@ -1,0 +1,4 @@
+.section { padding: 28px 20px; }
+.container { max-width: var(--container-max); margin: 0 auto; }
+.title { font-size: var(--type-h2); }
+.subtitle { color: var(--color-muted); }

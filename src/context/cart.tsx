@@ -68,6 +68,14 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
     return () => window.removeEventListener("storage", onStorage);
   }, []);
 
+  // Rehydrate from localStorage on mount to ensure client-side state reflects any items added earlier
+  useEffect(() => {
+    try {
+      setItems(readJsonStorage("cart", []));
+      setSavedItems(readJsonStorage("saved_cart", []));
+    } catch {}
+  }, []);
+
   const addItem = (item: Omit<CartItem, "quantity">, qty = 1) => {
     setItems((prev) => {
       const copy = [...prev];

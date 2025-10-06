@@ -105,6 +105,11 @@ export default function Navbar() {
 
                     <div className={styles.accountMenuList}>
 
+                      <Link href="/profile" className={styles.accountMenuItem} onClick={() => setMenuOpen(false)}>
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5"><path d="M12 12a5 5 0 1 0-5-5 5 5 0 0 0 5 5zm0 2c-4 0-7 2-7 4v1h14v-1c0-2-3-4-7-4z" /></svg>
+                        <span>Profile</span>
+                      </Link>
+
 
                       <Link href="/orders" className={styles.accountMenuItem} onClick={() => setMenuOpen(false)}>
                         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5"><path d="M3 7h18" /><path d="M6 7v13" /><path d="M18 7v13" /><path d="M9 7v13" /></svg>
