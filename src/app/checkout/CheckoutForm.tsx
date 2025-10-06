@@ -35,6 +35,7 @@ export default function CheckoutForm({ items, total }: { items: any[]; total: nu
       const payload = { items, total, customer: { ...form } };
       const res = await fetch('/api/orders', {
         method: 'POST',
+        credentials: 'include',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(payload),
       });
