@@ -1,7 +1,8 @@
 "use client";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useAuth } from "../../context/auth";
 import OrdersClient from "../orders/OrdersClient";
+import { useCart } from "../../context/cart";
 import styles from "./profile.module.css";
 
 const MENU = [
@@ -13,9 +14,88 @@ const MENU = [
   "Account Settings",
 ];
 
+function readJson<T>(key: string, fallback: T): T {
+  try {
+    if (typeof window === "undefined") return fallback;
+    const raw = localStorage.getItem(key);
+    if (!raw) return fallback;
+    return JSON.parse(raw) as T;
+  } catch {
+    return fallback;
+  }
+}
+
+function writeJson<T>(key: string, value: T) {
+  try {
+    localStorage.setItem(key, JSON.stringify(value));
+  } catch {}
+}
+
 export default function ProfilePage() {
   const { signOut } = useAuth();
+  const { savedItems, moveToCart, removeFromSaved } = useCart();
   const [active, setActive] = useState<string>("Profile");
+
+  // Addresses state
+  const [addresses, setAddresses] = useState<any[]>(() => readJson<any[]>("addresses", []));
+  const [addressForm, setAddressForm] = useState({ label: "Home", fullName: "", street: "", city: "", state: "", zip: "", country: "", phone: "" });
+
+  // Payment methods
+  const [cards, setCards] = useState<any[]>(() => readJson<any[]>("payment_methods", []));
+  const [cardForm, setCardForm] = useState({ name: "", number: "", expiry: "" });
+
+  // Account settings
+  const [prefs, setPrefs] = useState(() => readJson<{ newsletter: boolean; marketing: boolean }>("preferences", { newsletter: true, marketing: false }));
+  const [connected, setConnected] = useState<{ provider: string; connected: boolean }[]>(() => readJson("connected_accounts", [{ provider: "Google", connected: false }, { provider: "GitHub", connected: false }]));
+  const [password, setPassword] = useState({ current: "", next: "", confirm: "" });
+
+  useEffect(() => writeJson("addresses", addresses), [addresses]);
+  useEffect(() => writeJson("payment_methods", cards), [cards]);
+  useEffect(() => writeJson("preferences", prefs), [prefs]);
+  useEffect(() => writeJson("connected_accounts", connected), [connected]);
+
+  function addAddress(e?: React.FormEvent) {
+    e?.preventDefault();
+    const id = Date.now().toString(36);
+    setAddresses((s) => [...s, { id, ...addressForm }]);
+    setAddressForm({ label: "Home", fullName: "", street: "", city: "", state: "", zip: "", country: "", phone: "" });
+  }
+
+  function removeAddress(id: string) {
+    setAddresses((s) => s.filter((a) => a.id !== id));
+  }
+
+  function addCard(e?: React.FormEvent) {
+    e?.preventDefault();
+    const id = Date.now().toString(36);
+    const last4 = cardForm.number.replace(/\D/g, "").slice(-4);
+    setCards((s) => [...s, { id, name: cardForm.name, last4, expiry: cardForm.expiry }]);
+    setCardForm({ name: "", number: "", expiry: "" });
+  }
+
+  function removeCard(id: string) {
+    setCards((s) => s.filter((c) => c.id !== id));
+  }
+
+  function toggleConnected(provider: string) {
+    setConnected((c) => c.map((x) => (x.provider === provider ? { ...x, connected: !x.connected } : x)));
+  }
+
+  function updatePassword(e?: React.FormEvent) {
+    e?.preventDefault();
+    if (password.next.length < 6) {
+      window.alert("Password must be at least 6 characters");
+      return;
+    }
+    if (password.next !== password.confirm) {
+      window.alert("Passwords do not match");
+      return;
+    }
+    // demo: store a simple encoded password (NOT secure)
+    writeJson("account_password", btoa(password.next));
+    setPassword({ current: "", next: "", confirm: "" });
+    window.alert("Password updated");
+  }
 
   return (
     <section className={styles.profileSection}>
