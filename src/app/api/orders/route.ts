@@ -46,16 +46,22 @@ export async function POST(request: Request) {
 
     await ensureOrdersTable();
 
+    // try to read user_id from cookies
+    const cookie = request.headers.get('cookie') || '';
+    const match = cookie.match(/(?:^|; )user_id=([^;]+)/);
+    const userId = match ? decodeURIComponent(match[1]) : null;
+
     const id = genId();
     const items = body.items;
     const total = Number(body.total ?? computeTotal(items));
+    const customer = body.customer ? body.customer : null;
 
     await query(
-      `INSERT INTO orders (id, items, total) VALUES ($1, $2, $3)`,
-      [id, JSON.stringify(items), total]
+      `INSERT INTO orders (id, user_id, items, total) VALUES ($1, $2, $3, $4)`,
+      [id, userId, JSON.stringify({ items, customer }), total]
     );
 
-    const order = { id, items, total, createdAt: new Date().toISOString() };
+    const order = { id, items, total, createdAt: new Date().toISOString(), userId };
     return NextResponse.json(order, { status: 201 });
   } catch (err) {
     return NextResponse.json({ error: "Server error" }, { status: 500 });
