@@ -28,6 +28,15 @@ export default async function ProductPage(props: { params: { id: string } }) {
     );
   }
 
+  // fetch related products (same category)
+  let relatedProducts: any[] = [];
+  try {
+    const all = await getProducts();
+    relatedProducts = all.filter((p: any) => String(p.category) === String(product.category) && String(p.id) !== String(product.id)).slice(0, 6);
+  } catch (e) {
+    relatedProducts = [];
+  }
+
   return (
     <div className={`${styles.page}`}>
       <section className={productStyles.productSection}>
@@ -54,6 +63,14 @@ export default async function ProductPage(props: { params: { id: string } }) {
               </div>
             </div>
           </div>
+        </div>
+      </section>
+
+      {/* Related products section */}
+      <section style={{ width: '100%', display: 'flex', justifyContent: 'center' }}>
+        <div style={{ width: '100%', maxWidth: 1100, padding: '0 12px' }}>
+          {/* @ts-ignore Server -> Client prop */}
+          <RelatedProducts products={relatedProducts} />
         </div>
       </section>
 
