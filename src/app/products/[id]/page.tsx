@@ -4,7 +4,8 @@ import ProductDetailClient from '../../../components/ProductDetailClient';
 import ProductDescriptionClient from '../../../components/ProductDescriptionClient';
 import styles from "../../page.module.css";
 import productStyles from "../product.module.css";
-import { getProduct } from "../../../lib/fakeStore";
+import { getProduct, getProducts } from "../../../lib/fakeStore";
+import RelatedProducts from '../../../components/RelatedProducts';
 
 export default async function ProductPage(props: { params: { id: string } }) {
   // await params (Next may pass a thenable)
@@ -25,6 +26,15 @@ export default async function ProductPage(props: { params: { id: string } }) {
         </main>
       </div>
     );
+  }
+
+  // fetch related products (same category)
+  let relatedProducts: any[] = [];
+  try {
+    const all = await getProducts();
+    relatedProducts = all.filter((p: any) => String(p.category) === String(product.category) && String(p.id) !== String(product.id)).slice(0, 6);
+  } catch (e) {
+    relatedProducts = [];
   }
 
   return (
@@ -53,6 +63,14 @@ export default async function ProductPage(props: { params: { id: string } }) {
               </div>
             </div>
           </div>
+        </div>
+      </section>
+
+      {/* Related products section */}
+      <section style={{ width: '100%', display: 'flex', justifyContent: 'center' }}>
+        <div style={{ width: '100%', maxWidth: 1100, padding: '0 12px' }}>
+          {/* @ts-ignore Server -> Client prop */}
+          <RelatedProducts products={relatedProducts} />
         </div>
       </section>
 

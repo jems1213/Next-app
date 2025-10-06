@@ -126,7 +126,7 @@ export default function Navbar() {
                         <span>Cart</span>
                       </Link>
 
-                      <button onClick={() => { signOut(); setMenuOpen(false); }} className={styles.accountMenuItem}>
+                      <button onClick={() => { try { window.dispatchEvent(new CustomEvent('open-signout-confirm')); } catch(e){}; setMenuOpen(false); }} className={styles.accountMenuItem}>
                         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5"><path d="M17 16l4-4m0 0l-4-4m4 4H7" /><path d="M7 8v8" /></svg>
                         <span>Sign Out</span>
                       </button>

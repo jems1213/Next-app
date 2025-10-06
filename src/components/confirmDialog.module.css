@@ -1,0 +1,61 @@
+.overlay {
+  position: fixed;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(0,0,0,0.45);
+  z-index: 120;
+}
+
+.dialog {
+  width: 100%;
+  max-width: 420px;
+  border-radius: 12px;
+  background: var(--surface);
+  border: 1px solid var(--muted-border);
+  box-shadow: 0 20px 60px rgba(11,17,32,0.24);
+  padding: 18px;
+}
+
+.title {
+  margin: 0 0 8px;
+  font-weight: 800;
+  font-size: 18px;
+  color: var(--foreground);
+}
+
+.message {
+  margin: 0 0 16px;
+  color: var(--color-muted);
+  line-height: 1.6;
+}
+
+.actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 8px;
+}
+
+.cancelBtn {
+  padding: 10px 14px;
+  border-radius: 10px;
+  border: 1px solid var(--muted-border);
+  background: rgba(255,255,255,0.02);
+  color: var(--foreground);
+  cursor: pointer;
+}
+
+.confirmBtn {
+  padding: 10px 14px;
+  border-radius: 10px;
+  border: 1px solid rgba(255,61,61,0.18);
+  background: rgba(255,61,61,0.06);
+  color: #FF3D3D;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+@media (max-width: 480px) {
+  .dialog { margin: 0 12px; }
+}

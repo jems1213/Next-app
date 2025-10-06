@@ -174,3 +174,54 @@
 .animatedButton:hover { transform: translateY(-4px); box-shadow: 0 12px 30px rgba(99,102,241,0.08); }
 
 @keyframes fadeUp { from { opacity: 0; transform: translateY(8px);} to { opacity:1; transform: translateY(0);} }
+
+/* Hide the floating wishlist heart icon on the main product detail page */
+.productSection .wishlistIcon { display: none !important; }
+
+/* Related products spacing and layout (keeps card style unchanged) */
+.relatedWrapper {
+  clear: both; /* ensure it sits below earlier content */
+  margin-top: 100px;
+  width: 100%;
+  max-width: 1100px;
+  margin-left: auto;
+  margin-right: auto;
+  padding: 320px 12px 80px 12px; /* maximum top padding so related products sit far below the product card */
+  position: relative;
+  z-index: 3; /* sit above the backdrop */
+}
+
+.relatedGrid {
+  display: grid;
+  gap: 20px;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  width: 100%;
+}
+
+@media (max-width: 900px) {
+  .relatedGrid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+
+@media (max-width: 600px) {
+  .relatedGrid { grid-template-columns: 1fr; }
+}
+
+/* Responsive padding adjustments for related products wrapper */
+@media (min-width: 1600px) {
+  .relatedWrapper { padding-top: 360px; }
+}
+@media (min-width: 1400px) and (max-width: 1599px) {
+  .relatedWrapper { padding-top: 320px; }
+}
+@media (min-width: 1200px) and (max-width: 1399px) {
+  .relatedWrapper { padding-top: 280px; }
+}
+@media (min-width: 901px) and (max-width: 1199px) {
+  .relatedWrapper { padding-top: 200px; }
+}
+@media (max-width: 900px) and (min-width: 601px) {
+  .relatedWrapper { padding-top: 160px; }
+}
+@media (max-width: 600px) {
+  .relatedWrapper { padding-top: 96px; }
+}
