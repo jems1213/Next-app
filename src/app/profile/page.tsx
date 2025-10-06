@@ -167,26 +167,171 @@ export default function ProfilePage() {
             )}
 
             {active === "Wishlist" && (
-              <div>
-                <p className="text-muted">Your wishlist items will be shown here.</p>
+              <div className={styles.wishlistList}>
+                {savedItems && savedItems.length > 0 ? (
+                  savedItems.map((it) => (
+                    <div key={it.id} className={styles.wishlistRow}>
+                      <div className={styles.wishlistThumb}>
+                        {it.image ? <img src={it.image} alt={it.title} /> : <div className={styles.wishlistPlaceholder}>{it.title?.[0] ?? 'P'}</div>}
+                      </div>
+                      <div className={styles.wishlistInfo}>
+                        <div className={styles.wishlistTitle}>{it.title}</div>
+                        <div className={styles.textMuted}>${Number(it.price).toFixed(2)}</div>
+                      </div>
+                      <div className={styles.wishlistActions}>
+                        <button className="btn" onClick={() => moveToCart(it.id)}>Add to cart</button>
+                        <button className="btn" onClick={() => removeFromSaved(it.id)}>Remove</button>
+                      </div>
+                    </div>
+                  ))
+                ) : (
+                  <p className="text-muted">Your wishlist is empty.</p>
+                )}
               </div>
             )}
 
             {active === "Addresses" && (
               <div>
-                <p className="text-muted">Manage your shipping and billing addresses.</p>
+                <form onSubmit={addAddress} className={styles.formGrid}>
+                  <label>
+                    Label
+                    <input value={addressForm.label} onChange={(e) => setAddressForm((s) => ({ ...s, label: e.target.value }))} />
+                  </label>
+                  <label>
+                    Full name
+                    <input value={addressForm.fullName} onChange={(e) => setAddressForm((s) => ({ ...s, fullName: e.target.value }))} />
+                  </label>
+                  <label>
+                    Street
+                    <input value={addressForm.street} onChange={(e) => setAddressForm((s) => ({ ...s, street: e.target.value }))} />
+                  </label>
+                  <label>
+                    City
+                    <input value={addressForm.city} onChange={(e) => setAddressForm((s) => ({ ...s, city: e.target.value }))} />
+                  </label>
+                  <label>
+                    State
+                    <input value={addressForm.state} onChange={(e) => setAddressForm((s) => ({ ...s, state: e.target.value }))} />
+                  </label>
+                  <label>
+                    ZIP
+                    <input value={addressForm.zip} onChange={(e) => setAddressForm((s) => ({ ...s, zip: e.target.value }))} />
+                  </label>
+                  <label>
+                    Country
+                    <input value={addressForm.country} onChange={(e) => setAddressForm((s) => ({ ...s, country: e.target.value }))} />
+                  </label>
+                  <label>
+                    Phone
+                    <input value={addressForm.phone} onChange={(e) => setAddressForm((s) => ({ ...s, phone: e.target.value }))} />
+                  </label>
+
+                  <div style={{ gridColumn: '1 / -1', display: 'flex', gap: 8 }}>
+                    <button className="btn btn-primary" type="submit">Add address</button>
+                  </div>
+                </form>
+
+                <div style={{ marginTop: 12 }}>
+                  {addresses.length === 0 ? <p className="text-muted">No saved addresses.</p> : (
+                    addresses.map((a) => (
+                      <div key={a.id} className={styles.addressRow}>
+                        <div>
+                          <div style={{ fontWeight: 700 }}>{a.label}</div>
+                          <div className={styles.textMuted}>{a.fullName} · {a.phone}</div>
+                          <div className={styles.textMuted}>{a.street}, {a.city}, {a.state} {a.zip}, {a.country}</div>
+                        </div>
+                        <div>
+                          <button className="btn" onClick={() => removeAddress(a.id)}>Remove</button>
+                        </div>
+                      </div>
+                    ))
+                  )}
+                </div>
               </div>
             )}
 
             {active === "Payment Methods" && (
               <div>
-                <p className="text-muted">Add, remove and manage saved payment cards.</p>
+                <form onSubmit={addCard} className={styles.formGrid}>
+                  <label>
+                    Name on card
+                    <input value={cardForm.name} onChange={(e) => setCardForm((s) => ({ ...s, name: e.target.value }))} />
+                  </label>
+                  <label>
+                    Card number
+                    <input value={cardForm.number} onChange={(e) => setCardForm((s) => ({ ...s, number: e.target.value }))} placeholder="•••• •••• •••• 4242" />
+                  </label>
+                  <label>
+                    Expiry
+                    <input value={cardForm.expiry} onChange={(e) => setCardForm((s) => ({ ...s, expiry: e.target.value }))} placeholder="MM/YY" />
+                  </label>
+
+                  <div style={{ gridColumn: '1 / -1', display: 'flex', gap: 8 }}>
+                    <button className="btn btn-primary" type="submit">Add card</button>
+                  </div>
+                </form>
+
+                <div style={{ marginTop: 12 }}>
+                  {cards.length === 0 ? <p className="text-muted">No saved cards.</p> : (
+                    cards.map((c) => (
+                      <div key={c.id} className={styles.addressRow}>
+                        <div>
+                          <div style={{ fontWeight: 700 }}>{c.name} •••• {c.last4}</div>
+                          <div className={styles.textMuted}>Expires {c.expiry}</div>
+                        </div>
+                        <div>
+                          <button className="btn" onClick={() => removeCard(c.id)}>Remove</button>
+                        </div>
+                      </div>
+                    ))
+                  )}
+                </div>
               </div>
             )}
 
             {active === "Account Settings" && (
               <div>
-                <p className="text-muted">Update password, preferences and connected accounts.</p>
+                <form onSubmit={updatePassword} className={styles.formStack}>
+                  <label>
+                    Current password
+                    <input type="password" value={password.current} onChange={(e) => setPassword((s) => ({ ...s, current: e.target.value }))} />
+                  </label>
+                  <label>
+                    New password
+                    <input type="password" value={password.next} onChange={(e) => setPassword((s) => ({ ...s, next: e.target.value }))} />
+                  </label>
+                  <label>
+                    Confirm new password
+                    <input type="password" value={password.confirm} onChange={(e) => setPassword((s) => ({ ...s, confirm: e.target.value }))} />
+                  </label>
+                  <div style={{ display: 'flex', gap: 8 }}>
+                    <button className="btn btn-primary" type="submit">Update password</button>
+                  </div>
+                </form>
+
+                <div style={{ marginTop: 16 }}>
+                  <h3 style={{ margin: '8px 0' }}>Preferences</h3>
+                  <label style={{ display: 'flex', gap: 8, alignItems: 'center' }}>
+                    <input type="checkbox" checked={prefs.newsletter} onChange={(e) => setPrefs((p) => ({ ...p, newsletter: e.target.checked }))} />
+                    <span>Subscribe to newsletter</span>
+                  </label>
+                  <label style={{ display: 'flex', gap: 8, alignItems: 'center' }}>
+                    <input type="checkbox" checked={prefs.marketing} onChange={(e) => setPrefs((p) => ({ ...p, marketing: e.target.checked }))} />
+                    <span>Marketing emails</span>
+                  </label>
+                </div>
+
+                <div style={{ marginTop: 16 }}>
+                  <h3 style={{ margin: '8px 0' }}>Connected accounts</h3>
+                  {connected.map((c) => (
+                    <div key={c.provider} style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: 8 }}>
+                      <div>{c.provider}</div>
+                      <div>
+                        <button className="btn" onClick={() => toggleConnected(c.provider)}>{c.connected ? 'Disconnect' : 'Connect'}</button>
+                      </div>
+                    </div>
+                  ))}
+                </div>
               </div>
             )}
           </div>
