@@ -72,7 +72,7 @@ export async function POST(request: Request) {
     let userId = match ? decodeURIComponent(match[1]) : null;
 
     const id = genId();
-    const items = body.items;
+    const items = body.items || [];
     const total = Number(body.total ?? computeTotal(items));
     const customer = body.customer ? body.customer : null;
 
@@ -86,12 +86,13 @@ export async function POST(request: Request) {
       }
     }
 
+    // store items separately and shipping/customer info separately, and keep raw payload
     await query(
-      `INSERT INTO orders (id, user_id, items, total) VALUES ($1, $2, $3, $4)`,
-      [id, userId, JSON.stringify({ items, customer }), total]
+      `INSERT INTO orders (id, user_id, items, shipping, raw, total) VALUES ($1, $2, $3, $4, $5, $6)`,
+      [id, userId, JSON.stringify(items), JSON.stringify(customer), JSON.stringify(body), total]
     );
 
-    const order = { id, items, total, createdAt: new Date().toISOString(), userId };
+    const order = { id, items, customer, total, createdAt: new Date().toISOString(), userId };
     return NextResponse.json(order, { status: 201 });
   } catch (err) {
     return NextResponse.json({ error: "Server error" }, { status: 500 });
