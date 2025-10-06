@@ -75,8 +75,6 @@ export default function ProductDetailClient({ product }: { product: any }) {
 function LinkBar() {
   return (
     <div style={{ display: 'flex', gap: 12 }}>
-      {/* eslint-disable-next-line @next/next/no-html-link-for-pages */}
-      <a href="/" className="link">← Back to products</a>
       <a href="/cart" className="link">View cart</a>
     </div>
   );
