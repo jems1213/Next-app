@@ -21,6 +21,8 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 
   // on mount, fetch current user from server (cookie-based session)
   useEffect(() => {
+    // remove any legacy local user storage to ensure server-side auth only
+    try { localStorage.removeItem('user'); } catch {}
     let mounted = true;
     (async () => {
       try {
