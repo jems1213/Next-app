@@ -59,12 +59,22 @@ export async function POST(request: Request) {
     // try to read user_id from cookies
     const cookie = request.headers.get('cookie') || '';
     const match = cookie.match(/(?:^|; )user_id=([^;]+)/);
-    const userId = match ? decodeURIComponent(match[1]) : null;
+    let userId = match ? decodeURIComponent(match[1]) : null;
 
     const id = genId();
     const items = body.items;
     const total = Number(body.total ?? computeTotal(items));
     const customer = body.customer ? body.customer : null;
+
+    // Fallback: if no user_id cookie, but customer email matches a user, associate order to that user
+    if (!userId && customer && customer.email) {
+      try {
+        const { rows: urows } = await query<{ id: string }>(`SELECT id FROM users WHERE email = $1 LIMIT 1`, [String(customer.email).toLowerCase()]);
+        if (urows && urows[0] && urows[0].id) userId = urows[0].id;
+      } catch (e) {
+        // ignore
+      }
+    }
 
     await query(
       `INSERT INTO orders (id, user_id, items, total) VALUES ($1, $2, $3, $4)`,
