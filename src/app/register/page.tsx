@@ -32,12 +32,20 @@ export default function RegisterPage() {
     }
 
     try {
-      // Demo: create account and sign in
+      const res = await fetch('/api/auth/signup', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email, password, name: `${firstName.trim()} ${lastName.trim()}`.trim() })
+      });
+      const json = await res.json();
+      if (!res.ok) {
+        setError(json?.error || 'Failed to create account');
+        return;
+      }
+
+      // sign in after signup
       await signIn(email, password);
-      // set provided name
-      update({ name: `${firstName.trim()} ${lastName.trim()}`.trim() });
-      setMsg('Account created (demo). Redirecting...');
-      // redirect to home
+      setMsg('Account created. Redirecting...');
       router.push('/');
     } catch (e) {
       setError('Failed to create account');
