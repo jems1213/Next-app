@@ -13,11 +13,21 @@ async function ensureOrdersTable() {
   `);
 }
 
-export async function GET() {
+export async function GET(request: Request) {
   try {
     await ensureOrdersTable();
+    const cookie = request.headers.get('cookie') || '';
+    const match = cookie.match(/(?:^|; )user_id=([^;]+)/);
+    const userId = match ? decodeURIComponent(match[1]) : null;
+
+    if (!userId) {
+      // unauthenticated: return empty list
+      return NextResponse.json([]);
+    }
+
     const { rows } = await query<{ id: string; items: any; total: string; created_at: string }>(
-      `SELECT id, items, total, created_at FROM orders ORDER BY created_at DESC LIMIT 50`
+      `SELECT id, items, total, created_at FROM orders WHERE user_id = $1 ORDER BY created_at DESC LIMIT 50`,
+      [userId]
     );
     return NextResponse.json(rows);
   } catch (err) {
