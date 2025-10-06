@@ -177,13 +177,15 @@
 
 /* Related products spacing and layout (keeps card style unchanged) */
 .relatedWrapper {
-  margin-top: 28px;
+  clear: both; /* ensure it sits below earlier content */
+  margin-top: 40px;
   width: 100%;
   max-width: 1100px;
   margin-left: auto;
   margin-right: auto;
-  padding: 0 12px 36px 12px;
-  z-index: 1;
+  padding: 12px 12px 36px 12px; /* small top padding so it doesn't visually touch the card */
+  position: relative;
+  z-index: 3; /* sit above the backdrop */
 }
 
 .relatedGrid {
