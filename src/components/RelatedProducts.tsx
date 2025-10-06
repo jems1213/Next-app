@@ -3,6 +3,7 @@ import React, { useEffect, useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import styles from "../app/page.module.css";
+import productStyles from "../app/products/product.module.css";
 import { useCart } from "../context/cart";
 import WishlistButton from "./WishlistButton";
 
