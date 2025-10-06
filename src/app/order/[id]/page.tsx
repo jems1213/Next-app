@@ -1,12 +1,15 @@
 import Link from "next/link";
 import styles from "../../page.module.css";
+import Link from "next/link";
 
-export default function OrderPage({ params }: { params: { id: string } }) {
+export default async function OrderPage({ params }: { params: { id: string } | Promise<{ id: string }> }) {
+  const p = await params as { id: string };
+
   return (
     <div className={`${styles.page} ${styles.pageCompact}`}>
       <main className={styles.main}>
         <h1 className={styles.title}>Order placed</h1>
-        <p>Your order <strong>{params.id}</strong> was placed successfully.</p>
+        <p>Your order <strong>{p.id}</strong> was placed successfully.</p>
         <p>
           <Link href="/">Back to products</Link>
         </p>
