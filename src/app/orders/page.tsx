@@ -16,7 +16,7 @@ export default function OrdersPage() {
       </main>
 
       <footer className={styles.footer}>
-        <p style={{ margin: 0 }}>Orders are stored locally for demo purposes.</p>
+        <p style={{ margin: 0 }}>Orders are stored in the connected database.</p>
       </footer>
     </div>
   );
