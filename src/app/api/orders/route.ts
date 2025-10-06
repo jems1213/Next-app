@@ -67,3 +67,30 @@ export async function POST(request: Request) {
     return NextResponse.json({ error: "Server error" }, { status: 500 });
   }
 }
+
+export async function DELETE(request: Request) {
+  try {
+    await ensureOrdersTable();
+    const cookie = request.headers.get('cookie') || '';
+    const match = cookie.match(/(?:^|; )user_id=([^;]+)/);
+    const userId = match ? decodeURIComponent(match[1]) : null;
+
+    const body = await request.json().catch(() => ({}));
+    const id = body && typeof body.id === 'string' ? body.id : null;
+
+    if (!userId) {
+      return NextResponse.json({ error: 'Not authenticated' }, { status: 401 });
+    }
+
+    if (id) {
+      await query(`DELETE FROM orders WHERE id = $1 AND user_id = $2`, [id, userId]);
+      return NextResponse.json({ ok: true });
+    }
+
+    // delete all orders for this user
+    await query(`DELETE FROM orders WHERE user_id = $1`, [userId]);
+    return NextResponse.json({ ok: true });
+  } catch (err) {
+    return NextResponse.json({ error: 'Server error' }, { status: 500 });
+  }
+}
