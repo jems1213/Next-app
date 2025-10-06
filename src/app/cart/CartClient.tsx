@@ -1,4 +1,7 @@
 import React, { useMemo, useState, useEffect } from "react";
+"use client";
+
+import React, { useMemo, useState, useEffect } from "react";
 import Link from "next/link";
 import { useCart } from "../../context/cart";
 import { useAuth } from "../../context/auth";
