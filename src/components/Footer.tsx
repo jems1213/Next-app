@@ -60,7 +60,7 @@ export default function Footer() {
               <button type="submit" style={{ background: '#fff', color: 'rgb(11,16,32)', padding: '10px 14px', borderRadius: 8, fontWeight: 700 }}>Subscribe</button>
             </form>
 
-            <div style={{ display: 'flex', gap: 8, marginTop: 12 }}>
+            <div className={styles['k-social']} style={{ display: 'flex', gap: 8, marginTop: 12 }}>
               <button aria-label="Facebook" style={{ width: 40, height: 40, borderRadius: 999, background: 'transparent', border: '1px solid rgba(255,255,255,0.06)', color: '#fff' }}>
                 <svg stroke="currentColor" fill="currentColor" strokeWidth="0" viewBox="0 0 320 512" height="1em" width="1em"><path d="M279.14 288l14.22-92.66h-88.91v-60.13c0-25.35 12.42-50.06 52.24-50.06h40.42V6.26S260.43 0 225.36 0c-73.22 0-121.08 44.38-121.08 124.72v70.62H22.89V288h81.39v224h100.17V288z"></path></svg>
               </button>
