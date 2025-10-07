@@ -24,9 +24,7 @@ async function ensureOrdersTable() {
 export async function GET(request: Request) {
   try {
     await ensureOrdersTable();
-    const cookie = request.headers.get('cookie') || '';
-    const match = cookie.match(/(?:^|; )user_id=([^;]+)/);
-    const userId = match ? decodeURIComponent(match[1]) : null;
+    const userId = cookieStore().get('user_id')?.value ?? null;
 
     if (!userId) {
       // unauthenticated: return empty list
@@ -103,9 +101,7 @@ export async function POST(request: Request) {
 export async function DELETE(request: Request) {
   try {
     await ensureOrdersTable();
-    const cookie = request.headers.get('cookie') || '';
-    const match = cookie.match(/(?:^|; )user_id=([^;]+)/);
-    const userId = match ? decodeURIComponent(match[1]) : null;
+    const userId = cookieStore().get('user_id')?.value ?? null;
 
     const body = await request.json().catch(() => ({}));
     const id = body && typeof body.id === 'string' ? body.id : null;
