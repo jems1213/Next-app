@@ -41,6 +41,7 @@ export default function ProfilePage() {
 
   const [serverUser, setServerUser] = useState<any | null>(null);
   const [ordersCount, setOrdersCount] = useState<number | null>(null);
+  const [serverWishlistCount, setServerWishlistCount] = useState<number | null>(null);
   const [editingName, setEditingName] = useState(false);
   const [nameDraft, setNameDraft] = useState('');
   const [editingEmail, setEditingEmail] = useState(false);
