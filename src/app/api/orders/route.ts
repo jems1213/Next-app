@@ -25,7 +25,8 @@ export async function GET(request: Request) {
   try {
     await ensureOrdersTable();
     const url = new URL(request.url);
-    let userId = cookieStore().get('user_id')?.value ?? null;
+    const cookies = await cookieStore();
+    let userId = cookies.get('user_id')?.value ?? null;
     const emailParam = url.searchParams.get('email');
 
     // If no cookie userId but email query param is provided, try to resolve user id by email
@@ -92,7 +93,8 @@ export async function POST(request: Request) {
     await ensureOrdersTable();
 
     // try to read user_id from the Next cookie store
-    let userId = cookieStore().get('user_id')?.value ?? null;
+    const cookies = await cookieStore();
+    let userId = cookies.get('user_id')?.value ?? null;
     // fallback: parse cookie header (some environments may not populate next/headers)
     if (!userId) {
       const cookieHeader = request.headers.get('cookie') || '';
