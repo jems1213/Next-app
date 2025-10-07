@@ -222,7 +222,20 @@ export default function ProfilePage() {
                 </div>
                 <div className={styles.infoRow}>
                   <div className={styles.infoLabel}>Email</div>
-                  <div className={styles.infoValue}>{serverUser?.email || authUser?.email || '—'}</div>
+                  <div className={styles.infoValue}>
+                    {editingEmail ? (
+                      <form onSubmit={(e) => { e.preventDefault(); saveEmail(); }} style={{ display: 'flex', gap: 8, alignItems: 'center' }}>
+                        <input value={emailDraft} onChange={(e) => setEmailDraft(e.target.value)} />
+                        <button className="btn btn-primary" type="submit">Save</button>
+                        <button type="button" className="btn" onClick={() => { setEditingEmail(false); setEmailDraft(serverUser?.email || authUser?.email || ''); }}>Cancel</button>
+                      </form>
+                    ) : (
+                      <div style={{ display: 'flex', gap: 8, alignItems: 'center' }}>
+                        <div>{serverUser?.email || authUser?.email || '—'}</div>
+                        <button className="btn" onClick={() => { setEditingEmail(true); setEmailDraft(serverUser?.email || authUser?.email || ''); }}>Edit</button>
+                      </div>
+                    )}
+                  </div>
                 </div>
 
                 {/* Account stats */}
