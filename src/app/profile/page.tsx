@@ -80,8 +80,6 @@ export default function ProfilePage() {
   const [connected, setConnected] = useState<{ provider: string; connected: boolean }[]>(() => readJson("connected_accounts", [{ provider: "Google", connected: false }, { provider: "GitHub", connected: false }]));
   const [password, setPassword] = useState({ current: "", next: "", confirm: "" });
 
-  useEffect(() => writeJson("addresses", addresses), [addresses]);
-  useEffect(() => writeJson("payment_methods", cards), [cards]);
   useEffect(() => writeJson("preferences", prefs), [prefs]);
   useEffect(() => writeJson("connected_accounts", connected), [connected]);
 
