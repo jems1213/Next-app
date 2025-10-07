@@ -36,15 +36,29 @@ export async function GET(request: Request) {
       } catch (e) {}
     }
 
-    if (!userId) {
+    let rows: any[] = [];
+
+    if (userId) {
+      const res = await query<{ id: string; items: any; shipping: any; total: string; created_at: string }>(
+        `SELECT id, items, shipping, total, created_at FROM orders WHERE user_id = $1 ORDER BY created_at DESC LIMIT 50`,
+        [userId]
+      );
+      rows = res.rows;
+    } else if (emailParam) {
+      // fallback: return orders where shipping or raw payload contains matching customer email
+      const res = await query<{ id: string; items: any; shipping: any; raw: any; total: string; created_at: string }>(
+        `SELECT id, items, shipping, raw, total, created_at FROM orders WHERE LOWER(COALESCE(shipping->>'email', (raw->'customer'->>'email'))) = LOWER($1) ORDER BY created_at DESC LIMIT 50`,
+        [String(emailParam).toLowerCase()]
+      );
+      rows = res.rows;
+    } else {
       // unauthenticated: return empty list
       return NextResponse.json([]);
     }
 
-    const { rows } = await query<{ id: string; items: any; shipping: any; total: string; created_at: string }>(
-      `SELECT id, items, shipping, total, created_at FROM orders WHERE user_id = $1 ORDER BY created_at DESC LIMIT 50`,
-      [userId]
-    );
+    // normalize rows
+    const out = rows.map((r: any) => ({ id: r.id, items: r.items || (r.raw && r.raw.items) || [], customer: r.shipping || (r.raw && r.raw.customer) || null, total: Number(r.total || 0), created_at: r.created_at }));
+    return NextResponse.json(out);
 
     // normalize rows
     const out = rows.map((r: any) => ({ id: r.id, items: r.items || (r.raw && r.raw.items) || [], customer: r.shipping || (r.raw && r.raw.customer) || null, total: Number(r.total || 0), created_at: r.created_at }));
