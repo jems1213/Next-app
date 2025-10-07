@@ -25,11 +25,15 @@ export async function GET(request: Request) {
     const userId = cookieStore.get('user_id')?.value ?? null;
     if (!userId) return NextResponse.json({ user: null, ordersCount: 0 });
 
-    const { rows } = await query<{ id: string; email: string; name: string; created_at: string }>(`SELECT id, email, name, created_at FROM users WHERE id = $1 LIMIT 1`, [userId]);
+    const { rows } = await query<{ id: string; email: string; name: string; wishlist: any; created_at: string }>(`SELECT id, email, name, wishlist, created_at FROM users WHERE id = $1 LIMIT 1`, [userId]);
     const user = rows[0] || null;
     const { rows: orows } = await query<{ count: string }>(`SELECT COUNT(*)::text as count FROM orders WHERE user_id = $1`, [userId]);
     const ordersCount = Number(orows[0]?.count || 0);
-    return NextResponse.json({ user, ordersCount });
+    let wishlistCount = 0;
+    try {
+      wishlistCount = Array.isArray(user?.wishlist) ? user.wishlist.length : 0;
+    } catch (e) { wishlistCount = 0; }
+    return NextResponse.json({ user, ordersCount, wishlistCount });
   } catch (err: any) {
     return NextResponse.json({ error: err?.message ?? 'Server error' }, { status: 500 });
   }
