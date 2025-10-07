@@ -24,7 +24,17 @@ async function ensureOrdersTable() {
 export async function GET(request: Request) {
   try {
     await ensureOrdersTable();
-    const userId = cookieStore().get('user_id')?.value ?? null;
+    const url = new URL(request.url);
+    let userId = cookieStore().get('user_id')?.value ?? null;
+    const emailParam = url.searchParams.get('email');
+
+    // If no cookie userId but email query param is provided, try to resolve user id by email
+    if (!userId && emailParam) {
+      try {
+        const { rows: urows } = await query<{ id: string }>(`SELECT id FROM users WHERE email = $1 LIMIT 1`, [String(emailParam).toLowerCase()]);
+        if (urows && urows[0] && urows[0].id) userId = urows[0].id;
+      } catch (e) {}
+    }
 
     if (!userId) {
       // unauthenticated: return empty list
