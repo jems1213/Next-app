@@ -3,15 +3,17 @@ import { query } from "../../../lib/db";
 
 export async function GET() {
   try {
-    // Update orders where user_id is NULL but items->customer->email matches a user
+    // Update orders where user_id is NULL but shipping->>'email' or raw->'customer'->>'email' matches a user
     const updateSql = `
       UPDATE orders o
       SET user_id = u.id
       FROM users u
       WHERE o.user_id IS NULL
-        AND (o.items->'customer'->>'email') IS NOT NULL
-        AND LOWER(o.items->'customer'->>'email') = LOWER(u.email)
-      RETURNING o.id, o.user_id, o.items;
+        AND (
+          (o.shipping->>'email') IS NOT NULL AND LOWER(o.shipping->>'email') = LOWER(u.email)
+          OR ((o.raw->'customer'->>'email') IS NOT NULL AND LOWER(o.raw->'customer'->>'email') = LOWER(u.email))
+        )
+      RETURNING o.id, o.user_id, o.shipping, o.raw;
     `;
 
     const { rows } = await query(updateSql);

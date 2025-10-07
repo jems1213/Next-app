@@ -35,7 +35,7 @@
   left: 18px;
   z-index: 12;
   display: inline-block;
-  padding-top: 150px;
+  padding-top: 130px;
 }
 
 .grid {
@@ -47,6 +47,10 @@
 
 @media (max-width: 900px) {
   .grid { grid-template-columns: 1fr; gap: 14px; }
+  /* stack layout: make media full width and smaller fixed image inside */
+  .card { grid-template-columns: 1fr; }
+  .media { width: 100%; height: auto; padding: 12px; }
+  .mediaImage { width: 180px; height: 180px; }
 }
 
 .card {
@@ -74,9 +78,12 @@
   background: linear-gradient(180deg, rgba(255,255,255,0.02), transparent);
   border-radius: 12px;
   padding: 8px;
+  width: 320px; /* fixed square container to standardize product images */
+  height: 320px; /* fixed height to keep all product media consistent */
+  overflow: hidden; /* prevent oversized images from breaking layout */
 }
 
-.mediaImage { width: 320px; height: auto; border-radius: 10px; object-fit: contain; }
+.mediaImage { width: 100%; height: 100%; border-radius: 10px; object-fit: contain; }
 
 .info { display: flex; flex-direction: column; gap: 10px; }
 

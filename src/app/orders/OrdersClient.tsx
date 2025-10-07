@@ -3,17 +3,21 @@ import React, { useEffect, useState } from "react";
 import Link from "next/link";
 import styles from "../page.module.css";
 import { useCart } from "../../context/cart";
+import { useAuth } from '../../context/auth';
 
 export default function OrdersClient() {
   const [orders, setOrders] = useState<any[] | null>(null);
   const [expanded, setExpanded] = useState<Record<string, boolean>>({});
   const { addItem } = useCart();
 
+  const { user } = useAuth();
+
   useEffect(() => {
     let mounted = true;
     (async () => {
       try {
-        const res = await fetch('/api/orders', { credentials: 'include' });
+        const url = user && user.email ? `/api/orders?email=${encodeURIComponent(user.email)}` : '/api/orders';
+        const res = await fetch(url, { credentials: 'include' });
         if (!res.ok) {
           if (mounted) setOrders([]);
           return;
@@ -24,6 +28,7 @@ export default function OrdersClient() {
           items: (r.items && r.items.items) ? r.items.items : (r.items || []),
           total: Number(r.total || 0),
           createdAt: r.created_at || r.createdAt || new Date().toISOString(),
+          customer: r.customer || null,
         })) : [];
         if (mounted) setOrders(arr);
       } catch (e) {
@@ -31,7 +36,7 @@ export default function OrdersClient() {
       }
     })();
     return () => { mounted = false; };
-  }, []);
+  }, [user?.email]);
 
   async function clearAll() {
     try {
@@ -86,9 +91,16 @@ export default function OrdersClient() {
             <article key={o.id} className={styles.orderCardAlt} style={{ marginBottom: 10, padding: 10 }}>
               <div className={styles.orderCardTop} style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', gap: 12 }}>
                 <div className={styles.orderCardInfo} style={{ paddingRight: 8 }}>
-                  <Link href={`/order/${o.id}`} className={styles.orderLink} style={{ fontWeight: 700 }}>Order #{o.id}</Link>
-                  <div className={styles.orderMeta} style={{ color: 'var(--color-muted)', fontSize: 13 }}>{new Date(o.createdAt).toLocaleString()} • {o.items.length} items</div>
-                </div>
+    <Link href={`/order/${o.id}`} className={styles.orderLink} style={{ fontWeight: 700 }}>Order #{o.id}</Link>
+    <div className={styles.orderMeta} style={{ color: 'var(--color-muted)', fontSize: 13 }}>{new Date(o.createdAt).toLocaleString()} • {o.items.length} items</div>
+    {o.customer && (
+      <div style={{ marginTop: 8, color: 'var(--color-muted)', fontSize: 13 }}>
+        <div style={{ fontWeight: 700 }}>{o.customer.name || o.customer.fullname || o.customer.email}</div>
+        <div>{o.customer.address}{o.customer.city ? ', ' + o.customer.city : ''}{o.customer.postal ? ' ' + o.customer.postal : ''}</div>
+        {o.customer.country && <div>{o.customer.country}</div>}
+      </div>
+    )}
+    </div>
 
                 <div className={styles.orderCardActions} style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
                   <div className={styles.orderTotal} style={{ fontWeight: 800 }}>${Number(o.total).toFixed(2)}</div>
@@ -112,6 +124,13 @@ export default function OrdersClient() {
 
               {expanded[o.id] && (
                 <div className={styles.orderItemsGrid} style={{ marginTop: 8 }}>
+                  {o.customer && (
+                    <div style={{ marginBottom: 12, padding: 8, borderRadius: 8, background: 'rgba(255,255,255,0.02)' }}>
+                      <div style={{ fontWeight: 800 }}>{o.customer.name || o.customer.fullname || o.customer.email}</div>
+                      <div style={{ color: 'var(--color-muted)' }}>{o.customer.address}{o.customer.city ? ', ' + o.customer.city : ''}{o.customer.postal ? ' ' + o.customer.postal : ''}</div>
+                      {o.customer.country && <div style={{ color: 'var(--color-muted)' }}>{o.customer.country}</div>}
+                    </div>
+                  )}
                   {(o.items || []).map((it: any, idx: number) => (
                     <div key={idx} className={styles.orderItemRow} style={{ display: 'flex', alignItems: 'center', gap: 12, padding: '8px 0', borderBottom: '1px solid rgba(255,255,255,0.02)' }}>
                       <Link href={`/products/${it.id}`} className={styles.itemThumbLink} style={{ display: 'inline-flex' }}>

@@ -33,11 +33,39 @@ function writeJson<T>(key: string, value: T) {
 }
 
 export default function ProfilePage() {
-  const { signOut } = useAuth();
+  const { signOut, user: authUser, update } = useAuth();
   const { savedItems, moveToCart, removeFromSaved } = useCart();
   const [active, setActive] = useState<string>("Profile");
   const [mounted, setMounted] = useState(false);
   const [confirmSignOutOpen, setConfirmSignOutOpen] = useState(false);
+
+  const [serverUser, setServerUser] = useState<any | null>(null);
+  const [ordersCount, setOrdersCount] = useState<number | null>(null);
+  const [serverWishlistCount, setServerWishlistCount] = useState<number | null>(null);
+  const [editingName, setEditingName] = useState(false);
+  const [nameDraft, setNameDraft] = useState('');
+  const [editingEmail, setEditingEmail] = useState(false);
+  const [emailDraft, setEmailDraft] = useState('');
+
+  async function saveEmail() {
+    try {
+      const res = await fetch('/api/profile', {
+        method: 'PATCH',
+        credentials: 'include',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email: emailDraft }),
+      });
+      if (!res.ok) throw new Error((await res.json()).error || 'Failed to update');
+      const json = await res.json();
+      if (json && json.user) {
+        setServerUser(json.user);
+        setEditingEmail(false);
+        try { update({ name: json.user.name, email: json.user.email }); } catch {}
+      }
+    } catch (e: any) {
+      window.alert(e?.message || 'Failed to update email');
+    }
+  }
 
   // Addresses state
   const [addresses, setAddresses] = useState<any[]>(() => readJson<any[]>("addresses", []));
@@ -60,6 +88,52 @@ export default function ProfilePage() {
   useEffect(() => {
     setMounted(true);
   }, []);
+
+  // fetch profile info (created_at, orders count)
+  useEffect(() => {
+    let mounted = true;
+    (async () => {
+      try {
+        // determine an email to send as fallback: prefer auth context, then server-rendered sidebar email
+        let emailToUse = authUser?.email || '';
+        if (!emailToUse) {
+          try {
+            const el = document.querySelector(`.${styles.userEmail}`);
+            if (el && el.textContent) emailToUse = el.textContent.trim();
+          } catch (e) { emailToUse = ''; }
+        }
+        const qp = emailToUse ? `?email=${encodeURIComponent(emailToUse)}` : '';
+        const res = await fetch(`/api/profile${qp}`, { credentials: 'include' });
+        if (!res.ok) return;
+        const json = await res.json();
+        if (!mounted) return;
+        if (json && json.user) {
+          setServerUser(json.user);
+          setOrdersCount(json.ordersCount ?? null);
+          setServerWishlistCount(json.wishlistCount ?? null);
+          setNameDraft(json.user.name || json.user.email.split('@')[0] || '');
+          // update auth context name if missing
+          if (authUser && (!authUser.name || authUser.name !== json.user.name)) {
+            try { update({ name: json.user.name }); } catch {}
+          }
+        } else {
+          // If server returned no user, try fetching orders directly by email (cart-based orders)
+          if (emailToUse) {
+            try {
+              const or = await fetch(`/api/orders?email=${encodeURIComponent(emailToUse)}`, { credentials: 'include' });
+              if (or.ok) {
+                const orjson = await or.json();
+                if (Array.isArray(orjson)) {
+                  setOrdersCount(orjson.length);
+                }
+              }
+            } catch (e) {}
+          }
+        }
+      } catch (e) {}
+    })();
+    return () => { mounted = false; };
+  }, [authUser?.email]);
 
   function addAddress(e?: React.FormEvent) {
     e?.preventDefault();
@@ -86,6 +160,26 @@ export default function ProfilePage() {
 
   function toggleConnected(provider: string) {
     setConnected((c) => c.map((x) => (x.provider === provider ? { ...x, connected: !x.connected } : x)));
+  }
+
+  async function saveName() {
+    try {
+      const res = await fetch('/api/profile', {
+        method: 'PATCH',
+        credentials: 'include',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ name: nameDraft }),
+      });
+      if (!res.ok) throw new Error('Failed to update name');
+      const json = await res.json();
+      if (json && json.user) {
+        setServerUser(json.user);
+        try { update({ name: json.user.name }); } catch {}
+        setEditingName(false);
+      }
+    } catch (e: any) {
+      window.alert(e?.message || 'Failed to update');
+    }
   }
 
   function updatePassword(e?: React.FormEvent) {
@@ -145,7 +239,7 @@ export default function ProfilePage() {
 
           <div className={styles.sidebarFooter}>
             <span className={styles.memberSinceLabel}>Member since</span>
-            <span className={styles.memberSinceDate}>7/1/2025</span>
+            <span className={styles.memberSinceDate}>{serverUser?.created_at ? new Date(serverUser.created_at).toLocaleDateString() : '—'}</span>
           </div>
         </aside>
 
@@ -157,27 +251,53 @@ export default function ProfilePage() {
               <>
                 <div className={styles.infoRow}>
                   <div className={styles.infoLabel}>Username</div>
-                  <div className={styles.infoValue}>javiyajems</div>
+                  <div className={styles.infoValue}>
+                    {editingName ? (
+                      <form onSubmit={(e) => { e.preventDefault(); saveName(); }} style={{ display: 'flex', gap: 8, alignItems: 'center' }}>
+                        <input value={nameDraft} onChange={(e) => setNameDraft(e.target.value)} />
+                        <button className="btn btn-primary" type="submit">Save</button>
+                        <button type="button" className="btn" onClick={() => { setEditingName(false); setNameDraft(serverUser?.name || authUser?.email?.split('@')[0] || ''); }}>Cancel</button>
+                      </form>
+                    ) : (
+                      <div style={{ display: 'flex', gap: 8, alignItems: 'center' }}>
+                        <div>{serverUser?.name || authUser?.name || (authUser?.email || '—').split('@')[0]}</div>
+                        <button className="btn" onClick={() => { setEditingName(true); setNameDraft(serverUser?.name || authUser?.name || (authUser?.email || '').split('@')[0] || ''); }}>Edit</button>
+                      </div>
+                    )}
+                  </div>
                 </div>
                 <div className={styles.infoRow}>
                   <div className={styles.infoLabel}>Email</div>
-                  <div className={styles.infoValue}>javiyajems@gmail.com</div>
+                  <div className={styles.infoValue}>
+                    {editingEmail ? (
+                      <form onSubmit={(e) => { e.preventDefault(); saveEmail(); }} style={{ display: 'flex', gap: 8, alignItems: 'center' }}>
+                        <input value={emailDraft} onChange={(e) => setEmailDraft(e.target.value)} />
+                        <button className="btn btn-primary" type="submit">Save</button>
+                        <button type="button" className="btn" onClick={() => { setEditingEmail(false); setEmailDraft(serverUser?.email || authUser?.email || ''); }}>Cancel</button>
+                      </form>
+                    ) : (
+                      <div style={{ display: 'flex', gap: 8, alignItems: 'center' }}>
+                        <div>{serverUser?.email || authUser?.email || '—'}</div>
+                        <button className="btn" onClick={() => { setEditingEmail(true); setEmailDraft(serverUser?.email || authUser?.email || ''); }}>Edit</button>
+                      </div>
+                    )}
+                  </div>
                 </div>
 
                 {/* Account stats */}
                 <div className={styles.infoRow}>
                   <div className={styles.infoLabel}>Account created</div>
-                  <div className={styles.infoValue}>{mounted ? readJson<string>("account_created", "7/1/2025") : "—"}</div>
+                  <div className={styles.infoValue}>{serverUser?.created_at ? new Date(serverUser.created_at).toLocaleDateString() : (mounted ? '—' : '—')}</div>
                 </div>
 
                 <div className={styles.infoRow}>
                   <div className={styles.infoLabel}>Total orders</div>
-                  <div className={styles.infoValue}>{mounted ? readJson<any[]>("orders", []).length : 0}</div>
+                  <div className={styles.infoValue}>{ordersCount !== null ? ordersCount : (mounted ? '—' : '—')}</div>
                 </div>
 
                 <div className={styles.infoRow}>
                   <div className={styles.infoLabel}>Total wishlisted</div>
-                  <div className={styles.infoValue}>{mounted ? (savedItems ? savedItems.length : 0) : 0}</div>
+                  <div className={styles.infoValue}>{serverWishlistCount !== null ? Math.max(serverWishlistCount, savedItems ? savedItems.length : 0) : (mounted ? (savedItems ? savedItems.length : 0) : 0)}</div>
                 </div>
               </>
             )}

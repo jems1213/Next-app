@@ -1,5 +1,6 @@
-import { NextResponse } from "next/server";
+import { NextResponse } from 'next/server';
 import { query } from "../../../lib/db";
+import { cookies as cookieStore } from 'next/headers';
 
 async function ensureOrdersTable() {
   await query(`
@@ -23,22 +24,47 @@ async function ensureOrdersTable() {
 export async function GET(request: Request) {
   try {
     await ensureOrdersTable();
-    const cookie = request.headers.get('cookie') || '';
-    const match = cookie.match(/(?:^|; )user_id=([^;]+)/);
-    const userId = match ? decodeURIComponent(match[1]) : null;
+    const url = new URL(request.url);
+    const cookies = await cookieStore();
+    let userId = cookies.get('user_id')?.value ?? null;
+    const emailParam = url.searchParams.get('email');
 
-    if (!userId) {
+    // If no cookie userId but email query param is provided, try to resolve user id by email
+    if (!userId && emailParam) {
+      try {
+        const { rows: urows } = await query<{ id: string }>(`SELECT id FROM users WHERE email = $1 LIMIT 1`, [String(emailParam).toLowerCase()]);
+        if (urows && urows[0] && urows[0].id) userId = urows[0].id;
+      } catch (e) {}
+    }
+
+    let rows: any[] = [];
+
+    if (userId) {
+      const res = await query<{ id: string; items: any; shipping: any; raw: any; total: string; created_at: string }>(
+        `SELECT id, items, shipping, raw, total, created_at FROM orders WHERE user_id = $1 ORDER BY created_at DESC LIMIT 50`,
+        [userId]
+      );
+      rows = res.rows;
+    } else if (emailParam) {
+      // fallback: return orders where shipping or raw payload contains matching customer email
+      const res = await query<{ id: string; items: any; shipping: any; raw: any; total: string; created_at: string }>(
+        `SELECT id, items, shipping, raw, total, created_at FROM orders WHERE LOWER(COALESCE(shipping->>'email', (raw->'customer'->>'email'))) = LOWER($1) ORDER BY created_at DESC LIMIT 50`,
+        [String(emailParam).toLowerCase()]
+      );
+      rows = res.rows;
+    } else {
       // unauthenticated: return empty list
       return NextResponse.json([]);
     }
 
-    const { rows } = await query<{ id: string; items: any; shipping: any; total: string; created_at: string }>(
-      `SELECT id, items, shipping, total, created_at FROM orders WHERE user_id = $1 ORDER BY created_at DESC LIMIT 50`,
-      [userId]
-    );
-
     // normalize rows
-    const out = rows.map((r: any) => ({ id: r.id, items: r.items || (r.raw && r.raw.items) || [], customer: r.shipping || (r.raw && r.raw.customer) || null, total: Number(r.total || 0), created_at: r.created_at }));
+    const out = rows.map((r: any) => ({
+      id: r.id,
+      items: r.items || (r.raw && r.raw.items) || [],
+      customer: r.shipping || (r.raw && r.raw.customer) || null,
+      total: Number(r.total || 0),
+      created_at: r.created_at,
+    }));
     return NextResponse.json(out);
   } catch (err) {
     return NextResponse.json({ error: "Server error" }, { status: 500 });
@@ -66,10 +92,15 @@ export async function POST(request: Request) {
 
     await ensureOrdersTable();
 
-    // try to read user_id from cookies
-    const cookie = request.headers.get('cookie') || '';
-    const match = cookie.match(/(?:^|; )user_id=([^;]+)/);
-    let userId = match ? decodeURIComponent(match[1]) : null;
+    // try to read user_id from the Next cookie store
+    const cookies = await cookieStore();
+    let userId = cookies.get('user_id')?.value ?? null;
+    // fallback: parse cookie header (some environments may not populate next/headers)
+    if (!userId) {
+      const cookieHeader = request.headers.get('cookie') || '';
+      const match = cookieHeader.match(/(?:^|; )user_id=([^;]+)/);
+      userId = match ? decodeURIComponent(match[1]) : null;
+    }
 
     const id = genId();
     const items = body.items || [];
@@ -102,9 +133,7 @@ export async function POST(request: Request) {
 export async function DELETE(request: Request) {
   try {
     await ensureOrdersTable();
-    const cookie = request.headers.get('cookie') || '';
-    const match = cookie.match(/(?:^|; )user_id=([^;]+)/);
-    const userId = match ? decodeURIComponent(match[1]) : null;
+    const userId = cookieStore().get('user_id')?.value ?? null;
 
     const body = await request.json().catch(() => ({}));
     const id = body && typeof body.id === 'string' ? body.id : null;

@@ -38,8 +38,8 @@ export default async function ProductPage(props: { params: { id: string } }) {
   }
 
   return (
-    <div className={`${styles.page}`}>
-      <section className={productStyles.productSection}>
+    <div key={product.id} className={`${styles.page}`}>
+      <section key={product.id + '-section'} className={productStyles.productSection}>
         <div className={productStyles.backdrop} />
         <div className={productStyles.container}>
           <Link href="/" prefetch={false} className={`${styles.backLink} ${productStyles.backLinkTopLeft}`}>&larr; Back to products</Link>
@@ -52,13 +52,13 @@ export default async function ProductPage(props: { params: { id: string } }) {
             <div className={productStyles.info}>
               <h1 className={productStyles.title}>{product.title}</h1>
               <p className={productStyles.price}>${product.price.toFixed(2)}</p>
-              <ProductDescriptionClient description={product.description} />
+              <ProductDescriptionClient key={product.id} description={product.description} />
               <p className={productStyles.meta}><strong>Category:</strong> {product.category}</p>
 
               <div className={productStyles.controls}>
                 {/* client-side controls */}
                 {/* @ts-ignore Server -> Client prop */}
-                <ProductDetailClient product={product} />
+                <ProductDetailClient key={product.id} product={product} />
 
               </div>
             </div>

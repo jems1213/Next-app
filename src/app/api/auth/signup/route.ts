@@ -1,4 +1,4 @@
-import { NextResponse } from "next/server";
+import { NextResponse } from 'next/server';
 import { query } from "../../../../lib/db";
 import bcrypt from 'bcryptjs';
 
@@ -44,7 +44,7 @@ export async function POST(request: Request) {
 
     const res = NextResponse.json({ id, email, name });
     // set session cookie (httpOnly)
-    res.cookies.set('user_id', id, { httpOnly: true, path: '/', maxAge: 60 * 60 * 24 * 7 });
+    res.cookies.set('user_id', id, { httpOnly: true, path: '/', maxAge: 60 * 60 * 24 * 7, sameSite: 'lax', secure: process.env.NODE_ENV === 'production' });
     return res;
   } catch (err: any) {
     return NextResponse.json({ error: err?.message ?? 'Server error' }, { status: 500 });
