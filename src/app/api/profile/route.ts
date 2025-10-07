@@ -131,7 +131,10 @@ export async function PATCH(request: Request) {
     const body = await request.json().catch(() => ({}));
     const name = body && typeof body.name === 'string' ? body.name.trim() : null;
     const email = body && typeof body.email === 'string' ? body.email.trim().toLowerCase() : null;
-    if (!name && !email) return NextResponse.json({ error: 'Invalid payload' }, { status: 400 });
+    const addresses = body && (Array.isArray(body.addresses) ? body.addresses : null);
+    const payment_methods = body && (Array.isArray(body.payment_methods) ? body.payment_methods : null);
+
+    if (!name && !email && addresses === null && payment_methods === null) return NextResponse.json({ error: 'Invalid payload' }, { status: 400 });
 
     if (email) {
       const { rows: existing } = await query<{ id: string }>(`SELECT id FROM users WHERE email = $1 LIMIT 1`, [email]);
@@ -145,7 +148,15 @@ export async function PATCH(request: Request) {
       await query(`UPDATE users SET name = $1 WHERE id = $2`, [name, userId]);
     }
 
-    const { rows } = await query<{ id: string; email: string; name: string; created_at: string }>(`SELECT id, email, name, created_at FROM users WHERE id = $1 LIMIT 1`, [userId]);
+    if (addresses !== null) {
+      await query(`UPDATE users SET addresses = $1 WHERE id = $2`, [JSON.stringify(addresses), userId]);
+    }
+
+    if (payment_methods !== null) {
+      await query(`UPDATE users SET payment_methods = $1 WHERE id = $2`, [JSON.stringify(payment_methods), userId]);
+    }
+
+    const { rows } = await query<{ id: string; email: string; name: string; created_at: string; addresses: any; payment_methods: any }>(`SELECT id, email, name, created_at, addresses, payment_methods FROM users WHERE id = $1 LIMIT 1`, [userId]);
     return NextResponse.json({ user: rows[0] });
   } catch (err: any) {
     return NextResponse.json({ error: err?.message ?? 'Server error' }, { status: 500 });
