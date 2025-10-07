@@ -138,27 +138,60 @@ export default function ProfilePage() {
     return () => { mounted = false; };
   }, [authUser?.email]);
 
+  async function persistToServer(payload: Partial<{ addresses: any[]; payment_methods: any[] }>) {
+    try {
+      const res = await fetch('/api/profile', {
+        method: 'PATCH',
+        credentials: 'include',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload),
+      });
+      if (!res.ok) throw new Error((await res.json()).error || 'Failed to save');
+      const json = await res.json();
+      if (json && json.user) {
+        setServerUser(json.user);
+      }
+    } catch (e: any) {
+      window.alert(e?.message || 'Failed to save');
+      throw e;
+    }
+  }
+
   function addAddress(e?: React.FormEvent) {
     e?.preventDefault();
     const id = Date.now().toString(36);
-    setAddresses((s) => [...s, { id, ...addressForm }]);
+    const next = [...addresses, { id, ...addressForm }];
+    setAddresses(next);
     setAddressForm({ label: "Home", fullName: "", street: "", city: "", state: "", zip: "", country: "", phone: "" });
+    persistToServer({ addresses: next }).catch(() => {
+      // revert on failure
+      setAddresses(addresses);
+    });
   }
 
   function removeAddress(id: string) {
-    setAddresses((s) => s.filter((a) => a.id !== id));
+    const next = addresses.filter((a) => a.id !== id);
+    const prev = addresses;
+    setAddresses(next);
+    persistToServer({ addresses: next }).catch(() => setAddresses(prev));
   }
 
   function addCard(e?: React.FormEvent) {
     e?.preventDefault();
     const id = Date.now().toString(36);
     const last4 = cardForm.number.replace(/\D/g, "").slice(-4);
-    setCards((s) => [...s, { id, name: cardForm.name, last4, expiry: cardForm.expiry }]);
+    const next = [...cards, { id, name: cardForm.name, last4, expiry: cardForm.expiry }];
+    const prev = cards;
+    setCards(next);
     setCardForm({ name: "", number: "", expiry: "" });
+    persistToServer({ payment_methods: next }).catch(() => setCards(prev));
   }
 
   function removeCard(id: string) {
-    setCards((s) => s.filter((c) => c.id !== id));
+    const next = cards.filter((c) => c.id !== id);
+    const prev = cards;
+    setCards(next);
+    persistToServer({ payment_methods: next }).catch(() => setCards(prev));
   }
 
   function toggleConnected(provider: string) {
