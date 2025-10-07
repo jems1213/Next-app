@@ -28,6 +28,7 @@ export default function OrdersClient() {
           items: (r.items && r.items.items) ? r.items.items : (r.items || []),
           total: Number(r.total || 0),
           createdAt: r.created_at || r.createdAt || new Date().toISOString(),
+          customer: r.customer || null,
         })) : [];
         if (mounted) setOrders(arr);
       } catch (e) {
