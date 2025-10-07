@@ -34,7 +34,7 @@ export async function POST(request: Request) {
     if (!ok) return NextResponse.json({ error: 'Invalid credentials' }, { status: 401 });
 
     const res = NextResponse.json({ id: user.id, email, name: user.name });
-    res.cookies.set('user_id', user.id, { httpOnly: true, path: '/', maxAge: 60 * 60 * 24 * 7 });
+    res.cookies.set('user_id', user.id, { httpOnly: true, path: '/', maxAge: 60 * 60 * 24 * 7, sameSite: 'lax', secure: process.env.NODE_ENV === 'production' });
     return res;
   } catch (err: any) {
     return NextResponse.json({ error: err?.message ?? 'Server error' }, { status: 500 });
