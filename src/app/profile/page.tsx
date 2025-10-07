@@ -94,7 +94,8 @@ export default function ProfilePage() {
     let mounted = true;
     (async () => {
       try {
-        const res = await fetch('/api/profile', { credentials: 'include' });
+        const qp = authUser?.email ? `?email=${encodeURIComponent(authUser.email)}` : '';
+        const res = await fetch(`/api/profile${qp}`, { credentials: 'include' });
         if (!res.ok) return;
         const json = await res.json();
         if (!mounted) return;
