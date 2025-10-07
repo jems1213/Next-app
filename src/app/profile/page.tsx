@@ -55,7 +55,9 @@ export default function ProfilePage() {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ email: emailDraft }),
       });
-      const json = await res.json();
+      const text = await res.text().catch(() => '');
+      let json: any = {};
+      try { json = text ? JSON.parse(text) : {}; } catch {}
       if (!res.ok) throw new Error(json?.error || 'Failed to update');
       if (json && json.user) {
         setServerUser(json.user);
@@ -146,7 +148,9 @@ export default function ProfilePage() {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(payload),
       });
-      const json = await res.json();
+      const text = await res.text().catch(() => '');
+      let json: any = {};
+      try { json = text ? JSON.parse(text) : {}; } catch {}
       if (!res.ok) throw new Error(json?.error || 'Failed to save');
       if (json && json.user) {
         setServerUser(json.user);
@@ -206,7 +210,9 @@ export default function ProfilePage() {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ name: nameDraft }),
       });
-      const json = await res.json();
+      const text = await res.text().catch(() => '');
+      let json: any = {};
+      try { json = text ? JSON.parse(text) : {}; } catch {}
       if (!res.ok) throw new Error(json?.error || 'Failed to update name');
       if (json && json.user) {
         setServerUser(json.user);
@@ -416,7 +422,7 @@ export default function ProfilePage() {
                       <div key={a.id} className={styles.addressRow}>
                         <div>
                           <div style={{ fontWeight: 700 }}>{a.label}</div>
-                          <div className="text-muted">{a.fullName} �� {a.phone}</div>
+                          <div className="text-muted">{a.fullName} · {a.phone}</div>
                           <div className="text-muted">{a.street}, {a.city}, {a.state} {a.zip}, {a.country}</div>
                         </div>
                         <div>
