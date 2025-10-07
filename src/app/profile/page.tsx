@@ -110,6 +110,11 @@ export default function ProfilePage() {
           setOrdersCount(json.ordersCount ?? null);
           setServerWishlistCount(json.wishlistCount ?? null);
           setNameDraft(json.user.name || json.user.email.split('@')[0] || '');
+          // Load server-stored addresses and payment methods
+          try {
+            if (Array.isArray(json.user.addresses)) setAddresses(json.user.addresses);
+            if (Array.isArray(json.user.payment_methods)) setCards(json.user.payment_methods);
+          } catch {}
           // update auth context name if missing
           if (authUser && (!authUser.name || authUser.name !== json.user.name)) {
             try { update({ name: json.user.name }); } catch {}
