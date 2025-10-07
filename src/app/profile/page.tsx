@@ -68,11 +68,11 @@ export default function ProfilePage() {
   }
 
   // Addresses state
-  const [addresses, setAddresses] = useState<any[]>(() => readJson<any[]>("addresses", []));
+  const [addresses, setAddresses] = useState<any[]>([]);
   const [addressForm, setAddressForm] = useState({ label: "Home", fullName: "", street: "", city: "", state: "", zip: "", country: "", phone: "" });
 
   // Payment methods
-  const [cards, setCards] = useState<any[]>(() => readJson<any[]>("payment_methods", []));
+  const [cards, setCards] = useState<any[]>([]);
   const [cardForm, setCardForm] = useState({ name: "", number: "", expiry: "" });
 
   // Account settings
