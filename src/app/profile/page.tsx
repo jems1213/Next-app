@@ -66,6 +66,29 @@ export default function ProfilePage() {
     setMounted(true);
   }, []);
 
+  // fetch profile info (created_at, orders count)
+  useEffect(() => {
+    let mounted = true;
+    (async () => {
+      try {
+        const res = await fetch('/api/profile', { credentials: 'include' });
+        if (!res.ok) return;
+        const json = await res.json();
+        if (!mounted) return;
+        if (json && json.user) {
+          setServerUser(json.user);
+          setOrdersCount(json.ordersCount ?? null);
+          setNameDraft(json.user.name || json.user.email.split('@')[0] || '');
+          // update auth context name if missing
+          if (authUser && (!authUser.name || authUser.name !== json.user.name)) {
+            try { update({ name: json.user.name }); } catch {}
+          }
+        }
+      } catch (e) {}
+    })();
+    return () => { mounted = false; };
+  }, [authUser?.email]);
+
   function addAddress(e?: React.FormEvent) {
     e?.preventDefault();
     const id = Date.now().toString(36);
@@ -162,22 +185,35 @@ export default function ProfilePage() {
               <>
                 <div className={styles.infoRow}>
                   <div className={styles.infoLabel}>Username</div>
-                  <div className={styles.infoValue}>javiyajems</div>
+                  <div className={styles.infoValue}>
+                    {editingName ? (
+                      <form onSubmit={(e) => { e.preventDefault(); saveName(); }} style={{ display: 'flex', gap: 8, alignItems: 'center' }}>
+                        <input value={nameDraft} onChange={(e) => setNameDraft(e.target.value)} />
+                        <button className="btn btn-primary" type="submit">Save</button>
+                        <button type="button" className="btn" onClick={() => { setEditingName(false); setNameDraft(serverUser?.name || authUser?.email?.split('@')[0] || ''); }}>Cancel</button>
+                      </form>
+                    ) : (
+                      <div style={{ display: 'flex', gap: 8, alignItems: 'center' }}>
+                        <div>{serverUser?.name || authUser?.name || (authUser?.email || '—').split('@')[0]}</div>
+                        <button className="btn" onClick={() => { setEditingName(true); setNameDraft(serverUser?.name || authUser?.name || (authUser?.email || '').split('@')[0] || ''); }}>Edit</button>
+                      </div>
+                    )}
+                  </div>
                 </div>
                 <div className={styles.infoRow}>
                   <div className={styles.infoLabel}>Email</div>
-                  <div className={styles.infoValue}>javiyajems@gmail.com</div>
+                  <div className={styles.infoValue}>{serverUser?.email || authUser?.email || '—'}</div>
                 </div>
 
                 {/* Account stats */}
                 <div className={styles.infoRow}>
                   <div className={styles.infoLabel}>Account created</div>
-                  <div className={styles.infoValue}>{mounted ? readJson<string>("account_created", "7/1/2025") : "—"}</div>
+                  <div className={styles.infoValue}>{serverUser?.created_at ? new Date(serverUser.created_at).toLocaleDateString() : (mounted ? '—' : '—')}</div>
                 </div>
 
                 <div className={styles.infoRow}>
                   <div className={styles.infoLabel}>Total orders</div>
-                  <div className={styles.infoValue}>{mounted ? readJson<any[]>("orders", []).length : 0}</div>
+                  <div className={styles.infoValue}>{ordersCount !== null ? ordersCount : (mounted ? '—' : '—')}</div>
                 </div>
 
                 <div className={styles.infoRow}>
