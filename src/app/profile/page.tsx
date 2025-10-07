@@ -55,8 +55,10 @@ export default function ProfilePage() {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ email: emailDraft }),
       });
-      if (!res.ok) throw new Error((await res.json()).error || 'Failed to update');
-      const json = await res.json();
+      const text = await res.text().catch(() => '');
+      let json: any = {};
+      try { json = text ? JSON.parse(text) : {}; } catch {}
+      if (!res.ok) throw new Error(json?.error || 'Failed to update');
       if (json && json.user) {
         setServerUser(json.user);
         setEditingEmail(false);
@@ -67,12 +69,12 @@ export default function ProfilePage() {
     }
   }
 
-  // Addresses state
-  const [addresses, setAddresses] = useState<any[]>(() => readJson<any[]>("addresses", []));
+  // Addresses state (server-backed; requires authentication)
+  const [addresses, setAddresses] = useState<any[]>([]);
   const [addressForm, setAddressForm] = useState({ label: "Home", fullName: "", street: "", city: "", state: "", zip: "", country: "", phone: "" });
 
-  // Payment methods
-  const [cards, setCards] = useState<any[]>(() => readJson<any[]>("payment_methods", []));
+  // Payment methods (server-backed)
+  const [cards, setCards] = useState<any[]>([]);
   const [cardForm, setCardForm] = useState({ name: "", number: "", expiry: "" });
 
   // Account settings
@@ -80,8 +82,6 @@ export default function ProfilePage() {
   const [connected, setConnected] = useState<{ provider: string; connected: boolean }[]>(() => readJson("connected_accounts", [{ provider: "Google", connected: false }, { provider: "GitHub", connected: false }]));
   const [password, setPassword] = useState({ current: "", next: "", confirm: "" });
 
-  useEffect(() => writeJson("addresses", addresses), [addresses]);
-  useEffect(() => writeJson("payment_methods", cards), [cards]);
   useEffect(() => writeJson("preferences", prefs), [prefs]);
   useEffect(() => writeJson("connected_accounts", connected), [connected]);
 
@@ -112,6 +112,11 @@ export default function ProfilePage() {
           setOrdersCount(json.ordersCount ?? null);
           setServerWishlistCount(json.wishlistCount ?? null);
           setNameDraft(json.user.name || json.user.email.split('@')[0] || '');
+          // Load server-stored addresses and payment methods
+          try {
+            if (Array.isArray(json.user.addresses)) setAddresses(json.user.addresses);
+            if (Array.isArray(json.user.payment_methods)) setCards(json.user.payment_methods);
+          } catch {}
           // update auth context name if missing
           if (authUser && (!authUser.name || authUser.name !== json.user.name)) {
             try { update({ name: json.user.name }); } catch {}
@@ -135,27 +140,91 @@ export default function ProfilePage() {
     return () => { mounted = false; };
   }, [authUser?.email]);
 
-  function addAddress(e?: React.FormEvent) {
+  async function persistToServer(payload: Partial<{ addresses: any[]; payment_methods: any[] }>) {
+    try {
+      const res = await fetch('/api/profile', {
+        method: 'PATCH',
+        credentials: 'include',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload),
+      });
+      const text = await res.text().catch(() => '');
+      let json: any = {};
+      try { json = text ? JSON.parse(text) : {}; } catch {}
+      // return an object describing the result so callers can handle 401 fallback
+      return { ok: res.ok, status: res.status, json, error: json?.error };
+    } catch (e: any) {
+      return { ok: false, status: 0, json: null, error: String(e?.message || e) };
+    }
+  }
+
+  async function addAddress(e?: React.FormEvent) {
     e?.preventDefault();
     const id = Date.now().toString(36);
-    setAddresses((s) => [...s, { id, ...addressForm }]);
+    const next = [...addresses, { id, ...addressForm }];
+    const prev = addresses;
+    setAddresses(next);
     setAddressForm({ label: "Home", fullName: "", street: "", city: "", state: "", zip: "", country: "", phone: "" });
+
+    const res = await persistToServer({ addresses: next });
+    if (!res.ok) {
+      // revert optimistic update
+      setAddresses(prev);
+      // show generic failure without forcing sign-in redirect
+      window.alert(res.error || 'Failed to save address');
+      return;
+    }
+    // success
   }
 
-  function removeAddress(id: string) {
-    setAddresses((s) => s.filter((a) => a.id !== id));
+  async function removeAddress(id: string) {
+    const next = addresses.filter((a) => a.id !== id);
+    const prev = addresses;
+    setAddresses(next);
+
+    const res = await persistToServer({ addresses: next });
+    if (!res.ok) {
+      setAddresses(prev);
+      // show generic failure without forcing sign-in redirect
+      window.alert(res.error || 'Failed to remove address');
+      return;
+    }
+    // success
   }
 
-  function addCard(e?: React.FormEvent) {
+  async function addCard(e?: React.FormEvent) {
     e?.preventDefault();
     const id = Date.now().toString(36);
     const last4 = cardForm.number.replace(/\D/g, "").slice(-4);
-    setCards((s) => [...s, { id, name: cardForm.name, last4, expiry: cardForm.expiry }]);
+    const next = [...cards, { id, name: cardForm.name, last4, expiry: cardForm.expiry }];
+    const prev = cards;
+    setCards(next);
     setCardForm({ name: "", number: "", expiry: "" });
+
+    const res = await persistToServer({ payment_methods: next });
+    if (!res.ok) {
+      // revert optimistic update
+      setCards(prev);
+      // show generic failure without forcing sign-in redirect
+      window.alert(res.error || 'Failed to save card');
+      return;
+    }
+    // success
   }
 
-  function removeCard(id: string) {
-    setCards((s) => s.filter((c) => c.id !== id));
+  async function removeCard(id: string) {
+    const next = cards.filter((c) => c.id !== id);
+    const prev = cards;
+    setCards(next);
+
+    const res = await persistToServer({ payment_methods: next });
+    if (!res.ok) {
+      setCards(prev);
+      // show generic failure without forcing sign-in redirect
+      window.alert(res.error || 'Failed to remove card');
+      return;
+    }
+    // success
   }
 
   function toggleConnected(provider: string) {
@@ -170,8 +239,10 @@ export default function ProfilePage() {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ name: nameDraft }),
       });
-      if (!res.ok) throw new Error('Failed to update name');
-      const json = await res.json();
+      const text = await res.text().catch(() => '');
+      let json: any = {};
+      try { json = text ? JSON.parse(text) : {}; } catch {}
+      if (!res.ok) throw new Error(json?.error || 'Failed to update name');
       if (json && json.user) {
         setServerUser(json.user);
         try { update({ name: json.user.name }); } catch {}
