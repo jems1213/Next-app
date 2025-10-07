@@ -9,9 +9,13 @@ async function ensureUsersTable() {
       email TEXT UNIQUE NOT NULL,
       password_hash TEXT NOT NULL,
       name TEXT,
+      wishlist JSONB,
       created_at TIMESTAMPTZ NOT NULL DEFAULT NOW()
     )
   `);
+
+  // ensure wishlist column exists for older tables
+  await query(`ALTER TABLE users ADD COLUMN IF NOT EXISTS wishlist JSONB`);
 }
 
 export async function GET(request: Request) {
