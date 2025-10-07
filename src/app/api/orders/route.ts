@@ -68,6 +68,12 @@ export async function POST(request: Request) {
 
     // try to read user_id from the Next cookie store
     let userId = cookieStore().get('user_id')?.value ?? null;
+    // fallback: parse cookie header (some environments may not populate next/headers)
+    if (!userId) {
+      const cookieHeader = request.headers.get('cookie') || '';
+      const match = cookieHeader.match(/(?:^|; )user_id=([^;]+)/);
+      userId = match ? decodeURIComponent(match[1]) : null;
+    }
 
     const id = genId();
     const items = body.items || [];
