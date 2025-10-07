@@ -65,10 +65,8 @@ export async function POST(request: Request) {
 
     await ensureOrdersTable();
 
-    // try to read user_id from cookies
-    const cookie = request.headers.get('cookie') || '';
-    const match = cookie.match(/(?:^|; )user_id=([^;]+)/);
-    let userId = match ? decodeURIComponent(match[1]) : null;
+    // try to read user_id from the Next cookie store
+    let userId = cookieStore().get('user_id')?.value ?? null;
 
     const id = genId();
     const items = body.items || [];
