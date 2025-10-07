@@ -212,12 +212,9 @@ export default function ProfilePage() {
 
     const res = await persistToServer({ payment_methods: next });
     if (!res.ok) {
+      // revert optimistic update
       setCards(prev);
-      if (res.status === 401) {
-        window.alert('Please sign in to save payment methods');
-        window.location.href = '/login';
-        return;
-      }
+      // show generic failure without forcing sign-in redirect
       window.alert(res.error || 'Failed to save card');
       return;
     }
@@ -232,11 +229,7 @@ export default function ProfilePage() {
     const res = await persistToServer({ payment_methods: next });
     if (!res.ok) {
       setCards(prev);
-      if (res.status === 401) {
-        window.alert('Please sign in to remove payment methods');
-        window.location.href = '/login';
-        return;
-      }
+      // show generic failure without forcing sign-in redirect
       window.alert(res.error || 'Failed to remove card');
       return;
     }
