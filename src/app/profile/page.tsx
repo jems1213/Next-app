@@ -55,8 +55,8 @@ export default function ProfilePage() {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ email: emailDraft }),
       });
-      if (!res.ok) throw new Error((await res.json()).error || 'Failed to update');
       const json = await res.json();
+      if (!res.ok) throw new Error(json?.error || 'Failed to update');
       if (json && json.user) {
         setServerUser(json.user);
         setEditingEmail(false);
@@ -146,8 +146,8 @@ export default function ProfilePage() {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(payload),
       });
-      if (!res.ok) throw new Error((await res.json()).error || 'Failed to save');
       const json = await res.json();
+      if (!res.ok) throw new Error(json?.error || 'Failed to save');
       if (json && json.user) {
         setServerUser(json.user);
       }
@@ -206,8 +206,8 @@ export default function ProfilePage() {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ name: nameDraft }),
       });
-      if (!res.ok) throw new Error('Failed to update name');
       const json = await res.json();
+      if (!res.ok) throw new Error(json?.error || 'Failed to update name');
       if (json && json.user) {
         setServerUser(json.user);
         try { update({ name: json.user.name }); } catch {}
@@ -416,7 +416,7 @@ export default function ProfilePage() {
                       <div key={a.id} className={styles.addressRow}>
                         <div>
                           <div style={{ fontWeight: 700 }}>{a.label}</div>
-                          <div className="text-muted">{a.fullName} · {a.phone}</div>
+                          <div className="text-muted">{a.fullName} �� {a.phone}</div>
                           <div className="text-muted">{a.street}, {a.city}, {a.state} {a.zip}, {a.country}</div>
                         </div>
                         <div>
