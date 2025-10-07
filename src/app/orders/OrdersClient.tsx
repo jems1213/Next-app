@@ -124,6 +124,13 @@ export default function OrdersClient() {
 
               {expanded[o.id] && (
                 <div className={styles.orderItemsGrid} style={{ marginTop: 8 }}>
+                  {o.customer && (
+                    <div style={{ marginBottom: 12, padding: 8, borderRadius: 8, background: 'rgba(255,255,255,0.02)' }}>
+                      <div style={{ fontWeight: 800 }}>{o.customer.name || o.customer.fullname || o.customer.email}</div>
+                      <div style={{ color: 'var(--color-muted)' }}>{o.customer.address}{o.customer.city ? ', ' + o.customer.city : ''}{o.customer.postal ? ' ' + o.customer.postal : ''}</div>
+                      {o.customer.country && <div style={{ color: 'var(--color-muted)' }}>{o.customer.country}</div>}
+                    </div>
+                  )}
                   {(o.items || []).map((it: any, idx: number) => (
                     <div key={idx} className={styles.orderItemRow} style={{ display: 'flex', alignItems: 'center', gap: 12, padding: '8px 0', borderBottom: '1px solid rgba(255,255,255,0.02)' }}>
                       <Link href={`/products/${it.id}`} className={styles.itemThumbLink} style={{ display: 'inline-flex' }}>
