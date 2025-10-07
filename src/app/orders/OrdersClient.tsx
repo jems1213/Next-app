@@ -10,17 +10,14 @@ export default function OrdersClient() {
   const [expanded, setExpanded] = useState<Record<string, boolean>>({});
   const { addItem } = useCart();
 
+  const { user } = useAuth();
+
   useEffect(() => {
     let mounted = true;
     (async () => {
       try {
-        const emailParam = (typeof window !== 'undefined' && typeof (window as any).__NEXT_DATA__ !== 'undefined') ? null : null;
-        const authUser = (window && (window as any).__AUTH_USER__) ? (window as any).__AUTH_USER__ : null;
-        // prefer auth context when available
-        const auth = null;
-        try { /* noop */ } catch {}
-        const userEmail = null;
-        const res = await fetch('/api/orders' + (null ? '' : ''), { credentials: 'include' });
+        const url = user && user.email ? `/api/orders?email=${encodeURIComponent(user.email)}` : '/api/orders';
+        const res = await fetch(url, { credentials: 'include' });
         if (!res.ok) {
           if (mounted) setOrders([]);
           return;
@@ -38,7 +35,7 @@ export default function OrdersClient() {
       }
     })();
     return () => { mounted = false; };
-  }, []);
+  }, [user?.email]);
 
   async function clearAll() {
     try {
