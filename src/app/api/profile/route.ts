@@ -79,8 +79,10 @@ export async function GET(request: Request) {
         wishlist: any;
         created_at: string;
         wishlist_count: number;
+        addresses: any;
+        payment_methods: any;
       }>(
-        `SELECT id, email, name, wishlist, created_at, CASE WHEN jsonb_typeof(wishlist) = 'array' THEN jsonb_array_length(wishlist) ELSE 0 END AS wishlist_count FROM users WHERE id = $1 LIMIT 1`,
+        `SELECT id, email, name, wishlist, addresses, payment_methods, created_at, CASE WHEN jsonb_typeof(wishlist) = 'array' THEN jsonb_array_length(wishlist) ELSE 0 END AS wishlist_count FROM users WHERE id = $1 LIMIT 1`,
         [userId]
       );
       user = user || rows[0] || null;
