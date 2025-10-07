@@ -116,6 +116,26 @@ export default function ProfilePage() {
     setConnected((c) => c.map((x) => (x.provider === provider ? { ...x, connected: !x.connected } : x)));
   }
 
+  async function saveName() {
+    try {
+      const res = await fetch('/api/profile', {
+        method: 'PATCH',
+        credentials: 'include',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ name: nameDraft }),
+      });
+      if (!res.ok) throw new Error('Failed to update name');
+      const json = await res.json();
+      if (json && json.user) {
+        setServerUser(json.user);
+        try { update({ name: json.user.name }); } catch {}
+        setEditingName(false);
+      }
+    } catch (e: any) {
+      window.alert(e?.message || 'Failed to update');
+    }
+  }
+
   function updatePassword(e?: React.FormEvent) {
     e?.preventDefault();
     if (password.next.length < 6) {
