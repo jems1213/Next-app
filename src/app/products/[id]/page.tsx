@@ -58,7 +58,7 @@ export default async function ProductPage(props: { params: { id: string } }) {
               <div className={productStyles.controls}>
                 {/* client-side controls */}
                 {/* @ts-ignore Server -> Client prop */}
-                <ProductDetailClient product={product} />
+                <ProductDetailClient key={product.id} product={product} />
 
               </div>
             </div>
