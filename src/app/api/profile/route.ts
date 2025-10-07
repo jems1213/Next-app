@@ -70,11 +70,19 @@ export async function GET(request: Request) {
         return NextResponse.json({ user: null, ordersCount: 0, wishlistCount: 0 });
       }
 
-      const { rows } = await query<{ id: string; email: string; name: string; wishlist: any; created_at: string }>(
-        `SELECT id, email, name, wishlist, created_at FROM users WHERE id = $1 LIMIT 1`,
+      const { rows } = await query<{
+        id: string;
+        email: string;
+        name: string;
+        wishlist: any;
+        created_at: string;
+        wishlist_count: number;
+      }>(
+        `SELECT id, email, name, wishlist, created_at, CASE WHEN jsonb_typeof(wishlist) = 'array' THEN jsonb_array_length(wishlist) ELSE 0 END AS wishlist_count FROM users WHERE id = $1 LIMIT 1`,
         [userId]
       );
       user = user || rows[0] || null;
+      const wishlistCountFromDb = Number(rows[0]?.wishlist_count ?? 0);
     } catch (e) {
       user = null;
     }
@@ -87,9 +95,10 @@ export async function GET(request: Request) {
       ordersCount = 0;
     }
 
+    // prefer DB-derived wishlist count, fall back to client-side stored savedItems if needed
     let wishlistCount = 0;
     try {
-      wishlistCount = Array.isArray(user?.wishlist) ? user.wishlist.length : 0;
+      wishlistCount = Number(typeof wishlistCountFromDb !== 'undefined' ? wishlistCountFromDb : 0);
     } catch (e) {
       wishlistCount = 0;
     }
