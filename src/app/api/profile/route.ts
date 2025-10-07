@@ -43,18 +43,38 @@ export async function GET(request: Request) {
     }
     if (!userId) userId = parseUserIdFromHeader(request);
 
-    if (!userId) {
-      return NextResponse.json({ user: null, ordersCount: 0, wishlistCount: 0 });
-    }
+    // allow client to pass ?email= when cookie isn't available (useful in some hosting/dev setups)
+    const url = new URL(request.url);
+    const emailParam = url.searchParams.get('email');
 
     // Fetch user and orders count, but guard each DB call so a partial failure doesn't return a 5xx
     let user: any = null;
+
     try {
+      if (!userId && emailParam) {
+        try {
+          const { rows: urows } = await query<{ id: string; email: string; name: string; wishlist: any; created_at: string }>(
+            `SELECT id, email, name, wishlist, created_at FROM users WHERE LOWER(email) = LOWER($1) LIMIT 1`,
+            [String(emailParam).toLowerCase()]
+          );
+          if (urows && urows[0]) {
+            user = urows[0];
+            userId = urows[0].id;
+          }
+        } catch (e) {
+          // ignore and continue
+        }
+      }
+
+      if (!userId) {
+        return NextResponse.json({ user: null, ordersCount: 0, wishlistCount: 0 });
+      }
+
       const { rows } = await query<{ id: string; email: string; name: string; wishlist: any; created_at: string }>(
         `SELECT id, email, name, wishlist, created_at FROM users WHERE id = $1 LIMIT 1`,
         [userId]
       );
-      user = rows[0] || null;
+      user = user || rows[0] || null;
     } catch (e) {
       user = null;
     }
