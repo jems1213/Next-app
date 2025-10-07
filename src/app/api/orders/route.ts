@@ -1,5 +1,6 @@
 import { NextResponse } from "next/server";
 import { query } from "../../../lib/db";
+import { cookies as cookieStore } from 'next/headers';
 
 async function ensureOrdersTable() {
   await query(`
