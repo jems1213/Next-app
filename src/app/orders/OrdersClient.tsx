@@ -91,9 +91,16 @@ export default function OrdersClient() {
             <article key={o.id} className={styles.orderCardAlt} style={{ marginBottom: 10, padding: 10 }}>
               <div className={styles.orderCardTop} style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', gap: 12 }}>
                 <div className={styles.orderCardInfo} style={{ paddingRight: 8 }}>
-                  <Link href={`/order/${o.id}`} className={styles.orderLink} style={{ fontWeight: 700 }}>Order #{o.id}</Link>
-                  <div className={styles.orderMeta} style={{ color: 'var(--color-muted)', fontSize: 13 }}>{new Date(o.createdAt).toLocaleString()} • {o.items.length} items</div>
-                </div>
+    <Link href={`/order/${o.id}`} className={styles.orderLink} style={{ fontWeight: 700 }}>Order #{o.id}</Link>
+    <div className={styles.orderMeta} style={{ color: 'var(--color-muted)', fontSize: 13 }}>{new Date(o.createdAt).toLocaleString()} • {o.items.length} items</div>
+    {o.customer && (
+      <div style={{ marginTop: 8, color: 'var(--color-muted)', fontSize: 13 }}>
+        <div style={{ fontWeight: 700 }}>{o.customer.name || o.customer.fullname || o.customer.email}</div>
+        <div>{o.customer.address}{o.customer.city ? ', ' + o.customer.city : ''}{o.customer.postal ? ' ' + o.customer.postal : ''}</div>
+        {o.customer.country && <div>{o.customer.country}</div>}
+      </div>
+    )}
+    </div>
 
                 <div className={styles.orderCardActions} style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
                   <div className={styles.orderTotal} style={{ fontWeight: 800 }}>${Number(o.total).toFixed(2)}</div>
