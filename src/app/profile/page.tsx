@@ -170,16 +170,11 @@ export default function ProfilePage() {
     if (!res.ok) {
       // revert optimistic update
       setAddresses(prev);
-      if (res.status === 401) {
-        window.alert('Please sign in to save addresses');
-        // redirect to login so user can authenticate
-        window.location.href = '/login';
-        return;
-      }
+      // show generic failure without forcing sign-in redirect
       window.alert(res.error || 'Failed to save address');
       return;
     }
-    // success: nothing to do (server is source of truth)
+    // success
   }
 
   async function removeAddress(id: string) {
@@ -190,11 +185,7 @@ export default function ProfilePage() {
     const res = await persistToServer({ addresses: next });
     if (!res.ok) {
       setAddresses(prev);
-      if (res.status === 401) {
-        window.alert('Please sign in to remove addresses');
-        window.location.href = '/login';
-        return;
-      }
+      // show generic failure without forcing sign-in redirect
       window.alert(res.error || 'Failed to remove address');
       return;
     }
