@@ -116,6 +116,19 @@ export default function ProfilePage() {
           if (authUser && (!authUser.name || authUser.name !== json.user.name)) {
             try { update({ name: json.user.name }); } catch {}
           }
+        } else {
+          // If server returned no user, try fetching orders directly by email (cart-based orders)
+          if (emailToUse) {
+            try {
+              const or = await fetch(`/api/orders?email=${encodeURIComponent(emailToUse)}`, { credentials: 'include' });
+              if (or.ok) {
+                const orjson = await or.json();
+                if (Array.isArray(orjson)) {
+                  setOrdersCount(orjson.length);
+                }
+              }
+            } catch (e) {}
+          }
         }
       } catch (e) {}
     })();
