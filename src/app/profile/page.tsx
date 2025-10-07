@@ -275,7 +275,7 @@ export default function ProfilePage() {
 
                 <div className={styles.infoRow}>
                   <div className={styles.infoLabel}>Total wishlisted</div>
-                  <div className={styles.infoValue}>{serverUser?.wishlistCount ?? (mounted ? (savedItems ? savedItems.length : 0) : 0)}</div>
+                  <div className={styles.infoValue}>{serverWishlistCount !== null ? serverWishlistCount : (mounted ? (savedItems ? savedItems.length : 0) : 0)}</div>
                 </div>
               </>
             )}
