@@ -38,8 +38,8 @@ export default async function ProductPage(props: { params: { id: string } }) {
   }
 
   return (
-    <div className={`${styles.page}`}>
-      <section className={productStyles.productSection}>
+    <div key={product.id} className={`${styles.page}`}>
+      <section key={product.id + '-section'} className={productStyles.productSection}>
         <div className={productStyles.backdrop} />
         <div className={productStyles.container}>
           <Link href="/" prefetch={false} className={`${styles.backLink} ${productStyles.backLinkTopLeft}`}>&larr; Back to products</Link>
