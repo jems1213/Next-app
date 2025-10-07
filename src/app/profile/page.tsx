@@ -43,6 +43,28 @@ export default function ProfilePage() {
   const [ordersCount, setOrdersCount] = useState<number | null>(null);
   const [editingName, setEditingName] = useState(false);
   const [nameDraft, setNameDraft] = useState('');
+  const [editingEmail, setEditingEmail] = useState(false);
+  const [emailDraft, setEmailDraft] = useState('');
+
+  async function saveEmail() {
+    try {
+      const res = await fetch('/api/profile', {
+        method: 'PATCH',
+        credentials: 'include',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email: emailDraft }),
+      });
+      if (!res.ok) throw new Error((await res.json()).error || 'Failed to update');
+      const json = await res.json();
+      if (json && json.user) {
+        setServerUser(json.user);
+        setEditingEmail(false);
+        try { update({ name: json.user.name, email: json.user.email }); } catch {}
+      }
+    } catch (e: any) {
+      window.alert(e?.message || 'Failed to update email');
+    }
+  }
 
   // Addresses state
   const [addresses, setAddresses] = useState<any[]>(() => readJson<any[]>("addresses", []));
