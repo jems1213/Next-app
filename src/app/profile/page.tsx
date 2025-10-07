@@ -217,7 +217,7 @@ export default function ProfilePage() {
 
           <div className={styles.sidebarFooter}>
             <span className={styles.memberSinceLabel}>Member since</span>
-            <span className={styles.memberSinceDate}>7/1/2025</span>
+            <span className={styles.memberSinceDate}>{serverUser?.created_at ? new Date(serverUser.created_at).toLocaleDateString() : '—'}</span>
           </div>
         </aside>
 
