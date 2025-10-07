@@ -15,6 +15,8 @@ async function ensureUsersTable() {
   `);
 
   await query(`ALTER TABLE users ADD COLUMN IF NOT EXISTS wishlist JSONB`);
+  await query(`ALTER TABLE users ADD COLUMN IF NOT EXISTS addresses JSONB`);
+  await query(`ALTER TABLE users ADD COLUMN IF NOT EXISTS payment_methods JSONB`);
 }
 
 function parseUserIdFromHeader(request: Request): string | null {
