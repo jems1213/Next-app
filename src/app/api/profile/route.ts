@@ -48,9 +48,22 @@ export async function PATCH(request: Request) {
 
     const body = await request.json().catch(() => ({}));
     const name = body && typeof body.name === 'string' ? body.name.trim() : null;
-    if (!name) return NextResponse.json({ error: 'Invalid payload' }, { status: 400 });
+    const email = body && typeof body.email === 'string' ? body.email.trim().toLowerCase() : null;
+    if (!name && !email) return NextResponse.json({ error: 'Invalid payload' }, { status: 400 });
 
-    await query(`UPDATE users SET name = $1 WHERE id = $2`, [name, userId]);
+    // if updating email, ensure uniqueness
+    if (email) {
+      const { rows: existing } = await query<{ id: string }>(`SELECT id FROM users WHERE email = $1 LIMIT 1`, [email]);
+      if (existing.length > 0 && existing[0].id !== userId) {
+        return NextResponse.json({ error: 'Email already in use' }, { status: 409 });
+      }
+      await query(`UPDATE users SET email = $1 WHERE id = $2`, [email, userId]);
+    }
+
+    if (name) {
+      await query(`UPDATE users SET name = $1 WHERE id = $2`, [name, userId]);
+    }
+
     const { rows } = await query<{ id: string; email: string; name: string; created_at: string }>(`SELECT id, email, name, created_at FROM users WHERE id = $1 LIMIT 1`, [userId]);
     return NextResponse.json({ user: rows[0] });
   } catch (err: any) {
