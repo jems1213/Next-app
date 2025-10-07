@@ -52,7 +52,7 @@ export default async function ProductPage(props: { params: { id: string } }) {
             <div className={productStyles.info}>
               <h1 className={productStyles.title}>{product.title}</h1>
               <p className={productStyles.price}>${product.price.toFixed(2)}</p>
-              <ProductDescriptionClient description={product.description} />
+              <ProductDescriptionClient key={product.id} description={product.description} />
               <p className={productStyles.meta}><strong>Category:</strong> {product.category}</p>
 
               <div className={productStyles.controls}>
