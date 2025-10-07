@@ -94,7 +94,15 @@ export default function ProfilePage() {
     let mounted = true;
     (async () => {
       try {
-        const qp = authUser?.email ? `?email=${encodeURIComponent(authUser.email)}` : '';
+        // determine an email to send as fallback: prefer auth context, then server-rendered sidebar email
+        let emailToUse = authUser?.email || '';
+        if (!emailToUse) {
+          try {
+            const el = document.querySelector(`.${styles.userEmail}`);
+            if (el && el.textContent) emailToUse = el.textContent.trim();
+          } catch (e) { emailToUse = ''; }
+        }
+        const qp = emailToUse ? `?email=${encodeURIComponent(emailToUse)}` : '';
         const res = await fetch(`/api/profile${qp}`, { credentials: 'include' });
         if (!res.ok) return;
         const json = await res.json();
