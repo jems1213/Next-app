@@ -70,11 +70,11 @@ export default function ProfilePage() {
   }
 
   // Addresses state
-  const [addresses, setAddresses] = useState<any[]>([]);
+  const [addresses, setAddresses] = useState<any[]>(() => readJson<any[]>("addresses", []));
   const [addressForm, setAddressForm] = useState({ label: "Home", fullName: "", street: "", city: "", state: "", zip: "", country: "", phone: "" });
 
   // Payment methods
-  const [cards, setCards] = useState<any[]>([]);
+  const [cards, setCards] = useState<any[]>(() => readJson<any[]>("payment_methods", []));
   const [cardForm, setCardForm] = useState({ name: "", number: "", expiry: "" });
 
   // Account settings
@@ -82,6 +82,8 @@ export default function ProfilePage() {
   const [connected, setConnected] = useState<{ provider: string; connected: boolean }[]>(() => readJson("connected_accounts", [{ provider: "Google", connected: false }, { provider: "GitHub", connected: false }]));
   const [password, setPassword] = useState({ current: "", next: "", confirm: "" });
 
+  useEffect(() => writeJson("addresses", addresses), [addresses]);
+  useEffect(() => writeJson("payment_methods", cards), [cards]);
   useEffect(() => writeJson("preferences", prefs), [prefs]);
   useEffect(() => writeJson("connected_accounts", connected), [connected]);
 
@@ -151,36 +153,58 @@ export default function ProfilePage() {
       const text = await res.text().catch(() => '');
       let json: any = {};
       try { json = text ? JSON.parse(text) : {}; } catch {}
-      if (!res.ok) throw new Error(json?.error || 'Failed to save');
-      if (json && json.user) {
-        setServerUser(json.user);
-      }
+      // return an object describing the result so callers can handle 401 fallback
+      return { ok: res.ok, status: res.status, json, error: json?.error };
     } catch (e: any) {
-      window.alert(e?.message || 'Failed to save');
-      throw e;
+      return { ok: false, status: 0, json: null, error: String(e?.message || e) };
     }
   }
 
-  function addAddress(e?: React.FormEvent) {
+  async function addAddress(e?: React.FormEvent) {
     e?.preventDefault();
     const id = Date.now().toString(36);
     const next = [...addresses, { id, ...addressForm }];
+    const prev = addresses;
     setAddresses(next);
     setAddressForm({ label: "Home", fullName: "", street: "", city: "", state: "", zip: "", country: "", phone: "" });
-    persistToServer({ addresses: next }).catch(() => {
-      // revert on failure
-      setAddresses(addresses);
-    });
+
+    const res = await persistToServer({ addresses: next });
+    if (!res.ok) {
+      if (res.status === 401) {
+        // unauthenticated: persist locally and inform user
+        try { writeJson('addresses', next); } catch {}
+        window.alert('Address saved locally. Sign in to persist to your account.');
+      } else {
+        // revert on other failures
+        setAddresses(prev);
+        window.alert(res.error || 'Failed to save address');
+      }
+    } else {
+      // saved on server; also update local cache
+      try { writeJson('addresses', next); } catch {}
+    }
   }
 
-  function removeAddress(id: string) {
+  async function removeAddress(id: string) {
     const next = addresses.filter((a) => a.id !== id);
     const prev = addresses;
     setAddresses(next);
-    persistToServer({ addresses: next }).catch(() => setAddresses(prev));
+
+    const res = await persistToServer({ addresses: next });
+    if (!res.ok) {
+      if (res.status === 401) {
+        try { writeJson('addresses', next); } catch {}
+        window.alert('Change saved locally. Sign in to persist to your account.');
+      } else {
+        setAddresses(prev);
+        window.alert(res.error || 'Failed to remove address');
+      }
+    } else {
+      try { writeJson('addresses', next); } catch {}
+    }
   }
 
-  function addCard(e?: React.FormEvent) {
+  async function addCard(e?: React.FormEvent) {
     e?.preventDefault();
     const id = Date.now().toString(36);
     const last4 = cardForm.number.replace(/\D/g, "").slice(-4);
@@ -188,14 +212,38 @@ export default function ProfilePage() {
     const prev = cards;
     setCards(next);
     setCardForm({ name: "", number: "", expiry: "" });
-    persistToServer({ payment_methods: next }).catch(() => setCards(prev));
+
+    const res = await persistToServer({ payment_methods: next });
+    if (!res.ok) {
+      if (res.status === 401) {
+        try { writeJson('payment_methods', next); } catch {}
+        window.alert('Card saved locally. Sign in to persist to your account.');
+      } else {
+        setCards(prev);
+        window.alert(res.error || 'Failed to save card');
+      }
+    } else {
+      try { writeJson('payment_methods', next); } catch {}
+    }
   }
 
-  function removeCard(id: string) {
+  async function removeCard(id: string) {
     const next = cards.filter((c) => c.id !== id);
     const prev = cards;
     setCards(next);
-    persistToServer({ payment_methods: next }).catch(() => setCards(prev));
+
+    const res = await persistToServer({ payment_methods: next });
+    if (!res.ok) {
+      if (res.status === 401) {
+        try { writeJson('payment_methods', next); } catch {}
+        window.alert('Change saved locally. Sign in to persist to your account.');
+      } else {
+        setCards(prev);
+        window.alert(res.error || 'Failed to remove card');
+      }
+    } else {
+      try { writeJson('payment_methods', next); } catch {}
+    }
   }
 
   function toggleConnected(provider: string) {
