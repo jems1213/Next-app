@@ -3,6 +3,7 @@ import React, { useEffect, useState } from "react";
 import Link from "next/link";
 import styles from "../page.module.css";
 import { useCart } from "../../context/cart";
+import { useAuth } from '../../context/auth';
 
 export default function OrdersClient() {
   const [orders, setOrders] = useState<any[] | null>(null);
