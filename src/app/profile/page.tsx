@@ -101,6 +101,7 @@ export default function ProfilePage() {
         if (json && json.user) {
           setServerUser(json.user);
           setOrdersCount(json.ordersCount ?? null);
+          setServerWishlistCount(json.wishlistCount ?? null);
           setNameDraft(json.user.name || json.user.email.split('@')[0] || '');
           // update auth context name if missing
           if (authUser && (!authUser.name || authUser.name !== json.user.name)) {
