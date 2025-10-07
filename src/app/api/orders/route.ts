@@ -39,8 +39,8 @@ export async function GET(request: Request) {
     let rows: any[] = [];
 
     if (userId) {
-      const res = await query<{ id: string; items: any; shipping: any; total: string; created_at: string }>(
-        `SELECT id, items, shipping, total, created_at FROM orders WHERE user_id = $1 ORDER BY created_at DESC LIMIT 50`,
+      const res = await query<{ id: string; items: any; shipping: any; raw: any; total: string; created_at: string }>(
+        `SELECT id, items, shipping, raw, total, created_at FROM orders WHERE user_id = $1 ORDER BY created_at DESC LIMIT 50`,
         [userId]
       );
       rows = res.rows;
@@ -57,11 +57,13 @@ export async function GET(request: Request) {
     }
 
     // normalize rows
-    const out = rows.map((r: any) => ({ id: r.id, items: r.items || (r.raw && r.raw.items) || [], customer: r.shipping || (r.raw && r.raw.customer) || null, total: Number(r.total || 0), created_at: r.created_at }));
-    return NextResponse.json(out);
-
-    // normalize rows
-    const out = rows.map((r: any) => ({ id: r.id, items: r.items || (r.raw && r.raw.items) || [], customer: r.shipping || (r.raw && r.raw.customer) || null, total: Number(r.total || 0), created_at: r.created_at }));
+    const out = rows.map((r: any) => ({
+      id: r.id,
+      items: r.items || (r.raw && r.raw.items) || [],
+      customer: r.shipping || (r.raw && r.raw.customer) || null,
+      total: Number(r.total || 0),
+      created_at: r.created_at,
+    }));
     return NextResponse.json(out);
   } catch (err) {
     return NextResponse.json({ error: "Server error" }, { status: 500 });
