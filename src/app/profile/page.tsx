@@ -33,11 +33,16 @@ function writeJson<T>(key: string, value: T) {
 }
 
 export default function ProfilePage() {
-  const { signOut } = useAuth();
+  const { signOut, user: authUser, update } = useAuth();
   const { savedItems, moveToCart, removeFromSaved } = useCart();
   const [active, setActive] = useState<string>("Profile");
   const [mounted, setMounted] = useState(false);
   const [confirmSignOutOpen, setConfirmSignOutOpen] = useState(false);
+
+  const [serverUser, setServerUser] = useState<any | null>(null);
+  const [ordersCount, setOrdersCount] = useState<number | null>(null);
+  const [editingName, setEditingName] = useState(false);
+  const [nameDraft, setNameDraft] = useState('');
 
   // Addresses state
   const [addresses, setAddresses] = useState<any[]>(() => readJson<any[]>("addresses", []));
